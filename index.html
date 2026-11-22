@@ -1,9 +1,10 @@
 
-<<!DOCTYPE html>
+<!DOCTYPE html>
 <html>
 <head>
   <title>IntelliMind AI</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
+
   <style>
     body {
       font-family: Arial;
@@ -43,48 +44,76 @@
 
     <input id="question" placeholder="Ask your question...">
     <br>
-
     <button type="button" onclick="ask()">Ask AI</button>
-
     <p id="answer"></p>
   </div>
-<script>
-function ask() {
-  let q = document.getElementById("question").value.toLowerCase().trim();
-  let a = "வணக்கம்! உங்கள் கேள்வியை கேளுங்கள்.";
 
-  if (q.includes("வணக்கம்")) {
-    a = "வணக்கம்! IntelliMind AI-க்கு உங்களை வரவேற்கிறேன்.";
-  } else if (q.includes("உன் பெயர்")) {
-    a = "என் பெயர் IntelliMind AI. நான் உங்களுடைய AI Tutor.";
-  } else if (q.includes("பைதான்")) {
-    a = "Python என்பது ஒரு எளிமையான Programming Language.";
-  } else if (q.includes("மாறி")) {
-    a = "Variable என்பது தகவல்களை சேமிக்க பயன்படும் ஒரு பெயர். உதாரணம்: age = 20";
-  } else if (q.includes("கூட்டல்") || q.includes("add")) {
-    a = "கூட்டல் என்பது எண்களை ஒன்றாக சேர்ப்பது. உதாரணம்: 10 + 5 = 15";
-  } else if (q.includes("கழித்தல்") || q.includes("subtract")) {
-    a = "கழித்தல் என்பது ஒரு எண்ணிலிருந்து மற்றொரு எண்ணைக் கழிப்பது. உதாரணம்: 10 - 5 = 5";
-  } else if (q.includes("பெருக்கல்") || q.includes("multiply")) {
-    a = "பெருக்கல் என்பது மீண்டும் மீண்டும் கூட்டுவது. உதாரணம்: 5 × 3 = 15";
-  } else if (q.includes("வகுத்தல்") || q.includes("divide")) {
-    a = "வகுத்தல் என்பது சமமாகப் பிரிப்பது. உதாரணம்: 10 ÷ 2 = 5";
-  } else if (q.includes("கணிதம்") || q.includes("math")) {
-    a = "கணிதம் எண்கள் மற்றும் கணக்குகளைப் புரிந்துகொள்ள உதவுகிறது.";
-  } else if (q.includes("python")) {
-    a = "Python is a popular programming language. It is easy for beginners to learn.";
-  } else if (q.includes("variable")) {
-    a = "A variable is a name used to store data. Example: age = 20";
-  } else if (q.includes("loop")) {
-    a = "Python has for loop and while loop. Loops repeat a set of statements.";
-  } else if (q.includes("list")) {
-    a = "A list stores multiple values. Example: fruits = ['Apple', 'Mango']";
-  } else if (q.includes("function")) {
-    a = "A function is a reusable block of code defined using def.";
-  } else if (q.includes("english")) {
-    a = "Practice English every day to improve your skills.";
-  }
+  <script>
+    function ask() {
+      let q = document.getElementById("question").value.toLowerCase().trim();
+      let a = "வணக்கம்! உங்கள் கேள்வியை கேளுங்கள்.";
 
-  document.getElementById("answer").innerText = a;
-}
-</script>
+      // Tamil Support
+      if (q.includes("வணக்கம்")) {
+        a = "வணக்கம்! IntelliMind AI-க்கு உங்களை வரவேற்கிறேன்.";
+      } else if (q.includes("உன் பெயர்")) {
+        a = "என் பெயர் IntelliMind AI. நான் உங்களுடைய AI Tutor.";
+      } else if (q.includes("பைதான்")) {
+        a = "Python என்பது ஒரு எளிமையான Programming Language.";
+      } else if (q.includes("மாறி")) {
+        a = "Variable என்பது தகவல்களை சேமிக்க பயன்படும் ஒரு பெயர். உதாரணம்: age = 20";
+      } else if (q.includes("கூட்டல்")) {
+        a = "கூட்டல் என்பது எண்களை ஒன்றாக சேர்ப்பது. உதாரணம்: 10 + 5 = 15";
+      } else if (q.includes("கழித்தல்")) {
+        a = "கழித்தல் என்பது ஒரு எண்ணிலிருந்து மற்றொரு எண்ணைக் கழிப்பது. உதாரணம்: 10 - 5 = 5";
+      } else if (q.includes("பெருக்கல்")) {
+        a = "பெருக்கல் என்பது மீண்டும் மீண்டும் கூட்டுவது. உதாரணம்: 5 × 3 = 15";
+      } else if (q.includes("வகுத்தல்")) {
+        a = "வகுத்தல் என்பது சமமாகப் பிரிப்பது. உதாரணம்: 10 ÷ 2 = 5";
+      } else if (q.includes("கணிதம்")) {
+        a = "கணிதம் எண்கள் மற்றும் கணக்குகளைப் புரிந்துகொள்ள உதவுகிறது.";
+
+      // Python Tutor
+      } else if (q.includes("python")) {
+        a = "Python is a popular programming language. It is easy for beginners to learn.";
+      } else if (q.includes("variable")) {
+        a = "A variable is a name used to store data. Example: age = 20";
+      } else if (q.includes("loop")) {
+        a = "Python has for loop and while loop. Loops repeat a set of statements.";
+      } else if (q.includes("list")) {
+        a = "A list stores multiple values. Example: fruits = ['Apple', 'Mango']";
+      } else if (q.includes("function")) {
+        a = "A function is a reusable block of code defined using def.";
+
+      // Maths Tutor
+      } else if (q.includes("add") || q.includes("addition")) {
+        a = "Addition means adding two numbers. Example: 10 + 5 = 15";
+      } else if (q.includes("subtract") || q.includes("subtraction")) {
+        a = "Subtraction means taking one number away. Example: 10 - 5 = 5";
+      } else if (q.includes("multiply") || q.includes("multiplication")) {
+        a = "Multiplication means repeated addition. Example: 5 × 3 = 15";
+      } else if (q.includes("divide") || q.includes("division")) {
+        a = "Division means sharing equally. Example: 10 ÷ 2 = 5";
+      } else if (q.includes("math")) {
+        a = "Maths helps us solve problems using numbers.";
+
+      // English Tutor
+      } else if (q.includes("grammar")) {
+        a = "Grammar is the set of rules used to speak and write English correctly.";
+      } else if (q.includes("vocabulary")) {
+        a = "Vocabulary means a collection of words. Example: Happy = மகிழ்ச்சி.";
+      } else if (q.includes("good morning")) {
+        a = "Good morning! காலை வணக்கம்!";
+      } else if (q.includes("thank you")) {
+        a = "Thank you means நன்றி.";
+      } else if (q.includes("how are you")) {
+        a = "I am fine. நான் நலமாக இருக்கிறேன்.";
+      } else if (q.includes("english")) {
+        a = "Practice English every day to improve your skills.";
+      }
+
+      document.getElementById("answer").innerText = a;
+    }
+  </script>
+</body>
+</html>

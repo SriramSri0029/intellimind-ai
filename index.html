@@ -54,6 +54,41 @@ header h1 { color: #5145cd; margin: 0; }
 
 .subject:active { background: #eeecff; }
 
+.calculator {
+  background: white;
+  border: 1px solid #eee;
+  border-radius: 15px;
+  padding: 18px;
+  margin-bottom: 20px;
+}
+
+.calculator h2 {
+  color: #5145cd;
+  text-align: center;
+}
+
+.calculator input,
+.calculator select {
+  width: 100%;
+  padding: 13px;
+  margin: 7px 0;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-size: 15px;
+  background: white;
+}
+
+.calculator button {
+  width: 100%;
+  margin-top: 8px;
+}
+
+#result {
+  text-align: center;
+  color: #5145cd;
+  overflow-wrap: anywhere;
+}
+
 .chat-box {
   background: white;
   min-height: 250px;
@@ -90,7 +125,7 @@ header h1 { color: #5145cd; margin: 0; }
   gap: 8px;
 }
 
-input {
+.input-area input {
   flex: 1;
   min-width: 0;
   padding: 14px;
@@ -132,8 +167,10 @@ footer {
 
 <div class="welcome">
   <h2>Welcome to IntelliMind AI!</h2>
-  <p>Choose a subject and ask your questions.</p>
+  <p>Learn Python, Maths, English and more.</p>
 </div>
+
+<h3>📚 Select Your Subject</h3>
 
 <div class="subjects">
   <div class="subject" onclick="chooseSubject('python')">📘 Python</div>
@@ -144,9 +181,30 @@ footer {
   <div class="subject" onclick="chooseSubject('computer')">💻 Computer Science</div>
 </div>
 
+<div class="calculator">
+  <h2>🧮 Smart Calculator</h2>
+
+  <input type="number" id="num1" placeholder="Enter first number">
+
+  <input type="number" id="num2" placeholder="Enter second number">
+
+  <select id="operation">
+    <option value="add">Addition (+)</option>
+    <option value="subtract">Subtraction (-)</option>
+    <option value="multiply">Multiplication (×)</option>
+    <option value="divide">Division (÷)</option>
+  </select>
+
+  <button onclick="calculate()">Calculate</button>
+
+  <h3 id="result">Answer:</h3>
+</div>
+
+<h3>💬 Ask IntelliMind AI</h3>
+
 <div class="chat-box" id="chatBox">
   <div class="message bot">
-    வணக்கம்! Welcome to IntelliMind AI.<br>
+    வணக்கம்! Welcome to IntelliMind AI.
     Select a subject and ask your question!
   </div>
 </div>
@@ -162,6 +220,7 @@ footer {
 <footer>Created with IntelliMind AI</footer>
 
 <script>
+
 let currentSubject = "";
 
 function chooseSubject(subject) {
@@ -178,6 +237,40 @@ function chooseSubject(subject) {
 
   addMessage("Selected Subject: " + names[subject], "user");
   addMessage("Welcome to " + names[subject] + " Tutor! Ask me a question.", "bot");
+}
+
+function calculate() {
+  let first = document.getElementById("num1").value;
+  let second = document.getElementById("num2").value;
+  let operation = document.getElementById("operation").value;
+  let result;
+
+  if (first === "" || second === "") {
+    document.getElementById("result").textContent =
+      "Please enter both numbers.";
+    return;
+  }
+
+  let a = Number(first);
+  let b = Number(second);
+
+  if (operation === "add") {
+    result = a + b;
+  } else if (operation === "subtract") {
+    result = a - b;
+  } else if (operation === "multiply") {
+    result = a * b;
+  } else if (operation === "divide") {
+    if (b === 0) {
+      document.getElementById("result").textContent =
+        "Cannot divide by zero.";
+      return;
+    }
+    result = a / b;
+  }
+
+  document.getElementById("result").textContent =
+    "Answer: " + result;
 }
 
 function addMessage(message, type) {
@@ -212,7 +305,7 @@ function ask() {
   }
 
   else if (currentSubject === "maths") {
-    if (q.includes("add") || q.includes("கூட்டல்")) a = "Addition: 10 + 5 = 15";
+    if (q.includes("add") || q.includes("கூட்டல்") || q.includes("addition")) a = "Addition: 10 + 5 = 15";
     else if (q.includes("subtract") || q.includes("கழித்தல்")) a = "Subtraction: 10 - 5 = 5";
     else if (q.includes("multiply") || q.includes("பெருக்கல்")) a = "Multiplication: 5 × 3 = 15";
     else if (q.includes("divide") || q.includes("வகுத்தல்")) a = "Division: 10 ÷ 2 = 5";
@@ -265,6 +358,7 @@ function ask() {
   addMessage(a, "bot");
   input.value = "";
 }
+
 </script>
 
 </body>

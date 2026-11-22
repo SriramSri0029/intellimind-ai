@@ -51,19 +51,28 @@ Ask AI
 
   <script>
     function ask() {
-      let q = document.getElementById("question").value.toLowerCase();
-      let a = "I can help you learn Python, Maths and English.";
+      function ask() {
+  let q = document.getElementById("question").value.toLowerCase();
+  let a = "I can help you learn Python, Maths and English.";
 
-      if (q.includes("python")) {
-        a = "Python is a programming language.";
-      } else if (q.includes("math")) {
-        a = "Maths helps us solve problems using numbers.";
-      } else if (q.includes("english")) {
-        a = "Practice English every day to improve your skills.";
+  if (q.includes("python")) {
+    a = "Python is a popular programming language. It is easy for beginners to learn.";
+  } else if (q.includes("variable")) {
+    a = "A variable is a name used to store data. Example: age = 20";
+  } else if (q.includes("loop")) {
+    a = "Python has for loop and while loop. Loops repeat a set of statements.";
+  } else if (q.includes("list")) {
+    a = "A list stores multiple values. Example: fruits = ['Apple', 'Mango']";
+  } else if (q.includes("function")) {
+    a = "A function is a reusable block of code defined using def.";
+  } else if (q.includes("math")) {
+    a = "Maths helps us solve problems using numbers.";
+  } else if (q.includes("english")) {
+    a = "Practice English every day to improve your skills.";
+  }
+
+  document.getElementById("answer").innerText = a;
       }
-
-      document.getElementById("answer").innerText = a;
-    }
   </script>
 </body>
 </html>

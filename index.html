@@ -48,40 +48,37 @@
 
     <p id="answer"></p>
   </div>
+    <script>
+function ask() {
+  let q = document.getElementById("question").value.toLowerCase().trim();
+  let a = "வணக்கம்! உங்கள் கேள்வியை கேளுங்கள்.";
 
-  <script>
-    function ask() {
-      let q = document.getElementById("question").value.toLowerCase().trim();
-      let a = "I can help you learn Python, Maths and English.";
-       if (q.includes("வணக்கம்")) {
-       a = "வணக்கம்! IntelliMind AI-க்கு உங்களை வரவேற்கிறேன்.";
-      } else if (q.includes("உன் பெயர்")) {
-     a = "என் பெயர் IntelliMind AI. நான் உங்களுடைய AI Tutor.";
-      } else if (q.includes("பைதான்")) {
+  if (q.includes("வணக்கம்")) {
+    a = "வணக்கம்! IntelliMind AI-க்கு உங்களை வரவேற்கிறேன்.";
+  } else if (q.includes("உன் பெயர்")) {
+    a = "என் பெயர் IntelliMind AI. நான் உங்களுடைய AI Tutor.";
+  } else if (q.includes("பைதான்")) {
     a = "Python என்பது ஒரு எளிமையான Programming Language.";
-   } else if (q.includes("மாறி")) {
+  } else if (q.includes("மாறி")) {
     a = "Variable என்பது தகவல்களை சேமிக்க பயன்படும் ஒரு பெயர். உதாரணம்: age = 20";
-   } else if (q.includes("கணிதம்")) {
-     a = "கணிதம் எண்கள் மற்றும் கணக்குகளைப் புரிந்துகொள்ள உதவுகிறது.";
- }
-      if (q.includes("python")) {
-        a = "Python is a popular programming language. It is easy for beginners to learn.";
-      } else if (q.includes("variable")) {
-        a = "A variable is a name used to store data. Example: age = 20";
-      } else if (q.includes("loop")) {
-        a = "Python has for loop and while loop. Loops repeat a set of statements.";
-      } else if (q.includes("list")) {
-        a = "A list stores multiple values. Example: fruits = ['Apple', 'Mango']";
-      } else if (q.includes("function")) {
-        a = "A function is a reusable block of code defined using def.";
-      } else if (q.includes("math")) {
-        a = "Maths helps us solve problems using numbers.";
-      } else if (q.includes("english")) {
-        a = "Practice English every day to improve your skills.";
-      }
+  } else if (q.includes("கணிதம்")) {
+    a = "கணிதம் எண்கள் மற்றும் கணக்குகளைப் புரிந்துகொள்ள உதவுகிறது.";
+  } else if (q.includes("python")) {
+    a = "Python is a popular programming language. It is easy for beginners to learn.";
+  } else if (q.includes("variable")) {
+    a = "A variable is a name used to store data. Example: age = 20";
+  } else if (q.includes("loop")) {
+    a = "Python has for loop and while loop. Loops repeat a set of statements.";
+  } else if (q.includes("list")) {
+    a = "A list stores multiple values. Example: fruits = ['Apple', 'Mango']";
+  } else if (q.includes("function")) {
+    a = "A function is a reusable block of code defined using def.";
+  } else if (q.includes("math")) {
+    a = "Maths helps us solve problems using numbers.";
+  } else if (q.includes("english")) {
+    a = "Practice English every day to improve your skills.";
+  }
 
-      document.getElementById("answer").innerText = a;
-    }
-  </script>
-</body>
-</html>
+  document.getElementById("answer").innerText = a;
+}
+</script>

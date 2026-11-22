@@ -73,6 +73,14 @@ function ask() {
     a = "A list stores multiple values. Example: fruits = ['Apple', 'Mango']";
   } else if (q.includes("function")) {
     a = "A function is a reusable block of code defined using def.";
+    } else if (q.includes("add") || q.includes("கூட்டல்")) {
+  a = "Addition means adding two numbers. Example: 10 + 5 = 15";
+} else if (q.includes("subtract") || q.includes("கழித்தல்")) {
+  a = "Subtraction means taking one number away. Example: 10 - 5 = 5";
+} else if (q.includes("multiply") || q.includes("பெருக்கல்")) {
+  a = "Multiplication means repeated addition. Example: 5 x 3 = 15";
+} else if (q.includes("divide") || q.includes("வகுத்தல்")) {
+  a = "Division means sharing equally. Example: 10 / 2 = 5";
   } else if (q.includes("math")) {
     a = "Maths helps us solve problems using numbers.";
   } else if (q.includes("english")) {

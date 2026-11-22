@@ -48,7 +48,7 @@
 
     <p id="answer"></p>
   </div>
-    <script>
+<script>
 function ask() {
   let q = document.getElementById("question").value.toLowerCase().trim();
   let a = "வணக்கம்! உங்கள் கேள்வியை கேளுங்கள்.";
@@ -61,7 +61,15 @@ function ask() {
     a = "Python என்பது ஒரு எளிமையான Programming Language.";
   } else if (q.includes("மாறி")) {
     a = "Variable என்பது தகவல்களை சேமிக்க பயன்படும் ஒரு பெயர். உதாரணம்: age = 20";
-  } else if (q.includes("கணிதம்")) {
+  } else if (q.includes("கூட்டல்") || q.includes("add")) {
+    a = "கூட்டல் என்பது எண்களை ஒன்றாக சேர்ப்பது. உதாரணம்: 10 + 5 = 15";
+  } else if (q.includes("கழித்தல்") || q.includes("subtract")) {
+    a = "கழித்தல் என்பது ஒரு எண்ணிலிருந்து மற்றொரு எண்ணைக் கழிப்பது. உதாரணம்: 10 - 5 = 5";
+  } else if (q.includes("பெருக்கல்") || q.includes("multiply")) {
+    a = "பெருக்கல் என்பது மீண்டும் மீண்டும் கூட்டுவது. உதாரணம்: 5 × 3 = 15";
+  } else if (q.includes("வகுத்தல்") || q.includes("divide")) {
+    a = "வகுத்தல் என்பது சமமாகப் பிரிப்பது. உதாரணம்: 10 ÷ 2 = 5";
+  } else if (q.includes("கணிதம்") || q.includes("math")) {
     a = "கணிதம் எண்கள் மற்றும் கணக்குகளைப் புரிந்துகொள்ள உதவுகிறது.";
   } else if (q.includes("python")) {
     a = "Python is a popular programming language. It is easy for beginners to learn.";
@@ -73,16 +81,6 @@ function ask() {
     a = "A list stores multiple values. Example: fruits = ['Apple', 'Mango']";
   } else if (q.includes("function")) {
     a = "A function is a reusable block of code defined using def.";
-    } else if (q.includes("add") || q.includes("கூட்டல்")) {
-  a = "Addition means adding two numbers. Example: 10 + 5 = 15";
-} else if (q.includes("subtract") || q.includes("கழித்தல்")) {
-  a = "Subtraction means taking one number away. Example: 10 - 5 = 5";
-} else if (q.includes("multiply") || q.includes("பெருக்கல்")) {
-  a = "Multiplication means repeated addition. Example: 5 x 3 = 15";
-} else if (q.includes("divide") || q.includes("வகுத்தல்")) {
-  a = "Division means sharing equally. Example: 10 / 2 = 5";
-  } else if (q.includes("math")) {
-    a = "Maths helps us solve problems using numbers.";
   } else if (q.includes("english")) {
     a = "Practice English every day to improve your skills.";
   }

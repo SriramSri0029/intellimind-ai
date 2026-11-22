@@ -1,5 +1,5 @@
 
-<!DOCTYPE html>
+<<!DOCTYPE html>
 <html>
 <head>
   <title>IntelliMind AI</title>
@@ -34,6 +34,7 @@
     #answer { margin-top: 20px; }
   </style>
 </head>
+
 <body>
   <div class="box">
     <h1>IntelliMind AI</h1>
@@ -42,32 +43,35 @@
 
     <input id="question" placeholder="Ask your question...">
     <br>
-    <button type="button" onclick="document.getElementById('answer').innerText='Python is a programming language.'">
-Ask AI
-    <button type="button" onclick="ask()">
+
+    <button type="button" onclick="ask()">Ask AI</button>
+
+    <p id="answer"></p>
+  </div>
+
   <script>
-    function ask()
-  let q = document.getElementById("question").value.toLowerCase();
-  let a = "I can help you learn Python, Maths and English.";
+    function ask() {
+      let q = document.getElementById("question").value.toLowerCase().trim();
+      let a = "I can help you learn Python, Maths and English.";
 
-  if (q.includes("python")) {
-    a = "Python is a popular programming language. It is easy for beginners to learn.";
-  } else if (q.includes("variable")) {
-    a = "A variable is a name used to store data. Example: age = 20";
-  } else if (q.includes("loop")) {
-    a = "Python has for loop and while loop. Loops repeat a set of statements.";
-  } else if (q.includes("list")) {
-    a = "A list stores multiple values. Example: fruits = ['Apple', 'Mango']";
-  } else if (q.includes("function")) {
-    a = "A function is a reusable block of code defined using def.";
-  } else if (q.includes("math")) {
-    a = "Maths helps us solve problems using numbers.";
-  } else if (q.includes("english")) {
-    a = "Practice English every day to improve your skills.";
-  }
-
-  document.getElementById("answer").innerText = a;
+      if (q.includes("python")) {
+        a = "Python is a popular programming language. It is easy for beginners to learn.";
+      } else if (q.includes("variable")) {
+        a = "A variable is a name used to store data. Example: age = 20";
+      } else if (q.includes("loop")) {
+        a = "Python has for loop and while loop. Loops repeat a set of statements.";
+      } else if (q.includes("list")) {
+        a = "A list stores multiple values. Example: fruits = ['Apple', 'Mango']";
+      } else if (q.includes("function")) {
+        a = "A function is a reusable block of code defined using def.";
+      } else if (q.includes("math")) {
+        a = "Maths helps us solve problems using numbers.";
+      } else if (q.includes("english")) {
+        a = "Practice English every day to improve your skills.";
       }
+
+      document.getElementById("answer").innerText = a;
+    }
   </script>
 </body>
 </html>

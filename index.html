@@ -1,265 +1,269 @@
 
-<
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>IntelliMind AI</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>IntelliMind AI</title>
 
-  <style>
-    * {
-      box-sizing: border-box;
-    }
+<style>
+* { box-sizing: border-box; }
 
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background: #f8f9fc;
-      color: #222;
-    }
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: #f8f9fc;
+  color: #222;
+}
 
-    header {
-      background: white;
-      padding: 18px;
-      text-align: center;
-      border-bottom: 1px solid #eee;
-    }
+header {
+  background: white;
+  padding: 20px;
+  text-align: center;
+  border-bottom: 1px solid #eee;
+}
 
-    header h1 {
-      color: #5145cd;
-      margin: 0;
-    }
+header h1 { color: #5145cd; margin: 0; }
 
-    header p {
-      color: #777;
-      margin-bottom: 0;
-    }
+.container {
+  max-width: 700px;
+  margin: 20px auto;
+  padding: 15px;
+}
 
-    .container {
-      max-width: 650px;
-      margin: 25px auto;
-      padding: 15px;
-    }
+.welcome { text-align: center; padding: 15px; }
+.welcome h2 { color: #5145cd; }
 
-    .welcome {
-      text-align: center;
-      padding: 25px 10px;
-    }
+.subjects {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+  margin-bottom: 20px;
+}
 
-    .welcome h2 {
-      color: #5145cd;
-    }
+.subject {
+  background: white;
+  border: 1px solid #eee;
+  border-radius: 10px;
+  padding: 15px;
+  text-align: center;
+  color: #5145cd;
+  font-weight: bold;
+  cursor: pointer;
+}
 
-    .chat-box {
-      background: white;
-      min-height: 250px;
-      padding: 20px;
-      border-radius: 15px;
-      border: 1px solid #eee;
-      margin-bottom: 15px;
-    }
+.subject:active { background: #eeecff; }
 
-    .message {
-      background: #f0efff;
-      padding: 13px;
-      border-radius: 12px;
-      margin: 10px 0;
-      line-height: 1.5;
-      overflow-wrap: anywhere;
-    }
+.chat-box {
+  background: white;
+  min-height: 250px;
+  max-height: 400px;
+  overflow-y: auto;
+  padding: 18px;
+  border-radius: 15px;
+  border: 1px solid #eee;
+  margin-bottom: 15px;
+}
 
-    .user {
-      background: #5145cd;
-      color: white;
-      text-align: right;
-      margin-left: 35px;
-    }
+.message {
+  padding: 12px;
+  border-radius: 12px;
+  margin: 10px 0;
+  line-height: 1.5;
+  overflow-wrap: anywhere;
+}
 
-    .bot {
-      background: #f0efff;
-      color: #222;
-      margin-right: 35px;
-    }
+.user {
+  background: #5145cd;
+  color: white;
+  text-align: right;
+  margin-left: 30px;
+}
 
-    .input-area {
-      display: flex;
-      gap: 8px;
-    }
+.bot {
+  background: #f0efff;
+  margin-right: 30px;
+}
 
-    input {
-      flex: 1;
-      min-width: 0;
-      padding: 15px;
-      border: 1px solid #ddd;
-      border-radius: 10px;
-      font-size: 15px;
-    }
+.input-area {
+  display: flex;
+  gap: 8px;
+}
 
-    button {
-      background: #5145cd;
-      color: white;
-      border: none;
-      padding: 14px 20px;
-      border-radius: 10px;
-      cursor: pointer;
-    }
+input {
+  flex: 1;
+  min-width: 0;
+  padding: 14px;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  font-size: 15px;
+}
 
-    button:hover {
-      background: #4035ad;
-    }
+button {
+  background: #5145cd;
+  color: white;
+  border: none;
+  padding: 14px 20px;
+  border-radius: 10px;
+  cursor: pointer;
+}
 
-    .features {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 10px;
-      margin-top: 20px;
-    }
+footer {
+  text-align: center;
+  color: #888;
+  padding: 20px;
+}
 
-    .feature {
-      background: white;
-      border: 1px solid #eee;
-      padding: 12px;
-      border-radius: 10px;
-      color: #5145cd;
-    }
-
-    footer {
-      text-align: center;
-      color: #888;
-      padding: 20px;
-    }
-
-    @media (max-width: 480px) {
-      .container {
-        margin: 10px auto;
-      }
-
-      .input-area button {
-        padding: 12px;
-      }
-    }
-  </style>
+@media(max-width:480px) {
+  .container { margin: 8px auto; }
+  button { padding: 12px; }
+}
+</style>
 </head>
 
 <body>
 
 <header>
   <h1>IntelliMind AI</h1>
-  <p>Your Personal AI Learning Assistant</p>
+  <p>Your Personal Learning Assistant</p>
 </header>
 
 <div class="container">
 
-  <div class="welcome">
-    <h2>Hello! Welcome to IntelliMind AI</h2>
-    <p>Learn Python, Maths and English easily.</p>
-  </div>
+<div class="welcome">
+  <h2>Welcome to IntelliMind AI!</h2>
+  <p>Choose a subject and ask your questions.</p>
+</div>
 
-  <div class="chat-box" id="chatBox">
-    <div class="message bot">
-      வணக்கம்! Welcome to IntelliMind AI.
-      Ask me anything about your studies!
-    </div>
-  </div>
+<div class="subjects">
+  <div class="subject" onclick="chooseSubject('python')">📘 Python</div>
+  <div class="subject" onclick="chooseSubject('maths')">🧮 Maths</div>
+  <div class="subject" onclick="chooseSubject('english')">🔤 English</div>
+  <div class="subject" onclick="chooseSubject('physics')">⚡ Physics</div>
+  <div class="subject" onclick="chooseSubject('chemistry')">🧪 Chemistry</div>
+  <div class="subject" onclick="chooseSubject('computer')">💻 Computer Science</div>
+</div>
 
-  <div class="input-area">
-    <input id="question"
-      placeholder="Ask your question..."
-      onkeydown="if(event.key==='Enter') ask()">
-
-    <button onclick="ask()">Send</button>
+<div class="chat-box" id="chatBox">
+  <div class="message bot">
+    வணக்கம்! Welcome to IntelliMind AI.<br>
+    Select a subject and ask your question!
   </div>
+</div>
 
-  <div class="features">
-    <div class="feature">📘 Python Tutor</div>
-    <div class="feature">🧮 Maths Tutor</div>
-    <div class="feature">🔤 English Tutor</div>
-    <div class="feature">🌐 Tamil Support</div>
-  </div>
+<div class="input-area">
+  <input id="question" placeholder="Ask your question..."
+    onkeydown="if(event.key==='Enter') ask()">
+  <button onclick="ask()">Send</button>
+</div>
 
 </div>
 
-<footer>
-  Created with IntelliMind AI
-</footer>
+<footer>Created with IntelliMind AI</footer>
 
 <script>
+let currentSubject = "";
+
+function chooseSubject(subject) {
+  currentSubject = subject;
+
+  let names = {
+    python: "Python",
+    maths: "Maths",
+    english: "English",
+    physics: "Physics",
+    chemistry: "Chemistry",
+    computer: "Computer Science"
+  };
+
+  addMessage("Selected Subject: " + names[subject], "user");
+  addMessage("Welcome to " + names[subject] + " Tutor! Ask me a question.", "bot");
+}
+
+function addMessage(message, type) {
+  let chatBox = document.getElementById("chatBox");
+  let div = document.createElement("div");
+  div.className = "message " + type;
+  div.textContent = message;
+  chatBox.appendChild(div);
+  chatBox.scrollTop = chatBox.scrollHeight;
+}
+
 function ask() {
   let input = document.getElementById("question");
   let q = input.value.toLowerCase().trim();
 
   if (!q) return;
 
-  let a = "வணக்கம்! உங்கள் கேள்வியை கேளுங்கள்.";
+  addMessage(input.value, "user");
+
+  let a = "Sorry, I don't know that answer yet. Try another basic question.";
 
   if (q.includes("வணக்கம்")) {
-    a = "வணக்கம்! IntelliMind AI-க்கு உங்களை வரவேற்கிறேன்.";
-  } else if (q.includes("உன் பெயர்")) {
-    a = "என் பெயர் IntelliMind AI. நான் உங்களுடைய AI Tutor.";
-  } else if (q.includes("பைதான்")) {
-    a = "Python என்பது ஒரு எளிமையான Programming Language.";
-  } else if (q.includes("மாறி")) {
-    a = "Variable என்பது தகவல்களை சேமிக்க பயன்படும் ஒரு பெயர். உதாரணம்: age = 20";
-  } else if (q.includes("கூட்டல்")) {
-    a = "கூட்டல் என்பது எண்களை ஒன்றாக சேர்ப்பது. உதாரணம்: 10 + 5 = 15";
-  } else if (q.includes("கழித்தல்")) {
-    a = "கழித்தல்: 10 - 5 = 5";
-  } else if (q.includes("பெருக்கல்")) {
-    a = "பெருக்கல்: 5 × 3 = 15";
-  } else if (q.includes("வகுத்தல்")) {
-    a = "வகுத்தல்: 10 ÷ 2 = 5";
-  } else if (q.includes("கணிதம்")) {
-    a = "கணிதம் எண்கள் மற்றும் கணக்குகளைப் புரிந்துகொள்ள உதவுகிறது.";
-  } else if (q.includes("python")) {
-    a = "Python is a popular programming language. It is easy for beginners to learn.";
-  } else if (q.includes("variable")) {
-    a = "A variable is a name used to store data. Example: age = 20";
-  } else if (q.includes("loop")) {
-    a = "Python has for loop and while loop. Loops repeat statements.";
-  } else if (q.includes("list")) {
-    a = "A list stores multiple values. Example: fruits = ['Apple', 'Mango']";
-  } else if (q.includes("function")) {
-    a = "A function is a reusable block of code defined using def.";
-  } else if (q.includes("add") || q.includes("addition")) {
-    a = "Addition: 10 + 5 = 15";
-  } else if (q.includes("subtract")) {
-    a = "Subtraction: 10 - 5 = 5";
-  } else if (q.includes("multiply")) {
-    a = "Multiplication: 5 × 3 = 15";
-  } else if (q.includes("divide")) {
-    a = "Division: 10 ÷ 2 = 5";
-  } else if (q.includes("math")) {
-    a = "Maths helps us solve problems using numbers.";
-  } else if (q.includes("grammar")) {
-    a = "Grammar is the set of rules used to speak and write English correctly.";
-  } else if (q.includes("vocabulary")) {
-    a = "Vocabulary means a collection of words. Happy = மகிழ்ச்சி.";
-  } else if (q.includes("good morning")) {
-    a = "Good morning! காலை வணக்கம்!";
-  } else if (q.includes("thank you")) {
-    a = "Thank you means நன்றி.";
-  } else if (q.includes("how are you")) {
-    a = "I am fine. நான் நலமாக இருக்கிறேன்.";
-  } else if (q.includes("english")) {
-    a = "Practice English every day to improve your skills.";
+    a = "வணக்கம்! உங்களை வரவேற்கிறேன்.";
   }
 
-  let chatBox = document.getElementById("chatBox");
+  else if (currentSubject === "python") {
+    if (q.includes("python")) a = "Python is a popular programming language.";
+    else if (q.includes("variable")) a = "A variable stores data. Example: age = 20";
+    else if (q.includes("loop")) a = "Loops repeat statements. Python has for and while loops.";
+    else if (q.includes("list")) a = "A list stores multiple values. Example: fruits = ['Apple', 'Mango']";
+    else if (q.includes("function")) a = "A function is a reusable block of code defined using def.";
+  }
 
-  let userMessage = document.createElement("div");
-  userMessage.className = "message user";
-  userMessage.textContent = input.value;
-  chatBox.appendChild(userMessage);
+  else if (currentSubject === "maths") {
+    if (q.includes("add") || q.includes("கூட்டல்")) a = "Addition: 10 + 5 = 15";
+    else if (q.includes("subtract") || q.includes("கழித்தல்")) a = "Subtraction: 10 - 5 = 5";
+    else if (q.includes("multiply") || q.includes("பெருக்கல்")) a = "Multiplication: 5 × 3 = 15";
+    else if (q.includes("divide") || q.includes("வகுத்தல்")) a = "Division: 10 ÷ 2 = 5";
+    else if (q.includes("math")) a = "Maths helps us solve problems using numbers.";
+  }
 
-  let botMessage = document.createElement("div");
-  botMessage.className = "message bot";
-  botMessage.textContent = a;
-  chatBox.appendChild(botMessage);
+  else if (currentSubject === "english") {
+    if (q.includes("grammar")) a = "Grammar is the set of rules used to speak and write English correctly.";
+    else if (q.includes("vocabulary")) a = "Vocabulary means a collection of words. Happy = மகிழ்ச்சி.";
+    else if (q.includes("good morning")) a = "Good morning! காலை வணக்கம்!";
+    else if (q.includes("thank you")) a = "Thank you means நன்றி.";
+    else if (q.includes("how are you")) a = "I am fine. நான் நலமாக இருக்கிறேன்.";
+  }
 
+  else if (currentSubject === "physics") {
+    if (q.includes("physics")) a = "Physics is the study of matter, energy, force and motion.";
+    else if (q.includes("force")) a = "Force is a push or pull. SI unit: Newton (N).";
+    else if (q.includes("energy")) a = "Energy is the ability to do work. SI unit: Joule (J).";
+    else if (q.includes("newton")) a = "Newton's first law explains inertia. His second law is F = ma.";
+    else if (q.includes("motion")) a = "Motion is the change in position of an object with time.";
+    else if (q.includes("speed")) a = "Speed = Distance / Time. SI unit: metre per second (m/s).";
+    else if (q.includes("gravity")) a = "Gravity is the force that attracts objects towards each other.";
+    else if (q.includes("light")) a = "Light is a form of energy that helps us see objects.";
+  }
+
+  else if (currentSubject === "chemistry") {
+    if (q.includes("chemistry")) a = "Chemistry is the study of matter and its properties.";
+    else if (q.includes("atom")) a = "An atom is the basic unit of an element.";
+    else if (q.includes("molecule")) a = "A molecule is made of two or more atoms chemically bonded.";
+    else if (q.includes("water")) a = "Water is H₂O. It contains hydrogen and oxygen.";
+    else if (q.includes("acid")) a = "An acid has a pH below 7.";
+    else if (q.includes("base")) a = "A base has a pH above 7.";
+    else if (q.includes("element")) a = "An element is a pure substance made of one type of atom.";
+  }
+
+  else if (currentSubject === "computer") {
+    if (q.includes("computer")) a = "A computer is an electronic device that processes data.";
+    else if (q.includes("cpu")) a = "CPU stands for Central Processing Unit. It processes instructions.";
+    else if (q.includes("input")) a = "Input devices send data to a computer. Example: Keyboard and mouse.";
+    else if (q.includes("output")) a = "Output devices show results. Example: Monitor and printer.";
+    else if (q.includes("ram")) a = "RAM stands for Random Access Memory. It is temporary memory.";
+    else if (q.includes("software")) a = "Software is a set of programs used by a computer.";
+    else if (q.includes("hardware")) a = "Hardware means the physical parts of a computer.";
+  }
+
+  else {
+    a = "முதலில் ஒரு Subject-ஐ தேர்வு செய்யுங்கள். Please select a subject.";
+  }
+
+  addMessage(a, "bot");
   input.value = "";
-  chatBox.scrollTop = chatBox.scrollHeight;
 }
 </script>
 

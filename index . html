@@ -1,1 +1,67 @@
 
+<!DOCTYPE html>
+<html>
+<head>
+  <title>IntelliMind AI</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    body {
+      font-family: Arial;
+      background: #eef2ff;
+      text-align: center;
+      padding: 20px;
+    }
+    .box {
+      background: white;
+      max-width: 450px;
+      margin: auto;
+      padding: 20px;
+      border-radius: 15px;
+    }
+    h1 { color: #5145cd; }
+    input {
+      width: 90%;
+      padding: 12px;
+      margin: 10px;
+    }
+    button {
+      background: #5145cd;
+      color: white;
+      padding: 12px 20px;
+      border: none;
+      border-radius: 8px;
+    }
+    #answer { margin-top: 20px; }
+  </style>
+</head>
+<body>
+  <div class="box">
+    <h1>IntelliMind AI</h1>
+    <h3>Your Personal AI Tutor</h3>
+    <p>Learn Anything, Anytime!</p>
+
+    <input id="question" placeholder="Ask your question...">
+    <br>
+    <button onclick="ask()">Ask AI</button>
+
+    <p id="answer"></p>
+  </div>
+
+  <script>
+    function ask() {
+      let q = document.getElementById("question").value.toLowerCase();
+      let a = "I can help you learn Python, Maths and English.";
+
+      if (q.includes("python")) {
+        a = "Python is a programming language.";
+      } else if (q.includes("math")) {
+        a = "Maths helps us solve problems using numbers.";
+      } else if (q.includes("english")) {
+        a = "Practice English every day to improve your skills.";
+      }
+
+      document.getElementById("answer").innerText = a;
+    }
+  </script>
+</body>
+</html>

@@ -1,4 +1,5 @@
 
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -78,15 +79,35 @@ header h1 { color: #5145cd; margin: 0; }
   background: white;
 }
 
-.calculator button {
-  width: 100%;
-  margin-top: 8px;
-}
+.calculator button { width: 100%; margin-top: 8px; }
 
 #result {
   text-align: center;
   color: #5145cd;
   overflow-wrap: anywhere;
+}
+
+.history-section {
+  background: white;
+  border: 1px solid #eee;
+  border-radius: 15px;
+  padding: 15px;
+  margin-bottom: 20px;
+}
+
+.history-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+}
+
+.history-header h2 { color: #5145cd; }
+
+.clear-btn {
+  padding: 9px 12px;
+  background: #e9e7ff;
+  color: #5145cd;
 }
 
 .chat-box {
@@ -200,14 +221,17 @@ footer {
   <h3 id="result">Answer:</h3>
 </div>
 
+<div class="history-section">
+  <div class="history-header">
+    <h2>🕘 Chat History</h2>
+    <button class="clear-btn" onclick="clearHistory()">Clear History</button>
+  </div>
+  <p>Previous questions and answers are saved here.</p>
+</div>
+
 <h3>💬 Ask IntelliMind AI</h3>
 
-<div class="chat-box" id="chatBox">
-  <div class="message bot">
-    வணக்கம்! Welcome to IntelliMind AI.
-    Select a subject and ask your question!
-  </div>
-</div>
+<div class="chat-box" id="chatBox"></div>
 
 <div class="input-area">
   <input id="question" placeholder="Ask your question..."
@@ -222,6 +246,68 @@ footer {
 <script>
 
 let currentSubject = "";
+
+function getHistory() {
+  try {
+    return JSON.parse(localStorage.getItem("intellimindHistory")) || [];
+  } catch (error) {
+    return [];
+  }
+}
+
+function saveHistory(history) {
+  try {
+    localStorage.setItem("intellimindHistory", JSON.stringify(history));
+  } catch (error) {
+    alert("Unable to save chat history on this browser.");
+  }
+}
+
+function addMessage(message, type) {
+  let chatBox = document.getElementById("chatBox");
+
+  let div = document.createElement("div");
+  div.className = "message " + type;
+  div.textContent = message;
+
+  chatBox.appendChild(div);
+  chatBox.scrollTop = chatBox.scrollHeight;
+
+  let history = getHistory();
+  history.push({ message: message, type: type });
+  saveHistory(history);
+}
+
+function loadHistory() {
+  let chatBox = document.getElementById("chatBox");
+  let history = getHistory();
+
+  if (history.length === 0) {
+    let welcome = document.createElement("div");
+    welcome.className = "message bot";
+    welcome.textContent =
+      "வணக்கம்! Welcome to IntelliMind AI. Select a subject and ask your question!";
+    chatBox.appendChild(welcome);
+    return;
+  }
+
+  history.forEach(function(item) {
+    let div = document.createElement("div");
+    div.className = "message " + item.type;
+    div.textContent = item.message;
+    chatBox.appendChild(div);
+  });
+
+  chatBox.scrollTop = chatBox.scrollHeight;
+}
+
+function clearHistory() {
+  if (confirm("Do you want to clear all chat history?")) {
+    localStorage.removeItem("intellimindHistory");
+    document.getElementById("chatBox").innerHTML = "";
+    loadHistory();
+  }
+}
 
 function chooseSubject(subject) {
   currentSubject = subject;
@@ -243,7 +329,6 @@ function calculate() {
   let first = document.getElementById("num1").value;
   let second = document.getElementById("num2").value;
   let operation = document.getElementById("operation").value;
-  let result;
 
   if (first === "" || second === "") {
     document.getElementById("result").textContent =
@@ -253,6 +338,7 @@ function calculate() {
 
   let a = Number(first);
   let b = Number(second);
+  let result;
 
   if (operation === "add") {
     result = a + b;
@@ -271,15 +357,6 @@ function calculate() {
 
   document.getElementById("result").textContent =
     "Answer: " + result;
-}
-
-function addMessage(message, type) {
-  let chatBox = document.getElementById("chatBox");
-  let div = document.createElement("div");
-  div.className = "message " + type;
-  div.textContent = message;
-  chatBox.appendChild(div);
-  chatBox.scrollTop = chatBox.scrollHeight;
 }
 
 function ask() {
@@ -358,6 +435,8 @@ function ask() {
   addMessage(a, "bot");
   input.value = "";
 }
+
+loadHistory();
 
 </script>
 

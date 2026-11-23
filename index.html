@@ -1,1034 +1,266 @@
 
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>IntelliMind AI - Global Edition</title>
-
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>IntelliMind AI</title>
 <style>
-* {
-    box-sizing: border-box;
-}
-
-body {
-    margin: 0;
-    padding: 15px;
-    background: #f5f7fb;
-    color: #202124;
-    font-family: Arial, sans-serif;
-}
-
-header {
-    background: white;
-    padding: 22px;
-    border-radius: 15px;
-    border: 1px solid #e0e4ed;
-    margin-bottom: 18px;
-}
-
-header h1 {
-    color: #1746a2;
-    margin: 0 0 8px;
-}
-
-header p {
-    color: #666;
-    margin-bottom: 0;
-}
-
-section {
-    background: white;
-    border: 1px solid #e0e4ed;
-    border-radius: 15px;
-    padding: 18px;
-    margin-bottom: 18px;
-}
-
-h2 {
-    font-size: 20px;
-    margin-top: 0;
-}
-
-input, select, textarea {
-    width: 100%;
-    padding: 14px;
-    margin: 8px 0 14px;
-    border: 1px solid #cbd2df;
-    border-radius: 9px;
-    background: white;
-    color: #222;
-    font-size: 16px;
-}
-
-button {
-    background: #1746a2;
-    color: white;
-    border: none;
-    padding: 13px 17px;
-    border-radius: 9px;
-    font-size: 15px;
-    cursor: pointer;
-    margin: 4px 3px 4px 0;
-}
-
-button:hover {
-    background: #0e3278;
-}
-
-.category-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 10px;
-}
-
-.category-btn {
-    background: #eef3ff;
-    color: #1746a2;
-    border: 1px solid #d6e0fa;
-    min-height: 65px;
-    font-weight: bold;
-}
-
-.result {
-    background: #f1f5ff;
-    border-radius: 10px;
-    padding: 15px;
-    margin-top: 12px;
-    line-height: 1.6;
-    overflow-wrap: anywhere;
-}
-
-.chat-box {
-    background: #f7f8fc;
-    padding: 12px;
-    border-radius: 10px;
-    min-height: 120px;
-    max-height: 350px;
-    overflow-y: auto;
-    margin-bottom: 12px;
-}
-
-.message {
-    padding: 10px;
-    margin: 8px 0;
-    border-radius: 9px;
-    line-height: 1.5;
-    overflow-wrap: anywhere;
-}
-
-.user {
-    background: #dce8ff;
-}
-
-.bot {
-    background: #e8f5e9;
-}
-
-footer {
-    text-align: center;
-    color: #777;
-    padding: 20px;
-    font-size: 13px;
-}
-
-@media(max-width: 450px) {
-    body {
-        padding: 10px;
-    }
-
-    .category-grid {
-        grid-template-columns: 1fr 1fr;
-    }
-
-    button {
-        font-size: 14px;
-    }
-}
+body{font-family:Arial;background:#f4f6fb;padding:12px;color:#222}
+header,section{background:white;padding:16px;margin-bottom:14px;border-radius:12px}
+h1{color:#1746a2}
+button{background:#2455c8;color:white;border:0;padding:12px;border-radius:8px;margin:4px}
+input,select,textarea{width:100%;padding:12px;margin:8px 0;border:1px solid #ccc;border-radius:8px;box-sizing:border-box}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:6px}
+.result{background:#eef3ff;padding:12px;border-radius:8px;margin-top:10px;overflow-wrap:anywhere}
 </style>
 </head>
-
 <body>
 
 <header>
-    <h1>🌍 IntelliMind AI</h1>
-    <h3>Global Learning Platform</h3>
-    <p>Global Edition | Learning Chatbot Prototype</p>
+<h1>🌍 IntelliMind AI</h1>
+<p>Global Learning Platform</p>
 </header>
 
 <section>
-    <h2>📚 All Categories</h2>
-    <div class="category-grid" id="categoryButtons"></div>
+<h2>📚 All Categories</h2>
+<div class="grid" id="categories"></div>
 </section>
 
 <section>
-    <h2>📖 Select Department & Topic</h2>
-
-    <label>Department / Category</label>
-    <select id="department">
-        <option value="">Select Department</option>
-    </select>
-
-    <label>Choose Topic</label>
-    <select id="topic">
-        <option value="">Select a department first</option>
-    </select>
-
-    <button onclick="studyTopic()">Study Selected Topic</button>
-
-    <div id="studyResult" class="result">
-        Select a department and topic to begin learning.
-    </div>
+<h2>📖 Select Department & Topic</h2>
+<select id="department"></select>
+<select id="topic"><option value="">Select Topic</option></select>
+<button onclick="study()">Study Selected Topic</button>
+<div id="studyResult" class="result">Select a topic.</div>
 </section>
 
 <section>
-    <h2>🌎 World Countries Explorer</h2>
-
-    <input
-        type="text"
-        id="countrySearch"
-        placeholder="Search country..."
-        oninput="filterCountries()"
-    >
-
-    <label>Select Country</label>
-    <select id="countrySelect" onchange="showCountry()">
-        <option value="">Choose a country</option>
-    </select>
-
-    <div id="countryResult" class="result">
-        Select a country to explore.
-    </div>
+<h2>🌎 World Countries Explorer</h2>
+<input id="search" placeholder="Search country..." oninput="filterCountries()">
+<select id="country" onchange="showCountry()"></select>
+<div id="countryResult" class="result">Select a country.</div>
 </section>
 
 <section>
-    <h2>💬 IntelliMind Chatbot</h2>
-
-    <div class="chat-box" id="chatBox">
-        <div class="message bot">
-            Hello! Welcome to IntelliMind AI.
-            Ask me about education, engineering, careers,
-            countries, science and more.
-        </div>
-    </div>
-
-    <input
-        type="text"
-        id="question"
-        placeholder="Ask your question..."
-        onkeydown="if(event.key==='Enter') askAI()"
-    >
-
-    <button onclick="askAI()">Ask AI</button>
-    <button onclick="clearChat()">Clear Chat</button>
+<h2>🤖 Ask IntelliMind</h2>
+<div id="chat" class="result">Welcome to IntelliMind AI!</div>
+<textarea id="question" placeholder="Ask your question"></textarea>
+<button onclick="askAI()">Ask AI</button>
+<button onclick="clearChat()">Clear</button>
 </section>
 
 <section>
-    <h2>🕘 Chat History</h2>
-    <div id="history" class="result">No saved history yet.</div>
-    <button onclick="clearHistory()">Clear History</button>
+<h2>🧮 Calculator</h2>
+<input id="a" type="number" placeholder="First number">
+<input id="b" type="number" placeholder="Second number">
+<select id="operation">
+<option value="add">Addition +</option>
+<option value="sub">Subtraction -</option>
+<option value="mul">Multiplication ×</option>
+<option value="div">Division ÷</option>
+</select>
+<button onclick="calculate()">Calculate</button>
+<div id="answer" class="result">Result will appear here.</div>
 </section>
 
 <section>
-    <h2>🧮 Calculator</h2>
-
-    <input type="number" id="number1" placeholder="Enter first number">
-    <input type="number" id="number2" placeholder="Enter second number">
-
-    <select id="operation">
-        <option value="add">Addition (+)</option>
-        <option value="subtract">Subtraction (-)</option>
-        <option value="multiply">Multiplication (×)</option>
-        <option value="divide">Division (÷)</option>
-    </select>
-
-    <button onclick="calculate()">Calculate</button>
-    <div id="calcResult" class="result">Result will appear here.</div>
+<h2>🕘 Chat History</h2>
+<div id="history" class="result">No history yet.</div>
+<button onclick="clearHistory()">Clear History</button>
 </section>
-
-<footer>
-    IntelliMind AI Global Edition<br>
-    Educational Learning Chatbot Prototype
-</footer>
 
 <script>
 
-// =====================================
-// 1. DEPARTMENTS AND TOPICS
-// =====================================
+// DEPARTMENTS AND TOPICS
 
-const topicsData = {
-
-"Education": [
-    "English Grammar",
-    "Spoken English",
-    "Vocabulary",
-    "Reading Skills",
-    "Writing Skills",
-    "Mathematics",
-    "Physics",
-    "Chemistry",
-    "Biology",
-    "Computer Science",
-    "History",
-    "Geography",
-    "General Knowledge"
-],
-
-"Medical and Healthcare": [
-    "Anatomy",
-    "Physiology",
-    "Biochemistry",
-    "Pathology",
-    "Microbiology",
-    "Pharmacology",
-    "Medicine",
-    "Surgery",
-    "Pediatrics",
-    "Anesthesiology",
-    "Orthopedics",
-    "Dermatology",
-    "Psychiatry",
-    "Community Medicine",
-    "Dentistry",
-    "Nursing",
-    "Medical Laboratory Technology",
-    "Radiology",
-    "Physiotherapy",
-    "Public Health"
-],
-
-"Engineering": [
-    "Computer Science Engineering",
-    "Electronics and Communication Engineering",
-    "Electrical Engineering",
-    "Mechanical Engineering",
-    "Civil Engineering",
-    "Information Technology",
-    "Artificial Intelligence",
-    "Data Science",
-    "Cyber Security",
-    "VLSI Design",
-    "Robotics",
-    "Automobile Engineering",
-    "Aerospace Engineering",
-    "Biomedical Engineering",
-    "Chemical Engineering",
-    "Agricultural Engineering",
-    "Mechatronics",
-    "Internet of Things",
-    "Nanotechnology"
-],
-
-"Arts and Science": [
-    "English Literature",
-    "Tamil Literature",
-    "Mathematics",
-    "Physics",
-    "Chemistry",
-    "Botany",
-    "Zoology",
-    "Computer Science",
-    "Statistics",
-    "Psychology",
-    "Economics",
-    "History",
-    "Geography",
-    "Political Science",
-    "Sociology"
-],
-
-"Commerce and Management": [
-    "Accounting",
-    "Business Studies",
-    "Finance",
-    "Marketing",
-    "Human Resource Management",
-    "Economics",
-    "Banking",
-    "Business Analytics",
-    "Entrepreneurship",
-    "International Business"
-],
-
-"Law": [
-    "Constitutional Law",
-    "Criminal Law",
-    "Civil Law",
-    "Contract Law",
-    "Corporate Law",
-    "International Law",
-    "Human Rights Law",
-    "Environmental Law",
-    "Family Law",
-    "Cyber Law"
-],
-
-"Agriculture": [
-    "Agronomy",
-    "Horticulture",
-    "Soil Science",
-    "Plant Pathology",
-    "Agricultural Economics",
-    "Agricultural Engineering",
-    "Animal Husbandry",
-    "Food Technology"
-],
-
-"Government Exams": [
-    "UPSC Civil Services",
-    "TNPSC Group 1",
-    "TNPSC Group 2",
-    "TNPSC Group 4",
-    "SSC Exams",
-    "Banking Exams",
-    "Railway Exams",
-    "Defence Exams",
-    "Teaching Exams",
-    "GATE",
-    "NEET",
-    "JEE",
-    "State Government Exams"
-],
-
-"Private Jobs and Careers": [
-    "Software Developer",
-    "Web Developer",
-    "Data Analyst",
-    "AI Engineer",
-    "Cyber Security Analyst",
-    "VLSI Engineer",
-    "Embedded Systems Engineer",
-    "Mechanical Engineer",
-    "Civil Engineer",
-    "Doctor",
-    "Nurse",
-    "Pharmacist",
-    "Accountant",
-    "Business Analyst",
-    "Teacher",
-    "Digital Marketing",
-    "Graphic Designer",
-    "Entrepreneurship"
-],
-
-"World Languages": [
-    "English",
-    "Tamil",
-    "Hindi",
-    "French",
-    "German",
-    "Spanish",
-    "Chinese",
-    "Japanese",
-    "Korean",
-    "Arabic",
-    "Russian",
-    "Portuguese",
-    "Italian",
-    "Grammar",
-    "Translation",
-    "Speaking Practice"
-],
-
-"Sports Rules": [
-    "Cricket",
-    "Football",
-    "Kabaddi",
-    "Volleyball",
-    "Basketball",
-    "Hockey",
-    "Badminton",
-    "Tennis",
-    "Chess",
-    "Athletics",
-    "Swimming",
-    "Wrestling",
-    "Boxing",
-    "Olympic Sports"
-],
-
-"World Laws": [
-    "World Legal Systems",
-    "Indian Constitution",
-    "Fundamental Rights",
-    "Human Rights",
-    "International Law",
-    "Criminal Justice",
-    "Traffic Rules",
-    "Environmental Laws",
-    "Cyber Laws",
-    "Consumer Rights"
-],
-
-"World Politics": [
-    "World Governments",
-    "Democracy",
-    "Presidential System",
-    "Parliamentary System",
-    "Elections",
-    "United Nations",
-    "International Relations",
-    "Political Parties",
-    "Indian Politics",
-    "State Governments"
-],
-
-"History and Geography": [
-    "World History",
-    "Indian History",
-    "Ancient History",
-    "Medieval History",
-    "Modern History",
-    "World Geography",
-    "Indian Geography",
-    "Continents",
-    "Oceans",
-    "Mountains",
-    "Rivers",
-    "Natural Resources"
-],
-
-"Science and Technology": [
-    "Artificial Intelligence",
-    "Machine Learning",
-    "Robotics",
-    "Space Science",
-    "Nanotechnology",
-    "Biotechnology",
-    "Computer Science",
-    "Renewable Energy",
-    "Quantum Computing",
-    "Internet of Things"
-],
-
-"General Knowledge": [
-    "World GK",
-    "Indian GK",
-    "Current Affairs",
-    "Important Days",
-    "Famous Personalities",
-    "World Organisations",
-    "Discoveries",
-    "Inventions",
-    "Awards",
-    "Books and Authors"
-],
-
-"Global Travel": [
-    "World Tourism",
-    "Beautiful Countries",
-    "Famous Tourist Places",
-    "Natural Wonders",
-    "Travel Planning",
-    "Passport Information",
-    "Visa Information",
-    "Air Travel",
-    "Train Travel",
-    "Travel Safety",
-    "World Heritage Sites"
-],
-
-"Global Transport and Vehicles": [
-    "Airplanes",
-    "Helicopters",
-    "Private Jets",
-    "Passenger Trains",
-    "Metro Trains",
-    "Bullet Trains",
-    "Cars",
-    "Electric Vehicles",
-    "Buses",
-    "Trucks",
-    "Motorcycles",
-    "Boats",
-    "Ships",
-    "Cruise Ships",
-    "Submarines",
-    "Tractors",
-    "Vehicle Engines",
-    "Vehicle Safety"
-],
-
-"World Richest People": [
-    "World Billionaires",
-    "Business Leaders",
-    "Entrepreneurs",
-    "Technology Founders",
-    "Net Worth Rankings",
-    "Wealth and Economy"
-],
-
-"World Top Companies": [
-    "Technology Companies",
-    "Automobile Companies",
-    "Healthcare Companies",
-    "Banking Companies",
-    "Energy Companies",
-    "Aerospace Companies",
-    "Telecommunication Companies",
-    "Company Market Value",
-    "Business Revenue"
-],
-
-"World Countries": [
-    "Country Information",
-    "Richest Countries",
-    "Largest Countries",
-    "Smallest Countries",
-    "Beautiful Countries",
-    "Safest Countries",
-    "Developed Countries",
-    "World Capitals",
-    "Currencies",
-    "Languages",
-    "Population",
-    "Economy",
-    "Culture",
-    "Education",
-    "Climate",
-    "Tourism"
-]
-
+const data = {
+"Education":"English Grammar,Spoken English,Mathematics,Physics,Chemistry,Biology,Computer Science,History,Geography,General Knowledge",
+"Medical and Healthcare":"MBBS,BDS,Anatomy,Physiology,Biochemistry,Pathology,Microbiology,Pharmacology,Surgery,Nursing,Pharmacy,Physiotherapy,Radiology,Public Health",
+"Engineering":"Computer Science Engineering,Electronics and Communication Engineering,Electrical Engineering,Mechanical Engineering,Civil Engineering,Information Technology,Artificial Intelligence,Data Science,Cyber Security,VLSI,Robotics,Automobile Engineering,Aerospace Engineering",
+"Arts and Science":"English,Tamil,Mathematics,Physics,Chemistry,Botany,Zoology,Computer Science,Statistics,Psychology,Economics,History,Geography,Sociology",
+"Commerce and Management":"Accounting,Finance,Marketing,Business Studies,Banking,Economics,Human Resources,Entrepreneurship,International Business",
+"Law":"Constitutional Law,Criminal Law,Civil Law,Contract Law,Corporate Law,International Law,Human Rights,Cyber Law",
+"Agriculture":"Agronomy,Horticulture,Soil Science,Plant Pathology,Agricultural Economics,Food Technology",
+"Government Exams":"UPSC,TNPSC Group 1,TNPSC Group 2,TNPSC Group 4,SSC,Banking,Railway,Defence,Teaching,GATE,NEET,JEE",
+"Private Jobs and Careers":"Software Developer,Web Developer,Data Analyst,AI Engineer,Cyber Security,VLSI Engineer,Doctor,Nurse,Accountant,Teacher,Designer,Digital Marketing",
+"World Languages":"English,Tamil,Hindi,French,German,Spanish,Chinese,Japanese,Korean,Arabic,Russian,Grammar,Translation,Speaking Practice",
+"Sports Rules":"Cricket,Football,Kabaddi,Volleyball,Basketball,Hockey,Badminton,Tennis,Chess,Athletics,Swimming,Wrestling,Boxing",
+"World Laws":"World Legal Systems,Indian Constitution,Fundamental Rights,Human Rights,International Law,Traffic Rules,Cyber Laws",
+"World Politics":"World Governments,Democracy,Presidential System,Parliamentary System,Elections,United Nations,International Relations,Indian Politics",
+"History and Geography":"World History,Indian History,Ancient History,Modern History,World Geography,Indian Geography,Continents,Oceans,Mountains,Rivers",
+"Science and Technology":"Artificial Intelligence,Machine Learning,Robotics,Space Science,Nanotechnology,Biotechnology,Renewable Energy,Quantum Computing",
+"General Knowledge":"World GK,Indian GK,Current Affairs,Important Days,Famous Personalities,World Organisations,Discoveries,Inventions,Awards",
+"Global Travel":"World Tourism,Beautiful Countries,Tourist Places,Natural Wonders,Travel Planning,Passport,Visa,Air Travel,Train Travel",
+"Global Transport and Vehicles":"Airplanes,Helicopters,Private Jets,Passenger Trains,Metro,Bullet Trains,Cars,Electric Vehicles,Buses,Trucks,Motorcycles,Ships,Submarines",
+"World Richest People":"World Billionaires,Business Leaders,Entrepreneurs,Technology Founders,Net Worth Rankings",
+"World Top Companies":"Technology Companies,Automobile Companies,Healthcare Companies,Banking Companies,Energy Companies,Company Rankings",
+"World Countries":"Country Information,Richest Countries,Largest Countries,Smallest Countries,Beautiful Countries,Safest Countries,Capitals,Currencies,Languages,Population,Economy,Culture,Tourism"
 };
 
+// LOAD CATEGORIES
 
-// =====================================
-// 2. CATEGORY BUTTONS
-// =====================================
+const department=document.getElementById("department");
+const topic=document.getElementById("topic");
 
-const department = document.getElementById("department");
-const topic = document.getElementById("topic");
+department.innerHTML='<option value="">Select Department</option>';
 
-const categoryButtons = document.getElementById("categoryButtons");
+Object.keys(data).forEach(name=>{
+ let op=document.createElement("option");
+ op.value=name;
+ op.textContent=name;
+ department.appendChild(op);
 
-const categoryIcons = {
-    "Education": "🎓",
-    "Medical and Healthcare": "🏥",
-    "Engineering": "⚙️",
-    "Arts and Science": "🎨",
-    "Commerce and Management": "💼",
-    "Law": "⚖️",
-    "Agriculture": "🌱",
-    "Government Exams": "🏛️",
-    "Private Jobs and Careers": "💼",
-    "World Languages": "🌐",
-    "Sports Rules": "🏅",
-    "World Laws": "⚖️",
-    "World Politics": "🌍",
-    "History and Geography": "🗺️",
-    "Science and Technology": "🔬",
-    "General Knowledge": "📚",
-    "Global Travel": "✈️",
-    "Global Transport and Vehicles": "🚆",
-    "World Richest People": "💰",
-    "World Top Companies": "🏢",
-    "World Countries": "🌎"
-};
+ let btn=document.createElement("button");
+ btn.textContent=name;
+ btn.onclick=()=>{
+   department.value=name;
+   loadTopics();
+   document.getElementById("department").scrollIntoView();
+ };
+ document.getElementById("categories").appendChild(btn);
+});
 
-function createCategories() {
-    Object.keys(topicsData).forEach(function(category) {
+// LOAD TOPICS
 
-        const option = document.createElement("option");
-        option.value = category;
-        option.textContent = category;
-        department.appendChild(option);
+function loadTopics(){
+ topic.innerHTML='<option value="">Select Topic</option>';
+ if(!data[department.value]) return;
 
-        const button = document.createElement("button");
-        button.className = "category-btn";
-        button.textContent =
-            (categoryIcons[category] || "📘") + " " + category;
-
-        button.onclick = function() {
-            department.value = category;
-            loadTopics();
-            document.getElementById("department")
-                .scrollIntoView({behavior: "smooth"});
-        };
-
-        categoryButtons.appendChild(button);
-    });
+ data[department.value].split(",").forEach(name=>{
+   let op=document.createElement("option");
+   op.value=name;
+   op.textContent=name;
+   topic.appendChild(op);
+ });
 }
 
+department.addEventListener("change",loadTopics);
 
-// =====================================
-// 3. LOAD TOPICS
-// =====================================
-
-function loadTopics() {
-
-    const category = department.value;
-
-    topic.innerHTML = "";
-
-    const firstOption = document.createElement("option");
-    firstOption.value = "";
-    firstOption.textContent = category
-        ? "Select Topic"
-        : "Select a department first";
-
-    topic.appendChild(firstOption);
-
-    if (!category || !topicsData[category]) {
-        return;
-    }
-
-    topicsData[category].forEach(function(item) {
-
-        const option = document.createElement("option");
-        option.value = item;
-        option.textContent = item;
-
-        topic.appendChild(option);
-    });
+function study(){
+ let d=department.value;
+ let t=topic.value;
+ document.getElementById("studyResult").textContent=
+ d && t ? "Department: "+d+" | Topic: "+t+". Learning section selected. Detailed lessons can be added next." :
+ "Please select a department and topic.";
 }
 
-department.addEventListener("change", loadTopics);
+// COUNTRIES
 
+const countries=`Afghanistan,Albania,Algeria,Andorra,Angola,Antigua and Barbuda,Argentina,Armenia,Australia,Austria,Azerbaijan,Bahamas,Bahrain,Bangladesh,Barbados,Belarus,Belgium,Belize,Benin,Bhutan,Bolivia,Bosnia and Herzegovina,Botswana,Brazil,Brunei,Bulgaria,Burkina Faso,Burundi,Cabo Verde,Cambodia,Cameroon,Canada,Central African Republic,Chad,Chile,China,Colombia,Comoros,Congo,Costa Rica,Cote d'Ivoire,Croatia,Cuba,Cyprus,Czechia,Democratic Republic of the Congo,Denmark,Djibouti,Dominica,Dominican Republic,Ecuador,Egypt,El Salvador,Equatorial Guinea,Eritrea,Estonia,Eswatini,Ethiopia,Fiji,Finland,France,Gabon,Gambia,Georgia,Germany,Ghana,Greece,Grenada,Guatemala,Guinea,Guinea-Bissau,Guyana,Haiti,Honduras,Hungary,Iceland,India,Indonesia,Iran,Iraq,Ireland,Israel,Italy,Jamaica,Japan,Jordan,Kazakhstan,Kenya,Kiribati,Kuwait,Kyrgyzstan,Laos,Latvia,Lebanon,Lesotho,Liberia,Libya,Liechtenstein,Lithuania,Luxembourg,Madagascar,Malawi,Malaysia,Maldives,Mali,Malta,Marshall Islands,Mauritania,Mauritius,Mexico,Micronesia,Moldova,Monaco,Mongolia,Montenegro,Morocco,Mozambique,Myanmar,Namibia,Nauru,Nepal,Netherlands,New Zealand,Nicaragua,Niger,Nigeria,North Korea,North Macedonia,Norway,Oman,Pakistan,Palau,Palestine,Panama,Papua New Guinea,Paraguay,Peru,Philippines,Poland,Portugal,Qatar,Romania,Russia,Rwanda,Saint Kitts and Nevis,Saint Lucia,Saint Vincent and the Grenadines,Samoa,San Marino,Sao Tome and Principe,Saudi Arabia,Senegal,Serbia,Seychelles,Sierra Leone,Singapore,Slovakia,Slovenia,Solomon Islands,Somalia,South Africa,South Korea,South Sudan,Spain,Sri Lanka,Sudan,Suriname,Sweden,Switzerland,Syria,Tajikistan,Tanzania,Thailand,Timor-Leste,Togo,Tonga,Trinidad and Tobago,Tunisia,Turkey,Turkmenistan,Tuvalu,Uganda,Ukraine,United Arab Emirates,United Kingdom,United States,Uruguay,Uzbekistan,Vanuatu,Vatican City,Venezuela,Vietnam,Yemen,Zambia,Zimbabwe`.split(",");
 
-// =====================================
-// 4. STUDY TOPIC
-// =====================================
+const country=document.getElementById("country");
 
-function studyTopic() {
-
-    const category = department.value;
-    const selectedTopic = topic.value;
-
-    const result = document.getElementById("studyResult");
-
-    if (!category || !selectedTopic) {
-        result.textContent =
-            "Please select a department and a topic first.";
-        return;
-    }
-
-    result.innerHTML =
-        "<h3>" + escapeHTML(selectedTopic) + "</h3>" +
-        "<p><b>Department:</b> " + escapeHTML(category) + "</p>" +
-        "<p>Welcome to your learning section.</p>" +
-        "<p>Use this topic to begin studying the basic concepts, " +
-        "definitions, important points, examples and applications.</p>" +
-        "<p><b>Note:</b> Detailed lessons and verified references " +
-        "will be added in future updates.</p>";
+function populate(list){
+ country.innerHTML='<option value="">Select Country</option>';
+ list.forEach(name=>{
+  let op=document.createElement("option");
+  op.value=name;
+  op.textContent=name;
+  country.appendChild(op);
+ });
 }
 
-
-// =====================================
-// 5. WORLD COUNTRIES
-// =====================================
-
-const countries = [
-"Afghanistan","Albania","Algeria","Andorra","Angola",
-"Antigua and Barbuda","Argentina","Armenia","Australia","Austria",
-"Azerbaijan","Bahamas","Bahrain","Bangladesh","Barbados",
-"Belarus","Belgium","Belize","Benin","Bhutan",
-"Bolivia","Bosnia and Herzegovina","Botswana","Brazil","Brunei",
-"Bulgaria","Burkina Faso","Burundi","Cabo Verde","Cambodia",
-"Cameroon","Canada","Central African Republic","Chad","Chile",
-"China","Colombia","Comoros","Congo","Costa Rica",
-"Cote d'Ivoire","Croatia","Cuba","Cyprus","Czechia",
-"Democratic Republic of the Congo","Denmark","Djibouti","Dominica",
-"Dominican Republic","Ecuador","Egypt","El Salvador",
-"Equatorial Guinea","Eritrea","Estonia","Eswatini","Ethiopia",
-"Fiji","Finland","France","Gabon","Gambia","Georgia",
-"Germany","Ghana","Greece","Grenada","Guatemala","Guinea",
-"Guinea-Bissau","Guyana","Haiti","Honduras","Hungary",
-"Iceland","India","Indonesia","Iran","Iraq","Ireland",
-"Israel","Italy","Jamaica","Japan","Jordan","Kazakhstan",
-"Kenya","Kiribati","Kuwait","Kyrgyzstan","Laos","Latvia",
-"Lebanon","Lesotho","Liberia","Libya","Liechtenstein",
-"Lithuania","Luxembourg","Madagascar","Malawi","Malaysia",
-"Maldives","Mali","Malta","Marshall Islands","Mauritania",
-"Mauritius","Mexico","Micronesia","Moldova","Monaco",
-"Mongolia","Montenegro","Morocco","Mozambique","Myanmar",
-"Namibia","Nauru","Nepal","Netherlands","New Zealand",
-"Nicaragua","Niger","Nigeria","North Korea","North Macedonia",
-"Norway","Oman","Pakistan","Palau","Palestine","Panama",
-"Papua New Guinea","Paraguay","Peru","Philippines","Poland",
-"Portugal","Qatar","Romania","Russia","Rwanda",
-"Saint Kitts and Nevis","Saint Lucia",
-"Saint Vincent and the Grenadines","Samoa","San Marino",
-"Sao Tome and Principe","Saudi Arabia","Senegal","Serbia",
-"Seychelles","Sierra Leone","Singapore","Slovakia","Slovenia",
-"Solomon Islands","Somalia","South Africa","South Korea",
-"South Sudan","Spain","Sri Lanka","Sudan","Suriname",
-"Sweden","Switzerland","Syria","Tajikistan","Tanzania",
-"Thailand","Timor-Leste","Togo","Tonga",
-"Trinidad and Tobago","Tunisia","Turkey","Turkmenistan",
-"Tuvalu","Uganda","Ukraine","United Arab Emirates",
-"United Kingdom","United States","Uruguay","Uzbekistan",
-"Vanuatu","Vatican City","Venezuela","Vietnam","Yemen",
-"Zambia","Zimbabwe"
-];
-
-const countrySelect = document.getElementById("countrySelect");
-
-function populateCountries(list) {
-
-    countrySelect.innerHTML =
-        '<option value="">Choose a country</option>';
-
-    list.forEach(function(country) {
-
-        const option = document.createElement("option");
-        option.value = country;
-        option.textContent = country;
-
-        countrySelect.appendChild(option);
-    });
+function filterCountries(){
+ let q=document.getElementById("search").value.toLowerCase();
+ populate(countries.filter(c=>c.toLowerCase().includes(q)));
 }
 
-function filterCountries() {
-
-    const search =
-        document.getElementById("countrySearch")
-        .value.toLowerCase();
-
-    const filtered = countries.filter(function(country) {
-        return country.toLowerCase().includes(search);
-    });
-
-    populateCountries(filtered);
+function showCountry(){
+ document.getElementById("countryResult").textContent=
+ country.value ? country.value+" selected. Capital, currency, language, population, geography and culture details can be added using verified country data." : "Select a country.";
 }
 
-function showCountry() {
+populate(countries);
 
-    const country = countrySelect.value;
-    const result = document.getElementById("countryResult");
+// CHATBOT PROTOTYPE
 
-    if (!country) {
-        result.textContent = "Select a country to explore.";
-        return;
-    }
+function askAI(){
+ let q=document.getElementById("question").value.trim();
+ if(!q) return;
 
-    result.innerHTML =
-        "<h3>🌍 " + escapeHTML(country) + "</h3>" +
-        "<p>Country selected successfully.</p>" +
-        "<p>Explore these information areas:</p>" +
-        "<ul>" +
-        "<li>Capital city</li>" +
-        "<li>Currency</li>" +
-        "<li>Languages</li>" +
-        "<li>Population</li>" +
-        "<li>Geography and climate</li>" +
-        "<li>History and culture</li>" +
-        "<li>Economy and education</li>" +
-        "<li>Tourist destinations</li>" +
-        "</ul>" +
-        "<p>Verified country data will be connected in a future update.</p>";
+ let answer="I can help with Education, Medical, Engineering, Government Exams, Jobs, Languages, Sports, Laws, Politics, Countries, Travel and Science.";
+
+ let s=q.toLowerCase();
+
+ if(s.includes("hello")||s.includes("hi"))
+ answer="Hello! Welcome to IntelliMind AI.";
+
+ else if(s.includes("python"))
+ answer="Python is a programming language used in software development, automation and data science.";
+
+ else if(s.includes("upsc"))
+ answer="UPSC Civil Services Examination includes Preliminary, Main and Interview stages. Check the official UPSC notification.";
+
+ else if(s.includes("english"))
+ answer="English grammar includes nouns, pronouns, verbs, tenses and sentence formation.";
+
+ else if(s.includes("ece")||s.includes("engineering"))
+ answer="ECE includes electronics, communication systems, embedded systems and VLSI.";
+
+ else if(s.includes("mbbs")||s.includes("medical"))
+ answer="Medical subjects include Anatomy, Physiology, Biochemistry, Pathology and Pharmacology.";
+
+ else if(s.includes("kabaddi"))
+ answer="Kabaddi is a team sport. Players raid the opposing team's half and score points under the sport's rules.";
+
+ else if(s.includes("math"))
+ answer="Mathematics includes arithmetic, algebra, geometry, trigonometry and statistics.";
+
+ document.getElementById("chat").textContent="You: "+q+"\n\nIntelliMind AI: "+answer;
+
+ let h=JSON.parse(localStorage.getItem("imHistory")||"[]");
+ h.push("Q: "+q+" | A: "+answer);
+ localStorage.setItem("imHistory",JSON.stringify(h));
+ showHistory();
+ document.getElementById("question").value="";
 }
 
-
-// =====================================
-// 6. CHATBOT
-// =====================================
-
-function askAI() {
-
-    const input = document.getElementById("question");
-    const question = input.value.trim();
-
-    if (!question) {
-        return;
-    }
-
-    addMessage(question, "user");
-
-    const answer = getAnswer(question);
-
-    addMessage(answer, "bot");
-
-    saveHistory(question, answer);
-
-    input.value = "";
+function clearChat(){
+ document.getElementById("chat").textContent="Chat cleared.";
 }
 
-function getAnswer(question) {
+// CHAT HISTORY
 
-    const q = question.toLowerCase();
-
-    if (q.includes("hello") || q.includes("hi")) {
-        return "Hello! Welcome to IntelliMind AI. How can I help you learn today?";
-    }
-
-    if (q.includes("python")) {
-        return "Python is a high-level programming language. It is used in web development, automation, data science and artificial intelligence.";
-    }
-
-    if (q.includes("engineering") || q.includes("ece")) {
-        return "Engineering applies science and mathematics to solve practical problems. ECE includes electronics, communication systems, embedded systems and VLSI.";
-    }
-
-    if (q.includes("upsc")) {
-        return "UPSC Civil Services is a competitive examination in India. Its stages include Preliminary Examination, Main Examination and Interview.";
-    }
-
-    if (q.includes("tnpsc")) {
-        return "TNPSC conducts recruitment examinations for various Tamil Nadu government posts. Always check the official TNPSC notification for current details.";
-    }
-
-    if (q.includes("math")) {
-        return "Mathematics includes arithmetic, algebra, geometry, trigonometry, calculus and statistics.";
-    }
-
-    if (q.includes("kabaddi")) {
-        return "Kabaddi is a team sport. Players raid the opposing team's half and score points according to the rules.";
-    }
-
-    if (q.includes("country")) {
-        return "Use the World Countries Explorer to select a country and explore its information.";
-    }
-
-    if (q.includes("medical") || q.includes("mbbs")) {
-        return "MBBS subjects include Anatomy, Physiology, Biochemistry, Pathology, Pharmacology and clinical subjects.";
-    }
-
-    if (q.includes("law")) {
-        return "Laws differ between countries. Always refer to official legal sources.";
-    }
-
-    if (q.includes("job") || q.includes("career")) {
-        return "Career options include software development, engineering, healthcare, teaching, finance and design.";
-    }
-
-    if (q.includes("company")) {
-        return "Companies operate in technology, healthcare, finance, energy and many other sectors.";
-    }
-
-    if (q.includes("richest")) {
-        return "Wealth rankings change over time. Current rankings need reliable, dated sources.";
-    }
-
-    return "I can help with Education, Medical, Engineering, Government Exams, Private Jobs, Languages, Sports, Laws, Politics, Countries, Travel, Transport and Science. Ask a specific question.";
+function showHistory(){
+ let h=JSON.parse(localStorage.getItem("imHistory")||"[]");
+ document.getElementById("history").textContent=
+ h.length ? h.slice().reverse().join("\n\n") : "No history yet.";
 }
 
-function addMessage(message, type) {
-    const chatBox = document.getElementById("chatBox");
-    const div = document.createElement("div");
-
-    div.className = "message " + type;
-    div.textContent =
-        (type === "user" ? "You: " : "IntelliMind AI: ") + message;
-
-    chatBox.appendChild(div);
-    chatBox.scrollTop = chatBox.scrollHeight;
+function clearHistory(){
+ localStorage.removeItem("imHistory");
+ showHistory();
 }
 
-function clearChat() {
-    document.getElementById("chatBox").innerHTML =
-        '<div class="message bot">Chat cleared. Ask a new question!</div>';
+// CALCULATOR
+
+function calculate(){
+ let a=document.getElementById("a").value;
+ let b=document.getElementById("b").value;
+ let op=document.getElementById("operation").value;
+
+ if(a===""||b===""){
+  document.getElementById("answer").textContent="Enter both numbers.";
+  return;
+ }
+
+ a=Number(a);
+ b=Number(b);
+
+ let r;
+ if(op==="add") r=a+b;
+ if(op==="sub") r=a-b;
+ if(op==="mul") r=a*b;
+ if(op==="div") r=b===0?"Cannot divide by zero":a/b;
+
+ document.getElementById("answer").textContent="Result: "+r;
 }
 
-function saveHistory(question, answer) {
-    let history = JSON.parse(
-        localStorage.getItem("intellimindHistory") || "[]"
-    );
+// START
 
-    history.push({
-        question: question,
-        answer: answer,
-        date: new Date().toLocaleString()
-    });
-
-    localStorage.setItem(
-        "intellimindHistory",
-        JSON.stringify(history)
-    );
-
-    showHistory();
-}
-
-function showHistory() {
-    const history = JSON.parse(
-        localStorage.getItem("intellimindHistory") || "[]"
-    );
-
-    const box = document.getElementById("history");
-    box.innerHTML = "";
-
-    if (history.length === 0) {
-        box.textContent = "No saved history yet.";
-        return;
-    }
-
-    history.slice().reverse().forEach(function(item) {
-        const div = document.createElement("div");
-        div.className = "message";
-
-        const question = document.createElement("p");
-        question.textContent = "Question: " + item.question;
-
-        const answer = document.createElement("p");
-        answer.textContent = "Answer: " + item.answer;
-
-        const date = document.createElement("small");
-        date.textContent = item.date;
-
-        div.appendChild(question);
-        div.appendChild(answer);
-        div.appendChild(date);
-        box.appendChild(div);
-    });
-}
-
-function clearHistory() {
-    localStorage.removeItem("intellimindHistory");
-    showHistory();
-}
-
-function calculate() {
-    const first = document.getElementById("number1").value;
-    const second = document.getElementById("number2").value;
-    const operation = document.getElementById("operation").value;
-    const result = document.getElementById("calcResult");
-
-    if (first === "" || second === "") {
-        result.textContent = "Please enter both numbers.";
-        return;
-    }
-
-    const a = Number(first);
-    const b = Number(second);
-    let answer;
-
-    if (operation === "add") {
-        answer = a + b;
-    } else if (operation === "subtract") {
-        answer = a - b;
-    } else if (operation === "multiply") {
-        answer = a * b;
-    } else {
-        if (b === 0) {
-            result.textContent = "Cannot divide by zero.";
-            return;
-        }
-        answer = a / b;
-    }
-
-    result.textContent = "Result: " + answer;
-}
-
-function escapeHTML(value) {
-    return String(value).replace(/[&<>"']/g, function(character) {
-        const entities = {
-            "&": "&amp;",
-            "<": "&lt;",
-            ">": "&gt;",
-            '"': "&quot;",
-            "'": "&#39;"
-        };
-
-        return entities[character];
-    });
-}
-
-// Start the website
-createCategories();
-populateCountries(countries);
 showHistory();
 
 </script>
 </body>
 </html>
-

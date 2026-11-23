@@ -3,84 +3,97 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>IntelliMind AI - Global Edition</title>
 
 <style>
 * {
   box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
 
 body {
-  margin: 0;
   font-family: Arial, sans-serif;
   background: #f5f7fb;
   color: #202124;
 }
 
 header {
+  background: white;
+  padding: 18px;
+  border-bottom: 1px solid #ddd;
   position: sticky;
   top: 0;
-  z-index: 5;
-  background: white;
-  padding: 16px;
-  border-bottom: 1px solid #ddd;
+  z-index: 10;
 }
 
-.logo {
+.header-title {
   color: #2457d6;
   font-size: 23px;
   font-weight: bold;
 }
 
 header p {
-  font-size: 12px;
   color: #777;
-  margin: 5px 0 0;
+  font-size: 12px;
+  margin-top: 5px;
 }
 
 .container {
-  max-width: 1050px;
+  max-width: 1100px;
   margin: auto;
   padding: 12px;
 }
 
 .card {
   background: white;
-  border: 1px solid #e5e7eb;
-  border-radius: 12px;
-  padding: 15px;
+  padding: 16px;
+  border-radius: 13px;
   margin-bottom: 14px;
+  border: 1px solid #e5e7eb;
 }
 
 h2 {
   font-size: 19px;
-  margin: 0 0 13px;
+  margin-bottom: 13px;
 }
 
 h3 {
   font-size: 16px;
+  margin-bottom: 8px;
 }
 
 p {
   line-height: 1.5;
 }
 
-label {
-  display: block;
-  font-size: 13px;
-  margin-top: 8px;
+button, input, select, textarea {
+  font-family: Arial, sans-serif;
+  font-size: 14px;
+}
+
+button {
+  background: #2457d6;
+  color: white;
+  border: none;
+  padding: 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  margin: 4px 0;
+}
+
+button:active {
+  opacity: 0.8;
 }
 
 input, select, textarea {
-  display: block;
   width: 100%;
   padding: 12px;
-  margin: 7px 0 12px;
   border: 1px solid #ccd1dc;
   border-radius: 8px;
+  margin: 7px 0 13px;
   background: white;
-  font-size: 14px;
 }
 
 textarea {
@@ -88,36 +101,24 @@ textarea {
   resize: vertical;
 }
 
-button {
-  border: 0;
-  background: #2457d6;
-  color: white;
-  border-radius: 8px;
-  padding: 12px;
-  margin: 4px 0;
-  font-size: 13px;
-  cursor: pointer;
-}
-
-button:active {
-  opacity: .8;
-}
-
-.category-grid {
+.grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 9px;
+  gap: 10px;
+  width: 100%;
 }
 
 .category-button {
   display: block;
   width: 100%;
-  min-height: 58px;
+  min-height: 62px;
   margin: 0;
-  padding: 10px 6px;
-  color: #2457d6;
+  padding: 10px 7px;
   background: #eef3ff;
+  color: #2457d6;
   border: 1px solid #cbd8ff;
+  border-radius: 10px;
+  font-size: 13px;
   font-weight: bold;
   overflow-wrap: anywhere;
 }
@@ -134,32 +135,26 @@ button:active {
 
 .danger {
   background: #dc3545;
-  color: white;
 }
 
 .chat-box {
-  height: 280px;
+  height: 300px;
   overflow-y: auto;
-  padding: 12px;
   background: #f8f9fc;
+  padding: 12px;
   border: 1px solid #e1e4eb;
   border-radius: 10px;
   margin-bottom: 12px;
 }
 
 .message {
-  max-width: 95%;
   padding: 11px;
-  margin-bottom: 10px;
   border-radius: 10px;
+  margin-bottom: 10px;
   line-height: 1.5;
   white-space: pre-wrap;
   overflow-wrap: anywhere;
-}
-
-.bot {
-  background: white;
-  border: 1px solid #ddd;
+  max-width: 95%;
 }
 
 .user {
@@ -167,28 +162,33 @@ button:active {
   margin-left: auto;
 }
 
+.bot {
+  background: white;
+  border: 1px solid #e1e4eb;
+}
+
 .result {
-  background: #f1f5ff;
-  padding: 12px;
-  border-radius: 8px;
+  background: #f2f5ff;
+  padding: 13px;
+  border-radius: 9px;
   line-height: 1.7;
   overflow-wrap: anywhere;
 }
 
 .small {
-  color: #777;
   font-size: 12px;
+  color: #777;
 }
 
 footer {
   text-align: center;
-  padding: 20px;
   color: #777;
   font-size: 12px;
+  padding: 20px;
 }
 
 @media (min-width: 700px) {
-  .category-grid {
+  .grid {
     grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 }
@@ -198,89 +198,35 @@ footer {
 <body>
 
 <header>
-  <div class="logo">🌍 IntelliMind AI</div>
+  <div class="header-title">🌍 IntelliMind AI</div>
   <p>Global Learning & Knowledge Platform</p>
 </header>
 
-<main class="container">
+<div class="container">
 
 <!-- HOME -->
 
-<section class="card">
+<div class="card">
   <h2>Welcome to IntelliMind AI</h2>
   <p>Learn subjects, prepare for exams, explore careers and discover world knowledge in one platform.</p>
   <p class="small">Global Edition | Learning Chatbot Prototype</p>
-</section>
+</div>
 
-<!-- CATEGORY BUTTONS: HTML-ல் நேரடியாக உள்ளன -->
+<!-- CATEGORIES -->
 
-<section class="card">
+<div class="card">
   <h2>📚 All Categories</h2>
+  <div id="categoryButtons" class="grid"></div>
+</div>
 
-  <div class="category-grid" id="categoryButtons">
+<!-- TOPICS -->
 
-    <button class="category-button" data-category="Education">🎓 Education</button>
-
-    <button class="category-button" data-category="Medical and Healthcare">🏥 Medical and Healthcare</button>
-
-    <button class="category-button" data-category="Engineering">⚙️ Engineering</button>
-
-    <button class="category-button" data-category="Government Exams">🏛️ Government Exams</button>
-
-    <button class="category-button" data-category="Private Jobs and Careers">💼 Private Jobs and Careers</button>
-
-    <button class="category-button" data-category="World Languages">🌐 World Languages</button>
-
-    <button class="category-button" data-category="Sports Rules">🏅 Sports Rules</button>
-
-    <button class="category-button" data-category="World Laws">⚖️ World Laws</button>
-
-    <button class="category-button" data-category="World Politics">🌍 World Politics</button>
-
-    <button class="category-button" data-category="History and Geography">🗺️ History and Geography</button>
-
-    <button class="category-button" data-category="Science and Technology">🔬 Science and Technology</button>
-
-    <button class="category-button" data-category="General Knowledge">📚 General Knowledge</button>
-
-    <button class="category-button" data-category="Global Travel">✈️ Global Travel</button>
-
-    <button class="category-button" data-category="Global Transport and Vehicles">🚆 Global Transport and Vehicles</button>
-
-    <button class="category-button" data-category="World Richest People">💰 World Richest People</button>
-
-    <button class="category-button" data-category="World Top Companies">🏢 World Top Companies</button>
-
-    <button class="category-button" data-category="World Countries">🌎 World Countries</button>
-
-  </div>
-</section>
-
-<!-- TOPIC SELECTION -->
-
-<section class="card">
+<div class="card">
   <h2>📖 Select Department & Topic</h2>
 
   <label>Department / Category</label>
   <select id="department">
     <option value="">Select Category</option>
-    <option>Education</option>
-    <option>Medical and Healthcare</option>
-    <option>Engineering</option>
-    <option>Government Exams</option>
-    <option>Private Jobs and Careers</option>
-    <option>World Languages</option>
-    <option>Sports Rules</option>
-    <option>World Laws</option>
-    <option>World Politics</option>
-    <option>History and Geography</option>
-    <option>Science and Technology</option>
-    <option>General Knowledge</option>
-    <option>Global Travel</option>
-    <option>Global Transport and Vehicles</option>
-    <option>World Richest People</option>
-    <option>World Top Companies</option>
-    <option>World Countries</option>
   </select>
 
   <label>Choose Topic</label>
@@ -288,32 +234,33 @@ footer {
     <option value="">Select Topic</option>
   </select>
 
-  <button id="studyButton">Study Selected Topic</button>
-</section>
+  <button onclick="useTopic()">Study Selected Topic</button>
+</div>
 
-<!-- COUNTRY EXPLORER -->
+<!-- COUNTRIES -->
 
-<section class="card">
+<div class="card">
   <h2>🌍 World Countries Explorer</h2>
 
-  <input id="countrySearch" placeholder="Search country...">
+  <input id="countrySearch" placeholder="Search country..."
+    oninput="filterCountries()">
 
   <label>Select Country</label>
-  <select id="countrySelect">
+  <select id="countrySelect" onchange="showCountry()">
     <option value="">Choose a country</option>
   </select>
 
   <div id="countryDetails" class="result">
     Select a country to explore.
   </div>
-</section>
+</div>
 
-<!-- CHATBOT -->
+<!-- CHAT -->
 
-<section class="card">
+<div class="card">
   <h2>🤖 Ask IntelliMind</h2>
 
-  <div class="chat-box" id="chatBox">
+  <div id="chatBox" class="chat-box">
     <div class="message bot">
       Hello! Welcome to IntelliMind AI.
 
@@ -324,81 +271,66 @@ footer {
   <label>Choose Category</label>
   <select id="chatCategory">
     <option value="">General Knowledge</option>
-    <option>Education</option>
-    <option>Medical and Healthcare</option>
-    <option>Engineering</option>
-    <option>Government Exams</option>
-    <option>Private Jobs and Careers</option>
-    <option>World Languages</option>
-    <option>Sports Rules</option>
-    <option>World Laws</option>
-    <option>World Politics</option>
-    <option>History and Geography</option>
-    <option>Science and Technology</option>
-    <option>Global Travel</option>
-    <option>Global Transport and Vehicles</option>
-    <option>World Richest People</option>
-    <option>World Top Companies</option>
-    <option>World Countries</option>
   </select>
 
-  <textarea id="question" placeholder="Type your question here..."></textarea>
+  <textarea id="question"
+    placeholder="Type your question here..."></textarea>
 
-  <button id="askButton">Ask Question</button>
-  <button class="secondary" id="clearInputButton">Clear</button>
-</section>
+  <button onclick="askAI()">Ask Question</button>
+  <button class="secondary" onclick="clearInput()">Clear</button>
+</div>
 
 <!-- CALCULATOR -->
 
-<section class="card">
+<div class="card">
   <h2>🧮 Calculator</h2>
 
   <input type="number" id="num1" placeholder="First number">
   <input type="number" id="num2" placeholder="Second number">
 
-  <div class="category-grid">
-    <button id="addButton">Add +</button>
-    <button id="subtractButton">Subtract -</button>
-    <button id="multiplyButton">Multiply ×</button>
-    <button id="divideButton">Divide ÷</button>
+  <div class="grid">
+    <button onclick="calculate('+')">Add +</button>
+    <button onclick="calculate('-')">Subtract -</button>
+    <button onclick="calculate('*')">Multiply ×</button>
+    <button onclick="calculate('/')">Divide ÷</button>
   </div>
 
   <div id="calcResult" class="result">
     Result will appear here.
   </div>
-</section>
+</div>
 
 <!-- HISTORY -->
 
-<section class="card">
+<div class="card">
   <h2>🕘 Chat History</h2>
 
-  <button id="historyButton">View History</button>
-  <button class="danger" id="deleteHistoryButton">Clear History</button>
+  <button onclick="showHistory()">View History</button>
+  <button class="danger" onclick="clearHistory()">Clear History</button>
 
   <div id="historyBox" class="result">
     No history opened.
   </div>
-</section>
+</div>
 
 <!-- ABOUT -->
 
-<section class="card">
+<div class="card">
   <h2>ℹ️ About IntelliMind AI</h2>
-
   <p>
     IntelliMind AI is a global learning platform prototype
     designed to help students explore education, careers,
     exams, languages, sports, countries, science and technology.
   </p>
-
+  <br>
   <p class="small">
-    Current leaders, rankings, laws and travel requirements
-    must be checked using reliable and up-to-date sources.
+    Information about current leaders, rankings, laws and
+    travel requirements must be verified using reliable,
+    up-to-date sources.
   </p>
-</section>
+</div>
 
-</main>
+</div>
 
 <footer>
   IntelliMind AI © 2026 | Global Learning Platform
@@ -406,218 +338,436 @@ footer {
 
 <script>
 
-// ========================================
-// 1. TOPICS DATABASE
-// ========================================
+// ==================================
+// 1. CATEGORY AND TOPIC DATABASE
+// ==================================
 
 const topicsData = {
 
 "Education": [
-"School Education", "Higher Education", "MBBS", "BDS",
-"Nursing", "Pharmacy", "Physiotherapy",
-"Medical Laboratory Technology", "Biotechnology",
-"Engineering", "Computer Science Engineering",
+"School Education",
+"Higher Education",
+"MBBS",
+"BDS",
+"Nursing",
+"Pharmacy",
+"Physiotherapy",
+"Medical Laboratory Technology",
+"Biotechnology",
+"Engineering",
+"Computer Science Engineering",
 "Electronics and Communication Engineering",
-"Electrical Engineering", "Mechanical Engineering",
-"Civil Engineering", "Artificial Intelligence",
-"Data Science", "Information Technology", "Agriculture",
-"Arts", "Science", "Commerce", "Business Administration",
-"Law", "Architecture", "Design", "Hotel Management",
-"Psychology", "Teaching"
+"Electrical Engineering",
+"Mechanical Engineering",
+"Civil Engineering",
+"Artificial Intelligence",
+"Data Science",
+"Information Technology",
+"Agriculture",
+"Arts",
+"Science",
+"Commerce",
+"Business Administration",
+"Law",
+"Architecture",
+"Design",
+"Hotel Management",
+"Psychology",
+"Teaching"
 ],
 
 "Medical and Healthcare": [
-"Anatomy", "Physiology", "Biochemistry", "Pathology",
-"Microbiology", "Pharmacology", "Forensic Medicine",
-"Community Medicine", "General Medicine", "General Surgery",
-"Pediatrics", "Orthopedics", "Ophthalmology", "ENT",
-"Dermatology", "Psychiatry", "Obstetrics and Gynecology",
-"Radiology", "Dentistry", "Oral Surgery",
-"Dental Anatomy", "Nursing Fundamentals", "Medical Ethics"
+"Anatomy",
+"Physiology",
+"Biochemistry",
+"Pathology",
+"Microbiology",
+"Pharmacology",
+"Forensic Medicine",
+"Community Medicine",
+"General Medicine",
+"General Surgery",
+"Pediatrics",
+"Orthopedics",
+"Ophthalmology",
+"ENT",
+"Dermatology",
+"Psychiatry",
+"Obstetrics and Gynecology",
+"Radiology",
+"Dentistry",
+"Oral Surgery",
+"Dental Anatomy",
+"Nursing Fundamentals",
+"Medical Ethics"
 ],
 
 "Engineering": [
-"Computer Science", "Electronics and Communication",
-"Electrical and Electronics", "Mechanical", "Civil",
-"Information Technology", "Artificial Intelligence",
-"Machine Learning", "Data Science", "Biomedical Engineering",
-"Chemical Engineering", "Aerospace Engineering",
-"Automobile Engineering", "Mechatronics", "Robotics",
-"VLSI Design", "Embedded Systems", "Internet of Things",
-"Cyber Security", "Programming", "Python", "Java",
-"C Programming", "Digital Electronics", "Communication Systems"
+"Computer Science",
+"Electronics and Communication",
+"Electrical and Electronics",
+"Mechanical",
+"Civil",
+"Information Technology",
+"Artificial Intelligence",
+"Machine Learning",
+"Data Science",
+"Biomedical Engineering",
+"Chemical Engineering",
+"Aerospace Engineering",
+"Automobile Engineering",
+"Mechatronics",
+"Robotics",
+"VLSI Design",
+"Embedded Systems",
+"Internet of Things",
+"Cyber Security",
+"Programming",
+"Python",
+"Java",
+"C Programming",
+"Digital Electronics",
+"Communication Systems"
 ],
 
 "Government Exams": [
-"UPSC Civil Services", "IAS", "IPS", "IFS",
-"TNPSC Group 1", "TNPSC Group 2", "TNPSC Group 4",
-"SSC CGL", "SSC CHSL", "Banking Exams", "IBPS PO",
-"SBI PO", "Railway Exams", "RRB NTPC", "RRB Group D",
-"Defence Exams", "NDA", "CDS", "Teaching Exams",
-"CTET", "State Government Exams", "Police Recruitment"
+"UPSC Civil Services",
+"IAS",
+"IPS",
+"IFS",
+"TNPSC Group 1",
+"TNPSC Group 2",
+"TNPSC Group 4",
+"SSC CGL",
+"SSC CHSL",
+"Banking Exams",
+"IBPS PO",
+"SBI PO",
+"Railway Exams",
+"RRB NTPC",
+"RRB Group D",
+"Defence Exams",
+"NDA",
+"CDS",
+"Teaching Exams",
+"CTET",
+"State Government Exams",
+"Police Recruitment"
 ],
 
 "Private Jobs and Careers": [
-"Software Developer", "Web Developer", "App Developer",
-"Data Analyst", "Data Scientist", "AI Engineer",
-"Cyber Security Analyst", "Network Engineer", "VLSI Engineer",
-"Embedded Engineer", "Mechanical Engineer", "Civil Engineer",
-"Electrical Engineer", "Doctor", "Dentist", "Nurse",
-"Pharmacist", "Teacher", "Accountant", "Banking Careers",
-"Business Analyst", "Digital Marketing", "Graphic Designer",
-"UI UX Designer", "Human Resources", "Entrepreneurship"
+"Software Developer",
+"Web Developer",
+"App Developer",
+"Data Analyst",
+"Data Scientist",
+"AI Engineer",
+"Cyber Security Analyst",
+"Network Engineer",
+"VLSI Engineer",
+"Embedded Engineer",
+"Mechanical Engineer",
+"Civil Engineer",
+"Electrical Engineer",
+"Doctor",
+"Dentist",
+"Nurse",
+"Pharmacist",
+"Teacher",
+"Accountant",
+"Banking Careers",
+"Business Analyst",
+"Digital Marketing",
+"Graphic Designer",
+"UI UX Designer",
+"Human Resources",
+"Entrepreneurship"
 ],
 
 "World Languages": [
-"English", "Tamil", "Hindi", "Malayalam", "Telugu",
-"Kannada", "Bengali", "Marathi", "Gujarati", "Punjabi",
-"Arabic", "Chinese", "Japanese", "Korean", "French",
-"German", "Spanish", "Portuguese", "Russian", "Italian",
-"Grammar", "Vocabulary", "Speaking Practice",
-"Writing Practice", "Translation"
+"English",
+"Tamil",
+"Hindi",
+"Malayalam",
+"Telugu",
+"Kannada",
+"Bengali",
+"Marathi",
+"Gujarati",
+"Punjabi",
+"Arabic",
+"Chinese",
+"Japanese",
+"Korean",
+"French",
+"German",
+"Spanish",
+"Portuguese",
+"Russian",
+"Italian",
+"Grammar",
+"Vocabulary",
+"Speaking Practice",
+"Writing Practice",
+"Translation"
 ],
 
 "Sports Rules": [
-"Cricket", "Football", "Kabaddi", "Hockey", "Basketball",
-"Volleyball", "Tennis", "Badminton", "Chess", "Athletics",
-"Swimming", "Boxing", "Wrestling", "Table Tennis", "Rugby",
-"Olympic Sports", "Paralympic Sports", "Sports Scoring",
+"Cricket",
+"Football",
+"Kabaddi",
+"Hockey",
+"Basketball",
+"Volleyball",
+"Tennis",
+"Badminton",
+"Chess",
+"Athletics",
+"Swimming",
+"Boxing",
+"Wrestling",
+"Table Tennis",
+"Rugby",
+"Olympic Sports",
+"Paralympic Sports",
+"Sports Scoring",
 "Sports Regulations"
 ],
 
 "World Laws": [
-"Indian Constitution", "Fundamental Rights",
-"Fundamental Duties", "Indian Parliament", "Criminal Law",
-"Civil Law", "Constitutional Law", "International Law",
-"Human Rights", "Consumer Rights", "Cyber Law",
-"Traffic Rules", "Environmental Law", "Labour Law",
-"Family Law", "Business Law", "Legal Systems Around the World"
+"Indian Constitution",
+"Fundamental Rights",
+"Fundamental Duties",
+"Indian Parliament",
+"Criminal Law",
+"Civil Law",
+"Constitutional Law",
+"International Law",
+"Human Rights",
+"Consumer Rights",
+"Cyber Law",
+"Traffic Rules",
+"Environmental Law",
+"Labour Law",
+"Family Law",
+"Business Law",
+"Legal Systems Around the World"
 ],
 
 "World Politics": [
-"Democracy", "Republic", "Monarchy", "Presidential System",
-"Parliamentary System", "World Governments",
-"World Presidents", "World Prime Ministers",
-"Indian Prime Minister", "Indian President",
-"Indian Chief Ministers", "Indian Parliament", "Elections",
-"Political Parties", "United Nations", "International Relations",
-"Federal Government", "State Government"
+"Democracy",
+"Republic",
+"Monarchy",
+"Presidential System",
+"Parliamentary System",
+"World Governments",
+"World Presidents",
+"World Prime Ministers",
+"Indian Prime Minister",
+"Indian President",
+"Indian Chief Ministers",
+"Indian Parliament",
+"Elections",
+"Political Parties",
+"United Nations",
+"International Relations",
+"Federal Government",
+"State Government"
 ],
 
 "History and Geography": [
-"World History", "Indian History", "Tamil History",
-"Ancient History", "Medieval History", "Modern History",
-"World Geography", "Indian Geography", "Continents",
-"Oceans", "Mountains", "Rivers", "Deserts", "Climate",
-"Natural Wonders", "World Heritage Sites"
+"World History",
+"Indian History",
+"Tamil History",
+"Ancient History",
+"Medieval History",
+"Modern History",
+"World Geography",
+"Indian Geography",
+"Continents",
+"Oceans",
+"Mountains",
+"Rivers",
+"Deserts",
+"Climate",
+"Natural Wonders",
+"World Heritage Sites"
 ],
 
 "Science and Technology": [
-"Physics", "Chemistry", "Biology", "Mathematics",
-"Computer Science", "Space Science", "Astronomy",
-"Robotics", "Artificial Intelligence", "Nanotechnology",
-"Electronics", "Renewable Energy", "Environmental Science",
-"Genetics", "Internet Technology"
+"Physics",
+"Chemistry",
+"Biology",
+"Mathematics",
+"Computer Science",
+"Space Science",
+"Astronomy",
+"Robotics",
+"Artificial Intelligence",
+"Nanotechnology",
+"Electronics",
+"Renewable Energy",
+"Environmental Science",
+"Genetics",
+"Internet Technology"
 ],
 
 "General Knowledge": [
-"World GK", "Indian GK", "Tamil Nadu GK", "Current Affairs",
-"World Organisations", "Famous Personalities", "Inventions",
-"Discoveries", "Awards", "Books and Authors",
-"Important Days", "World Records"
+"World GK",
+"Indian GK",
+"Tamil Nadu GK",
+"Current Affairs",
+"World Organisations",
+"Famous Personalities",
+"Inventions",
+"Discoveries",
+"Awards",
+"Books and Authors",
+"Important Days",
+"World Records"
 ],
 
 "Global Travel": [
-"Tourist Destinations", "Beautiful Countries", "Safest Countries",
-"World Heritage Sites", "Passport Information", "Visa Information",
-"Air Travel", "Train Travel", "Hotels", "Travel Planning",
-"Travel Budget", "Travel Safety", "World Tourism"
+"Tourist Destinations",
+"Beautiful Countries",
+"Safest Countries",
+"World Heritage Sites",
+"Passport Information",
+"Visa Information",
+"Air Travel",
+"Train Travel",
+"Hotels",
+"Travel Planning",
+"Travel Budget",
+"Travel Safety",
+"World Tourism"
 ],
 
 "Global Transport and Vehicles": [
-"Airplanes", "Helicopters", "Private Jets", "Passenger Trains",
-"Metro Trains", "Bullet Trains", "Cars", "Electric Vehicles",
-"Buses", "Trucks", "Motorcycles", "Scooters", "Boats",
-"Ships", "Cruise Ships", "Submarines", "Tractors",
-"Construction Vehicles", "Emergency Vehicles", "Vehicle Engines",
-"Vehicle Safety", "Traffic Rules"
+"Airplanes",
+"Helicopters",
+"Private Jets",
+"Passenger Trains",
+"Metro Trains",
+"Bullet Trains",
+"Cars",
+"Electric Vehicles",
+"Buses",
+"Trucks",
+"Motorcycles",
+"Scooters",
+"Boats",
+"Ships",
+"Cruise Ships",
+"Submarines",
+"Tractors",
+"Construction Vehicles",
+"Emergency Vehicles",
+"Vehicle Engines",
+"Vehicle Safety",
+"Traffic Rules"
 ],
 
 "World Richest People": [
-"World Billionaires", "Richest People Rankings",
-"Business Leaders", "Entrepreneurs", "Technology Founders",
-"Net Worth", "How Wealth is Measured"
+"World Billionaires",
+"Richest People Rankings",
+"Business Leaders",
+"Entrepreneurs",
+"Technology Founders",
+"Net Worth",
+"How Wealth is Measured"
 ],
 
 "World Top Companies": [
-"Technology Companies", "Automobile Companies",
-"Healthcare Companies", "Banking Companies", "Energy Companies",
-"Aviation Companies", "Telecommunication Companies",
-"E-commerce Companies", "Indian Companies", "Global Companies",
-"Company Market Capitalisation", "Company Revenue"
+"Technology Companies",
+"Automobile Companies",
+"Healthcare Companies",
+"Banking Companies",
+"Energy Companies",
+"Aviation Companies",
+"Telecommunication Companies",
+"E-commerce Companies",
+"Indian Companies",
+"Global Companies",
+"Company Market Capitalisation",
+"Company Revenue"
 ],
 
 "World Countries": [
-"All Countries", "Richest Countries", "Beautiful Countries",
-"Safest Countries", "Largest Countries", "Smallest Countries",
-"Most Developed Countries", "Country Capitals", "Currencies",
-"Languages", "Population", "Geography", "Economy",
-"Education", "Culture", "Tourist Places", "Government Systems"
+"All Countries",
+"Richest Countries",
+"Beautiful Countries",
+"Safest Countries",
+"Largest Countries",
+"Smallest Countries",
+"Most Developed Countries",
+"Country Capitals",
+"Currencies",
+"Languages",
+"Population",
+"Geography",
+"Economy",
+"Education",
+"Culture",
+"Tourist Places",
+"Government Systems"
 ]
 
 };
 
 
-// ========================================
-// 2. COUNTRY LIST
-// ========================================
+// ==================================
+// 2. WORLD COUNTRY LIST
+// ==================================
 
 const countries = [
 "Afghanistan","Albania","Algeria","Andorra","Angola",
 "Antigua and Barbuda","Argentina","Armenia","Australia","Austria",
 "Azerbaijan","Bahamas","Bahrain","Bangladesh","Barbados",
-"Belarus","Belgium","Belize","Benin","Bhutan","Bolivia",
-"Bosnia and Herzegovina","Botswana","Brazil","Brunei","Bulgaria",
-"Burkina Faso","Burundi","Cabo Verde","Cambodia","Cameroon",
-"Canada","Central African Republic","Chad","Chile","China",
-"Colombia","Comoros","Congo","Costa Rica","Côte d’Ivoire",
-"Croatia","Cuba","Cyprus","Czechia",
-"Democratic Republic of the Congo","Denmark","Djibouti",
-"Dominica","Dominican Republic","Ecuador","Egypt","El Salvador",
+"Belarus","Belgium","Belize","Benin","Bhutan",
+"Bolivia","Bosnia and Herzegovina","Botswana","Brazil","Brunei",
+"Bulgaria","Burkina Faso","Burundi","Cabo Verde","Cambodia",
+"Cameroon","Canada","Central African Republic","Chad","Chile",
+"China","Colombia","Comoros","Congo","Costa Rica",
+"Côte d’Ivoire","Croatia","Cuba","Cyprus","Czechia",
+"Democratic Republic of the Congo","Denmark","Djibouti","Dominica",
+"Dominican Republic","Ecuador","Egypt","El Salvador",
 "Equatorial Guinea","Eritrea","Estonia","Eswatini","Ethiopia",
-"Fiji","Finland","France","Gabon","Gambia","Georgia","Germany",
-"Ghana","Greece","Grenada","Guatemala","Guinea","Guinea-Bissau",
-"Guyana","Haiti","Holy See","Honduras","Hungary","Iceland",
-"India","Indonesia","Iran","Iraq","Ireland","Israel","Italy",
-"Jamaica","Japan","Jordan","Kazakhstan","Kenya","Kiribati",
-"Kuwait","Kyrgyzstan","Laos","Latvia","Lebanon","Lesotho",
-"Liberia","Libya","Liechtenstein","Lithuania","Luxembourg",
-"Madagascar","Malawi","Malaysia","Maldives","Mali","Malta",
-"Marshall Islands","Mauritania","Mauritius","Mexico","Micronesia",
-"Moldova","Monaco","Mongolia","Montenegro","Morocco",
-"Mozambique","Myanmar","Namibia","Nauru","Nepal","Netherlands",
+"Fiji","Finland","France","Gabon","Gambia",
+"Georgia","Germany","Ghana","Greece","Grenada",
+"Guatemala","Guinea","Guinea-Bissau","Guyana","Haiti",
+"Holy See","Honduras","Hungary","Iceland","India",
+"Indonesia","Iran","Iraq","Ireland","Israel",
+"Italy","Jamaica","Japan","Jordan","Kazakhstan",
+"Kenya","Kiribati","Kuwait","Kyrgyzstan","Laos",
+"Latvia","Lebanon","Lesotho","Liberia","Libya",
+"Liechtenstein","Lithuania","Luxembourg","Madagascar","Malawi",
+"Malaysia","Maldives","Mali","Malta","Marshall Islands",
+"Mauritania","Mauritius","Mexico","Micronesia","Moldova",
+"Monaco","Mongolia","Montenegro","Morocco","Mozambique",
+"Myanmar","Namibia","Nauru","Nepal","Netherlands",
 "New Zealand","Nicaragua","Niger","Nigeria","North Korea",
-"North Macedonia","Norway","Oman","Pakistan","Palau","Palestine",
-"Panama","Papua New Guinea","Paraguay","Peru","Philippines",
-"Poland","Portugal","Qatar","Romania","Russia","Rwanda",
-"Saint Kitts and Nevis","Saint Lucia",
+"North Macedonia","Norway","Oman","Pakistan","Palau",
+"Palestine","Panama","Papua New Guinea","Paraguay","Peru",
+"Philippines","Poland","Portugal","Qatar","Romania",
+"Russia","Rwanda","Saint Kitts and Nevis","Saint Lucia",
 "Saint Vincent and the Grenadines","Samoa","San Marino",
 "Sao Tome and Principe","Saudi Arabia","Senegal","Serbia",
 "Seychelles","Sierra Leone","Singapore","Slovakia","Slovenia",
 "Solomon Islands","Somalia","South Africa","South Korea",
-"South Sudan","Spain","Sri Lanka","Sudan","Suriname","Sweden",
-"Switzerland","Syria","Tajikistan","Tanzania","Thailand",
-"Timor-Leste","Togo","Tonga","Trinidad and Tobago","Tunisia",
-"Türkiye","Turkmenistan","Tuvalu","Uganda","Ukraine",
-"United Arab Emirates","United Kingdom","United States",
-"Uruguay","Uzbekistan","Vanuatu","Venezuela","Vietnam",
-"Yemen","Zambia","Zimbabwe"
+"South Sudan","Spain","Sri Lanka","Sudan","Suriname",
+"Sweden","Switzerland","Syria","Tajikistan","Tanzania",
+"Thailand","Timor-Leste","Togo","Tonga","Trinidad and Tobago",
+"Tunisia","Türkiye","Turkmenistan","Tuvalu","Uganda",
+"Ukraine","United Arab Emirates","United Kingdom",
+"United States","Uruguay","Uzbekistan","Vanuatu","Venezuela",
+"Vietnam","Yemen","Zambia","Zimbabwe"
 ];
 
 
-// ========================================
-// 3. SAMPLE COUNTRY INFORMATION
-// ========================================
+// ==================================
+// 3. SAMPLE COUNTRY DATA
+// ==================================
 
 const countryData = {
 
@@ -704,24 +854,175 @@ government: "Federal presidential republic"
 };
 
 
-// ========================================
-// 4. CATEGORY BUTTON ACTIONS
-// ========================================
-
-let selectedCategory = "";
+// ==================================
+// 4. LOAD ALL CATEGORY BUTTONS
+// ==================================
 
 const department = document.getElementById("department");
 const topic = document.getElementById("topic");
+const categoryButtons = document.getElementById("categoryButtons");
 const chatCategory = document.getElementById("chatCategory");
 
-function chooseCategory(category) {
+let selectedCategory = "";
+
+function loadCategories() {
+
+  department.innerHTML =
+    '<option value="">Select Category</option>';
+
+  categoryButtons.innerHTML = "";
+
+  chatCategory.innerHTML =
+    '<option value="">General Knowledge</option>';
+
+  Object.keys(topicsData).forEach(category => {
+
+    const option = document.createElement("option");
+    option.value = category;
+    option.textContent = category;
+    department.appendChild(option);
+
+    const chatOption = document.createElement("option");
+    chatOption.value = category;
+    chatOption.textContent = category;
+    chatCategory.appendChild(chatOption);
+
+    const button = document.createElement("button");
+
+    button.type = "button";
+    button.textContent = category;
+    button.className = "category-button";
+
+    button.addEventListener("click", function() {
+      choose(category);
+    });
+
+    categoryButtons.appendChild(button);
+
+  });
+
+}
+
+
+// ==================================
+// 5. SELECT CATEGORY
+// ==================================
+
+function choose(category) {
 
   selectedCategory = category;
-
   department.value = category;
   chatCategory.value = category;
 
   loadTopics();
 
   document.querySelectorAll(".category-button").forEach(button => {
-    button.classLi
+
+    button.classList.toggle(
+      "active",
+      button.textContent === category
+    );
+
+  });
+
+  addMessage(
+    "bot",
+    "Selected Category: " + category +
+    "\nChoose a topic and ask your question."
+  );
+
+}
+
+
+// ==================================
+// 6. LOAD TOPICS
+// ==================================
+
+function loadTopics() {
+
+  const category = department.value;
+
+  topic.innerHTML =
+    '<option value="">Select Topic</option>';
+
+  if (!category || !topicsData[category]) {
+    selectedCategory = "";
+    return;
+  }
+
+  selectedCategory = category;
+  chatCategory.value = category;
+
+  topicsData[category].forEach(item => {
+
+    const option = document.createElement("option");
+
+    option.value = item;
+    option.textContent = item;
+
+    topic.appendChild(option);
+
+  });
+
+}
+
+department.addEventListener("change", function() {
+
+  selectedCategory = department.value;
+
+  loadTopics();
+
+  document.querySelectorAll(".category-button").forEach(button => {
+
+    button.classList.toggle(
+      "active",
+      button.textContent === selectedCategory
+    );
+
+  });
+
+});
+
+
+// ==================================
+// 7. USE SELECTED TOPIC
+// ==================================
+
+function useTopic() {
+
+  const category = department.value;
+  const selectedTopic = topic.value;
+
+  if (!category || !selectedTopic) {
+    alert("Please select a category and topic.");
+    return;
+  }
+
+  chatCategory.value = category;
+
+  document.getElementById("question").value =
+    "Explain " + selectedTopic + " in simple words.";
+
+  addMessage(
+    "bot",
+    "You selected: " + selectedTopic +
+    "\nNow press Ask Question."
+  );
+
+}
+
+
+// ==================================
+// 8. LOAD COUNTRY DROPDOWN
+// ==================================
+
+const countrySelect = document.getElementById("countrySelect");
+
+function loadCountries(list) {
+
+  countrySelect.innerHTML =
+    '<option value="">Choose a country</option>';
+
+  list.forEach(country => {
+
+    const option = document.c

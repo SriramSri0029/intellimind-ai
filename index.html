@@ -868,4 +868,167 @@ function getAnswer(question) {
         return "TNPSC conducts recruitment examinations for various Tamil Nadu government posts. Always check the official TNPSC notification for current details.";
     }
 
-    if (q.in
+    if (q.includes("math")) {
+        return "Mathematics includes arithmetic, algebra, geometry, trigonometry, calculus and statistics.";
+    }
+
+    if (q.includes("kabaddi")) {
+        return "Kabaddi is a team sport. Players raid the opposing team's half and score points according to the rules.";
+    }
+
+    if (q.includes("country")) {
+        return "Use the World Countries Explorer to select a country and explore its information.";
+    }
+
+    if (q.includes("medical") || q.includes("mbbs")) {
+        return "MBBS subjects include Anatomy, Physiology, Biochemistry, Pathology, Pharmacology and clinical subjects.";
+    }
+
+    if (q.includes("law")) {
+        return "Laws differ between countries. Always refer to official legal sources.";
+    }
+
+    if (q.includes("job") || q.includes("career")) {
+        return "Career options include software development, engineering, healthcare, teaching, finance and design.";
+    }
+
+    if (q.includes("company")) {
+        return "Companies operate in technology, healthcare, finance, energy and many other sectors.";
+    }
+
+    if (q.includes("richest")) {
+        return "Wealth rankings change over time. Current rankings need reliable, dated sources.";
+    }
+
+    return "I can help with Education, Medical, Engineering, Government Exams, Private Jobs, Languages, Sports, Laws, Politics, Countries, Travel, Transport and Science. Ask a specific question.";
+}
+
+function addMessage(message, type) {
+    const chatBox = document.getElementById("chatBox");
+    const div = document.createElement("div");
+
+    div.className = "message " + type;
+    div.textContent =
+        (type === "user" ? "You: " : "IntelliMind AI: ") + message;
+
+    chatBox.appendChild(div);
+    chatBox.scrollTop = chatBox.scrollHeight;
+}
+
+function clearChat() {
+    document.getElementById("chatBox").innerHTML =
+        '<div class="message bot">Chat cleared. Ask a new question!</div>';
+}
+
+function saveHistory(question, answer) {
+    let history = JSON.parse(
+        localStorage.getItem("intellimindHistory") || "[]"
+    );
+
+    history.push({
+        question: question,
+        answer: answer,
+        date: new Date().toLocaleString()
+    });
+
+    localStorage.setItem(
+        "intellimindHistory",
+        JSON.stringify(history)
+    );
+
+    showHistory();
+}
+
+function showHistory() {
+    const history = JSON.parse(
+        localStorage.getItem("intellimindHistory") || "[]"
+    );
+
+    const box = document.getElementById("history");
+    box.innerHTML = "";
+
+    if (history.length === 0) {
+        box.textContent = "No saved history yet.";
+        return;
+    }
+
+    history.slice().reverse().forEach(function(item) {
+        const div = document.createElement("div");
+        div.className = "message";
+
+        const question = document.createElement("p");
+        question.textContent = "Question: " + item.question;
+
+        const answer = document.createElement("p");
+        answer.textContent = "Answer: " + item.answer;
+
+        const date = document.createElement("small");
+        date.textContent = item.date;
+
+        div.appendChild(question);
+        div.appendChild(answer);
+        div.appendChild(date);
+        box.appendChild(div);
+    });
+}
+
+function clearHistory() {
+    localStorage.removeItem("intellimindHistory");
+    showHistory();
+}
+
+function calculate() {
+    const first = document.getElementById("number1").value;
+    const second = document.getElementById("number2").value;
+    const operation = document.getElementById("operation").value;
+    const result = document.getElementById("calcResult");
+
+    if (first === "" || second === "") {
+        result.textContent = "Please enter both numbers.";
+        return;
+    }
+
+    const a = Number(first);
+    const b = Number(second);
+    let answer;
+
+    if (operation === "add") {
+        answer = a + b;
+    } else if (operation === "subtract") {
+        answer = a - b;
+    } else if (operation === "multiply") {
+        answer = a * b;
+    } else {
+        if (b === 0) {
+            result.textContent = "Cannot divide by zero.";
+            return;
+        }
+        answer = a / b;
+    }
+
+    result.textContent = "Result: " + answer;
+}
+
+function escapeHTML(value) {
+    return String(value).replace(/[&<>"']/g, function(character) {
+        const entities = {
+            "&": "&amp;",
+            "<": "&lt;",
+            ">": "&gt;",
+            '"': "&quot;",
+            "'": "&#39;"
+        };
+
+        return entities[character];
+    });
+}
+
+// Start the website
+createCategories();
+populateCountries(countries);
+showHistory();
+
+</script>
+</body>
+</html>
+

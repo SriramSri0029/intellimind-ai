@@ -4,48 +4,63 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>IntelliMind AI - Global Learning</title>
+<title>IntelliMind AI - Global Edition</title>
 
 <style>
 * {
   box-sizing: border-box;
 }
+
 body {
   margin: 0;
   font-family: Arial, sans-serif;
   background: #f4f7fb;
   color: #172033;
 }
+
 header {
   background: white;
-  padding: 18px;
+  padding: 22px 12px;
   text-align: center;
   border-bottom: 1px solid #ddd;
 }
+
 header h1 {
-  margin: 0;
   color: #2457d6;
+  margin: 0;
+  font-size: 27px;
 }
+
 header p {
   color: #65718a;
+  margin-bottom: 0;
 }
+
 .container {
-  max-width: 850px;
+  max-width: 900px;
   margin: auto;
-  padding: 15px;
+  padding: 14px;
 }
+
 .card {
   background: white;
-  padding: 16px;
+  padding: 17px;
   border-radius: 14px;
-  margin-bottom: 15px;
-  box-shadow: 0 2px 9px #0000000d;
+  margin-bottom: 16px;
+  box-shadow: 0 2px 10px #0000000d;
 }
+
+h2 {
+  font-size: 20px;
+  margin-top: 0;
+}
+
 label {
   display: block;
-  margin: 10px 0 6px;
+  margin: 12px 0 6px;
   font-weight: bold;
 }
+
 select, input, textarea {
   width: 100%;
   padding: 12px;
@@ -54,64 +69,85 @@ select, input, textarea {
   font-size: 15px;
   background: white;
 }
+
 button {
-  border: 0;
-  border-radius: 9px;
   background: #2457d6;
   color: white;
+  border: none;
+  border-radius: 9px;
   padding: 12px 15px;
   margin: 5px 3px 5px 0;
   font-size: 14px;
   cursor: pointer;
 }
+
 button:hover {
   background: #173fa8;
 }
+
 .grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 10px;
 }
+
 .category {
   background: #f0f4ff;
   color: #193e9b;
   border: 1px solid #dce5ff;
-  min-height: 75px;
+  min-height: 85px;
   font-weight: bold;
 }
+
 #chat {
-  height: 260px;
+  height: 280px;
   overflow-y: auto;
   background: #f7f9fc;
   border-radius: 10px;
   padding: 12px;
   margin: 12px 0;
 }
+
 .message {
-  padding: 10px;
+  padding: 11px;
   border-radius: 9px;
   margin: 8px 0;
   white-space: pre-wrap;
+  line-height: 1.5;
 }
+
 .user {
   background: #dce8ff;
   text-align: right;
 }
+
 .bot {
   background: #e8f5ec;
 }
+
 .small {
   color: #68758a;
   font-size: 13px;
+  line-height: 1.5;
 }
+
+.result {
+  font-weight: bold;
+  color: #2457d6;
+}
+
 footer {
   text-align: center;
   color: #788398;
   padding: 20px;
 }
+
 @media(max-width:480px) {
   .grid {
     grid-template-columns: 1fr 1fr;
+  }
+  header h1 {
+    font-size: 23px;
   }
 }
 </style>
@@ -121,135 +157,322 @@ footer {
 
 <header>
   <h1>🌍 IntelliMind AI</h1>
-  <p>Global Learning • Knowledge • Career</p>
+  <p>Global Learning • Knowledge • Travel • Career</p>
 </header>
 
 <div class="container">
 
-  <section class="card">
-    <h2>🌐 Global Settings</h2>
+<!-- GLOBAL SETTINGS -->
+<section class="card">
+<h2>🌐 Global Settings</h2>
 
-    <label>Select Country</label>
-    <select id="country">
-      <option>India</option>
-      <option>United States</option>
-      <option>United Kingdom</option>
-      <option>Canada</option>
-      <option>Australia</option>
-      <option>Japan</option>
-      <option>China</option>
-      <option>Germany</option>
-      <option>France</option>
-      <option>Singapore</option>
-      <option>United Arab Emirates</option>
-      <option>Other Country</option>
-    </select>
+<label>Select Country</label>
+<select id="country">
+  <option>India</option>
+  <option>United States</option>
+  <option>United Kingdom</option>
+  <option>Canada</option>
+  <option>Australia</option>
+  <option>Japan</option>
+  <option>China</option>
+  <option>Germany</option>
+  <option>France</option>
+  <option>Singapore</option>
+  <option>United Arab Emirates</option>
+  <option>Brazil</option>
+  <option>South Africa</option>
+  <option>Other Country</option>
+</select>
 
-    <label>Select Language</label>
-    <select id="language">
-      <option>English</option>
-      <option>Tamil</option>
-      <option>Hindi</option>
-      <option>Telugu</option>
-      <option>Malayalam</option>
-      <option>Kannada</option>
-      <option>Spanish</option>
-      <option>French</option>
-      <option>German</option>
-      <option>Arabic</option>
-      <option>Chinese</option>
-      <option>Japanese</option>
-      <option>Korean</option>
-      <option>Other Language</option>
-    </select>
-    <p class="small">Language and country options are expandable.</p>
-  </section>
+<label>Select Language</label>
+<select id="language">
+  <option>English</option>
+  <option>Tamil</option>
+  <option>Hindi</option>
+  <option>Telugu</option>
+  <option>Malayalam</option>
+  <option>Kannada</option>
+  <option>Spanish</option>
+  <option>French</option>
+  <option>German</option>
+  <option>Arabic</option>
+  <option>Chinese</option>
+  <option>Japanese</option>
+  <option>Korean</option>
+  <option>Portuguese</option>
+  <option>Russian</option>
+  <option>Other Language</option>
+</select>
 
-  <section class="card">
-    <h2>📚 Explore Knowledge</h2>
-    <div class="grid">
-      <button class="category" onclick="choose('Education')">🎓 Education</button>
-      <button class="category" onclick="choose('Government Exams')">🏛️ Government Exams</button>
-      <button class="category" onclick="choose('Private Jobs')">💼 Private Jobs</button>
-      <button class="category" onclick="choose('World Languages')">🗣️ Languages</button>
-      <button class="category" onclick="choose('Sports Rules')">🏏 Sports Rules</button>
-      <button class="category" onclick="choose('World Laws')">⚖️ World Laws</button>
-      <button class="category" onclick="choose('World Politics')">🌐 World Politics</button>
-      <button class="category" onclick="choose('History and Geography')">🗺️ History & Geography</button>
-      <button class="category" onclick="choose('Science and Technology')">🔬 Science & Technology</button>
-      <button class="category" onclick="choose('General Knowledge')">💡 General Knowledge</button>
-    </div>
-  </section>
+<p class="small">
+Country and language options can be expanded.
+</p>
+</section>
 
-  <section class="card">
-    <h2>💬 IntelliMind Learning Chat</h2>
-    <p class="small">Ask a question about your selected topic.</p>
+<!-- MAIN CATEGORIES -->
+<section class="card">
+<h2>📚 Explore Global Knowledge</h2>
 
-    <div id="chat">
-      <div class="message bot">
-        Welcome to IntelliMind AI! Select a category and ask your question.
-      </div>
-    </div>
+<div class="grid">
+<button class="category" onclick="choose('Education')">🎓 Education</button>
+<button class="category" onclick="choose('Government Exams')">🏛️ Government Exams</button>
+<button class="category" onclick="choose('Private Jobs')">💼 Private Jobs</button>
+<button class="category" onclick="choose('World Languages')">🗣️ World Languages</button>
+<button class="category" onclick="choose('Sports Rules')">🏏 Sports & Rules</button>
+<button class="category" onclick="choose('World Laws')">⚖️ World Laws</button>
+<button class="category" onclick="choose('World Politics')">🌐 World Politics</button>
+<button class="category" onclick="choose('History and Geography')">🗺️ History & Geography</button>
+<button class="category" onclick="choose('Science and Technology')">🔬 Science & Technology</button>
+<button class="category" onclick="choose('General Knowledge')">💡 General Knowledge</button>
+<button class="category" onclick="choose('Global Travel')">✈️ Global Travel</button>
+<button class="category" onclick="choose('Global Transport and Vehicles')">🚘 Transport & Vehicles</button>
+</div>
+</section>
 
-    <input id="question" placeholder="Type your question here...">
-    <button onclick="ask()">Ask</button>
-    <button onclick="clearChat()">Clear Chat</button>
-  </section>
+<!-- CATEGORY DETAILS -->
+<section class="card">
+<h2>📖 Select Learning Topic</h2>
 
-  <section class="card">
-    <h2>🧮 Smart Calculator</h2>
-    <input type="number" id="num1" placeholder="Enter first number">
-    <br><br>
-    <input type="number" id="num2" placeholder="Enter second number">
-    <br><br>
-    <button onclick="calculate('+')">Addition +</button>
-    <button onclick="calculate('-')">Subtraction −</button>
-    <button onclick="calculate('*')">Multiplication ×</button>
-    <button onclick="calculate('/')">Division ÷</button>
-    <p id="result">Result will appear here.</p>
-  </section>
+<label>Department / Category</label>
+<select id="department" onchange="loadTopics()">
+<option value="">Select Category</option>
+</select>
 
-  <section class="card">
-    <h2>🕘 Chat History</h2>
-    <div id="history"></div>
-    <button onclick="clearHistory()">Clear History</button>
-  </section>
+<label>Topic</label>
+<select id="topic">
+<option value="">Select Topic</option>
+</select>
+</section>
 
-  <section class="card">
-    <h2>ℹ️ About IntelliMind AI</h2>
-    <p>
-      IntelliMind AI is a global learning platform prototype.
-      It aims to bring education, languages, sports, laws,
-      government exams, careers and general knowledge together.
-    </p>
-    <p class="small">
-      Answers in this prototype use predefined learning information.
-      They are not verified live information or a connected AI model.
-      Laws, exam rules and political information must be checked
-      against current official sources.
-    </p>
-  </section>
+<!-- CHAT -->
+<section class="card">
+<h2>💬 IntelliMind Learning Chat</h2>
+
+<p class="small">
+Ask questions about your selected category or topic.
+</p>
+
+<div id="chat">
+<div class="message bot">
+Welcome to IntelliMind AI Global Edition!
+Select a category and ask your question.
+</div>
+</div>
+
+<input id="question" placeholder="Type your question here...">
+
+<button onclick="ask()">Ask</button>
+<button onclick="clearChat()">Clear Chat</button>
+</section>
+
+<!-- CALCULATOR -->
+<section class="card">
+<h2>🧮 Smart Calculator</h2>
+
+<input type="number" id="num1" placeholder="First number">
+<br><br>
+<input type="number" id="num2" placeholder="Second number">
+<br><br>
+
+<button onclick="calculate('+')">Addition +</button>
+<button onclick="calculate('-')">Subtraction −</button>
+<button onclick="calculate('*')">Multiplication ×</button>
+<button onclick="calculate('/')">Division ÷</button>
+
+<p id="result" class="result">Result will appear here.</p>
+</section>
+
+<!-- HISTORY -->
+<section class="card">
+<h2>🕘 Chat History</h2>
+
+<div id="history"></div>
+
+<button onclick="clearHistory()">Clear History</button>
+</section>
+
+<!-- ABOUT -->
+<section class="card">
+<h2>ℹ️ About IntelliMind AI</h2>
+
+<p>
+IntelliMind AI is a global learning platform prototype
+designed to bring education, languages, sports, laws,
+politics, travel, transport, careers and general knowledge
+together in one place.
+</p>
+
+<p class="small">
+This version uses predefined educational responses.
+It is not yet connected to a live AI model or live information service.
+For current laws, exam notifications, travel rules and transport
+regulations, verify information with official sources.
+Medical and legal information is educational, not professional advice.
+</p>
+</section>
 
 </div>
 
 <footer>
-  IntelliMind AI © 2026 | Learn Without Borders 🌍
+IntelliMind AI © 2026 | Learn Without Borders 🌍
 </footer>
 
 <script>
+
+// CATEGORY AND TOPIC DATA
+
+const topicsData = {
+
+"Education": [
+"MBBS","BDS","BAMS","BHMS","Nursing","Pharmacy",
+"Physiotherapy","Medical Laboratory Technology",
+"ECE","EEE","CSE","IT","Mechanical Engineering",
+"Civil Engineering","VLSI","Agriculture",
+"Arts","Science","Commerce","Law","Architecture",
+"Biotechnology","Computer Applications"
+],
+
+"Government Exams": [
+"UPSC Civil Services","TNPSC Group 1","TNPSC Group 2",
+"TNPSC Group 4","SSC CGL","SSC CHSL","SSC MTS",
+"IBPS PO","IBPS Clerk","SBI PO","SBI Clerk",
+"Railway NTPC","Railway Group D","NDA","CDS",
+"CTET","TET","UGC NET","State Public Service Exams"
+],
+
+"Private Jobs": [
+"Software Developer","Web Developer","Python Developer",
+"Data Analyst","AI and Machine Learning",
+"Cybersecurity","Cloud Engineer","VLSI Engineer",
+"Embedded Engineer","Mechanical Engineer",
+"Civil Engineer","Nurse","Pharmacist",
+"Medical Coder","Accountant","HR Manager",
+"Marketing Executive","Teacher","Graphic Designer",
+"Digital Marketer","Business Analyst"
+],
+
+"World Languages": [
+"English","Tamil","Hindi","Telugu","Malayalam",
+"Kannada","Spanish","French","German","Arabic",
+"Chinese","Japanese","Korean","Russian",
+"Portuguese","Italian","Bengali","Urdu"
+],
+
+"Sports Rules": [
+"Cricket","Football","Kabaddi","Basketball",
+"Volleyball","Tennis","Badminton","Hockey",
+"Athletics","Swimming","Boxing","Wrestling",
+"Chess","Table Tennis","Olympic Sports"
+],
+
+"World Laws": [
+"Constitution","Human Rights","Criminal Law",
+"Civil Law","International Law","Family Law",
+"Consumer Protection","Traffic Rules",
+"Cyber Law","Environmental Law","Labour Law",
+"Property Law"
+],
+
+"World Politics": [
+"Democracy","Parliament","Presidential System",
+"Constitutional Government","Elections",
+"Political Parties","Public Policy",
+"International Relations","United Nations",
+"Local Government"
+],
+
+"History and Geography": [
+"World History","Indian History","Ancient History",
+"Modern History","World Geography","Indian Geography",
+"Countries and Capitals","Rivers","Mountains",
+"World Heritage Sites"
+],
+
+"Science and Technology": [
+"Physics","Chemistry","Biology","Mathematics",
+"Computer Science","Artificial Intelligence",
+"Robotics","Space Science","Nanotechnology",
+"Environmental Science","Electronics"
+],
+
+"General Knowledge": [
+"World GK","Indian GK","Current Affairs",
+"Countries and Capitals","Important Days",
+"Discoveries","Inventions","World Organisations"
+],
+
+"Global Travel": [
+"World Destinations","Countries and Cities",
+"Tourist Attractions","Passport Information",
+"Visa Information","Air Travel","Train Travel",
+"Hotel and Accommodation","Trip Planning",
+"Travel Budget","Travel Safety","World Culture"
+],
+
+"Global Transport and Vehicles": [
+"Airplanes","Helicopters","Private Jets",
+"Passenger Trains","Metro Trains","Bullet Trains",
+"Cars","Electric Cars","Buses","Trucks",
+"Motorcycles","Scooters","Boats","Ships",
+"Cruise Ships","Submarines","Tractors",
+"Ambulances","Fire Engines","Construction Vehicles",
+"Autonomous Vehicles","Hydrogen Vehicles",
+"Vehicle Parts","Engines","Transport Technology",
+"Traffic Rules","Vehicle Safety"
+]
+
+};
+
+// LOAD CATEGORY SELECTOR
+
+const department = document.getElementById("department");
+const topic = document.getElementById("topic");
+
+Object.keys(topicsData).forEach(category => {
+  const option = document.createElement("option");
+  option.value = category;
+  option.textContent = category;
+  department.appendChild(option);
+});
+
+function loadTopics() {
+  const category = department.value;
+
+  topic.innerHTML = '<option value="">Select Topic</option>';
+
+  if (!category) return;
+
+  topicsData[category].forEach(item => {
+    const option = document.createElement("option");
+    option.value = item;
+    option.textContent = item;
+    topic.appendChild(option);
+  });
+
+  choose(category);
+}
+
 let selectedCategory = "General Knowledge";
 
 function choose(category) {
   selectedCategory = category;
-  addMessage("bot", "Selected category: " + category +
-    "\nNow type your question below.");
+  department.value = category;
+  loadTopics();
+
+  addMessage("bot",
+    "Selected category: " + category +
+    "\nChoose a topic and ask your question.");
 }
+
+// CHAT FUNCTIONS
 
 function addMessage(type, text) {
   const chat = document.getElementById("chat");
   const message = document.createElement("div");
+
   message.className = "message " + type;
   message.textContent = text;
+
   chat.appendChild(message);
   chat.scrollTop = chat.scrollHeight;
 }
@@ -265,85 +488,134 @@ function ask() {
 
   addMessage("user", question);
 
-  const answer = getAnswer(question, selectedCategory);
+  const selectedTopic = topic.value;
+  const country = document.getElementById("country").value;
+  const language = document.getElementById("language").value;
+
+  const answer = getAnswer(
+    question,
+    selectedCategory,
+    selectedTopic,
+    country,
+    language
+  );
+
   addMessage("bot", answer);
 
   saveHistory(question, answer);
   input.value = "";
 }
 
-function getAnswer(question, category) {
+function getAnswer(question, category, selectedTopic, country, language) {
+
   const q = question.toLowerCase();
 
+  let answer = "";
+
   if (q.includes("hello") || q.includes("வணக்கம்")) {
-    return "Hello! Welcome to IntelliMind AI.";
+    answer = "Hello! Welcome to IntelliMind AI.";
   }
 
-  if (q.includes("python")) {
-    return "Python is a beginner-friendly programming language used in automation, software and data science.";
+  else if (q.includes("python")) {
+    answer = "Python is a programming language used in software development, automation and data science.";
   }
 
-  if (q.includes("democracy")) {
-    return "Democracy is a system in which people participate in choosing their representatives and government.";
+  else if (q.includes("mbbs")) {
+    answer = "MBBS is a medical degree. Subjects include Anatomy, Physiology, Biochemistry, Pathology, Pharmacology and Community Medicine.";
   }
 
-  if (q.includes("capital of india")) {
-    return "New Delhi is the capital of India.";
+  else if (q.includes("bds")) {
+    answer = "BDS is a dental degree. Subjects include Dental Anatomy, Oral Pathology, Oral Medicine and Periodontics.";
   }
 
-  if (q.includes("cricket")) {
-    return "Cricket is a bat-and-ball sport. Its rules include batting, bowling, fielding, overs and scoring. Ask about a specific rule to learn more.";
+  else if (q.includes("ias") || q.includes("ips") || q.includes("upsc")) {
+    answer = "UPSC conducts India's Civil Services Examination for recruitment to services such as IAS and IPS. Check the official notification for current eligibility.";
   }
 
-  if (q.includes("football")) {
-    return "Football is a team sport. Its rules cover players, scoring goals, fouls, free kicks and offside.";
+  else if (q.includes("cricket")) {
+    answer = "Cricket is a bat-and-ball sport. Its rules cover batting, bowling, fielding, overs, dismissals and scoring. Official playing conditions are maintained by the relevant cricket authorities.";
   }
 
-  if (q.includes("constitution")) {
-    return "A constitution is a country's fundamental legal framework. Choose a country to learn about its constitution.";
+  else if (q.includes("football")) {
+    answer = "Football rules cover players, goals, fouls, free kicks, penalties, offside and match duration. The official Laws of the Game are published by IFAB.";
   }
 
-  if (q.includes("mbbs")) {
-    return "MBBS is a medical degree. Common subjects include Anatomy, Physiology, Biochemistry, Pathology, Pharmacology and Community Medicine.";
+  else if (q.includes("kabaddi")) {
+    answer = "Kabaddi is a team sport. It includes raids, tackles, bonus points, all-outs and player rules. Competition rules can vary by governing body.";
   }
 
-  if (q.includes("bds")) {
-    return "BDS is a dental degree. Common subjects include Dental Anatomy, Oral Pathology, Oral Medicine and Periodontics.";
+  else if (q.includes("constitution")) {
+    answer = "A constitution is a country's fundamental legal framework. Selected country: " + country + ". Check official government publications for the current text.";
   }
 
-  if (q.includes("upsc")) {
-    return "UPSC conducts several examinations in India, including the Civil Services Examination. Check the official notification for current eligibility and dates.";
+  else if (q.includes("capital of india")) {
+    answer = "New Delhi is the capital of India.";
   }
 
-  if (q.includes("resume")) {
-    return "A resume presents your education, skills, projects, experience and achievements to employers.";
+  else if (q.includes("car") || q.includes("vehicle")) {
+    answer = "Vehicles are used for transporting people and goods. Common types include cars, buses, trucks, motorcycles and electric vehicles. Ask about a specific vehicle or its parts.";
   }
 
-  if (q.includes("law")) {
-    return "Laws differ between countries. Specify the country and the legal topic. For legal decisions, consult a qualified lawyer.";
+  else if (q.includes("airplane") || q.includes("aeroplane")) {
+    answer = "An airplane is an aircraft that uses wings and engines to fly. Major parts include the fuselage, wings, tail, landing gear and propulsion system.";
   }
 
-  if (q.includes("tamil")) {
-    return "Tamil is a classical language. You can ask about Tamil grammar, literature, vocabulary and translation.";
+  else if (q.includes("train")) {
+    answer = "Trains are rail transport vehicles. Types include passenger trains, freight trains, metro systems, high-speed trains and monorails.";
   }
 
-  if (q.includes("ias") || q.includes("ips")) {
-    return "IAS and IPS are Indian Civil Services. Their recruitment is through the UPSC Civil Services Examination.";
+  else if (q.includes("ship")) {
+    answer = "Ships are water transport vehicles used for passengers, cargo, research and other purposes.";
   }
 
-  return "You selected " + category + ".\n\n" +
-    "Your question: " + question +
-    "\n\nThis prototype does not yet have verified information for this question. More subject-wise learning content and reliable sources will be added in future versions.";
+  else if (q.includes("visa")) {
+    answer = "Visa rules depend on the destination country, nationality, purpose and duration of travel. Verify current requirements through the destination country's official immigration website.";
+  }
+
+  else if (q.includes("resume")) {
+    answer = "A resume presents your education, skills, projects, experience and achievements to employers.";
+  }
+
+  else if (q.includes("law")) {
+    answer = "Laws differ between countries. Selected country: " + country + ". Specify the legal topic and check official legal sources. Consult a qualified lawyer for legal advice.";
+  }
+
+  else if (q.includes("democracy")) {
+    answer = "Democracy is a system in which people participate in choosing representatives and influencing public decisions.";
+  }
+
+  else if (q.includes("tamil")) {
+    answer = "Tamil is a classical language. You can learn Tamil grammar, literature, vocabulary and translation.";
+  }
+
+  else {
+    answer =
+      "Selected Category: " + category +
+      "\nSelected Topic: " + (selectedTopic || "Not selected") +
+      "\nCountry: " + country +
+      "\nLanguage: " + language +
+      "\n\nYour question: " + question +
+      "\n\nThis prototype does not yet contain a verified answer for this question. More learning content and reliable information sources will be added in future updates.";
+  }
+
+  return answer;
 }
 
-function clearChat() {
-  document.getElementById("chat").innerHTML = "";
-}
+// CHAT HISTORY
 
 function saveHistory(question, answer) {
-  let history = JSON.parse(
-    localStorage.getItem("intellimindHistory") || "[]"
-  );
+
+  let history = [];
+
+  try {
+    history = JSON.parse(
+      localStorage.getItem("intellimindHistory") || "[]"
+    );
+
+    if (!Array.isArray(history)) history = [];
+  } catch (error) {
+    history = [];
+  }
 
   history.push({
     question: question,
@@ -351,19 +623,33 @@ function saveHistory(question, answer) {
     category: selectedCategory
   });
 
-  localStorage.setItem("intellimindHistory", JSON.stringify(history));
+  localStorage.setItem(
+    "intellimindHistory",
+    JSON.stringify(history)
+  );
+
   loadHistory();
 }
 
 function loadHistory() {
-  let history = JSON.parse(
-    localStorage.getItem("intellimindHistory") || "[]"
-  );
+
+  let history = [];
+
+  try {
+    history = JSON.parse(
+      localStorage.getItem("intellimindHistory") || "[]"
+    );
+
+    if (!Array.isArray(history)) history = [];
+  } catch (error) {
+    history = [];
+  }
 
   const area = document.getElementById("history");
   area.innerHTML = "";
 
   history.slice().reverse().forEach(item => {
+
     const div = document.createElement("div");
     div.className = "message bot";
 
@@ -381,19 +667,28 @@ function loadHistory() {
 }
 
 function clearHistory() {
+
   if (confirm("Are you sure you want to clear chat history?")) {
     localStorage.removeItem("intellimindHistory");
     loadHistory();
   }
 }
 
+function clearChat() {
+  document.getElementById("chat").innerHTML = "";
+}
+
+// CALCULATOR
+
 function calculate(operator) {
+
   const a = parseFloat(document.getElementById("num1").value);
   const b = parseFloat(document.getElementById("num2").value);
 
+  const resultElement = document.getElementById("result");
+
   if (isNaN(a) || isNaN(b)) {
-    document.getElementById("result").textContent =
-      "Please enter both numbers.";
+    resultElement.textContent = "Please enter both numbers.";
     return;
   }
 
@@ -404,19 +699,28 @@ function calculate(operator) {
   if (operator === "*") result = a * b;
 
   if (operator === "/") {
+
     if (b === 0) {
-      document.getElementById("result").textContent =
-        "Cannot divide by zero.";
+      resultElement.textContent = "Cannot divide by zero.";
       return;
     }
+
     result = a / b;
   }
 
-  document.getElementById("result").textContent =
-    "Result: " + result;
+  resultElement.textContent = "Result: " + result;
 }
 
+// ENTER KEY SUPPORT
+
+document.getElementById("question").addEventListener("keydown", function(event) {
+  if (event.key === "Enter") {
+    ask();
+  }
+});
+
 loadHistory();
+
 </script>
 
 </body>

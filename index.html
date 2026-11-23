@@ -1,615 +1,407 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>IntelliMind AI</title>
-
 <style>
-* {
-  box-sizing: border-box;
-}
-body {
-  margin: 0;
-  padding: 15px;
-  font-family: Arial, sans-serif;
-  background: #f5f7fb;
-  color: #222;
-}
-header {
-  background: white;
-  padding: 20px;
-  text-align: center;
-  border-radius: 14px;
-  box-shadow: 0 2px 10px #ddd;
-}
-h1 {
-  color: #5145cd;
-}
-.container {
-  max-width: 850px;
-  margin: auto;
-}
-.box {
-  background: white;
-  padding: 16px;
-  margin-top: 15px;
-  border-radius: 12px;
-  box-shadow: 0 2px 8px #ddd;
-}
-select, input, button {
-  width: 100%;
-  padding: 12px;
-  margin-top: 8px;
-  border: 1px solid #ccc;
-  border-radius: 8px;
-  font-size: 15px;
-}
-button {
-  background: #5145cd;
-  color: white;
-  border: none;
-  cursor: pointer;
-}
-button:hover {
-  background: #3930a5;
-}
-.grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 9px;
-}
-.grid button {
-  min-height: 55px;
-}
-#chatBox {
-  min-height: 150px;
-  max-height: 350px;
-  overflow-y: auto;
-  padding: 10px;
-  background: #f8f8ff;
-  border-radius: 8px;
-}
-.message {
-  padding: 10px;
-  margin: 8px 0;
-  border-radius: 8px;
-  white-space: pre-wrap;
-  overflow-wrap: anywhere;
-}
-.user {
-  background: #e5e1ff;
-  text-align: right;
-}
-.bot {
-  background: #e8f5e9;
-}
-.small {
-  font-size: 13px;
-  color: #666;
-}
-footer {
-  text-align: center;
-  padding: 20px;
-  color: #666;
-}
-@media(max-width:450px) {
-  .grid {
-    grid-template-columns: 1fr;
-  }
-}
+*{box-sizing:border-box}
+body{font-family:Arial,sans-serif;background:#f4f6fb;margin:0;padding:14px;color:#222}
+.container{max-width:900px;margin:auto}
+header,.box{background:white;padding:18px;margin-bottom:14px;border-radius:13px;box-shadow:0 2px 9px #ddd}
+header{text-align:center}
+h1{color:#5145cd}
+h3{margin-top:5px}
+.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:9px}
+button,select,input{width:100%;padding:12px;margin:6px 0;border:1px solid #ccc;border-radius:8px;font-size:15px}
+button{background:#5145cd;color:white;border:0;cursor:pointer}
+#chatBox{background:#f8f8ff;padding:10px;min-height:130px;max-height:350px;overflow-y:auto;border-radius:8px}
+.message{padding:10px;margin:8px 0;border-radius:8px;white-space:pre-wrap;overflow-wrap:anywhere}
+.user{background:#e5e1ff;text-align:right}
+.bot{background:#e8f5e9}
+.small{font-size:13px;color:#666}
+@media(max-width:450px){.grid{grid-template-columns:1fr}}
 </style>
 </head>
-
 <body>
 <div class="container">
 
 <header>
-  <h1>🌍 IntelliMind AI</h1>
-  <p>Global Learning and Knowledge Platform</p>
-  <p class="small">Learn • Explore • Discover • Grow</p>
+<h1>🌍 IntelliMind AI</h1>
+<p>Global Learning and Knowledge Platform</p>
+<p class="small">Learn • Explore • Discover • Grow</p>
 </header>
 
 <div class="box">
-  <h3>🌐 Country Selection</h3>
-  <select id="country">
-    <option value="World">World</option>
-    <option value="India">India</option>
-    <option value="USA">USA</option>
-    <option value="UK">UK</option>
-    <option value="Japan">Japan</option>
-    <option value="China">China</option>
-    <option value="France">France</option>
-    <option value="Germany">Germany</option>
-    <option value="Australia">Australia</option>
-    <option value="Canada">Canada</option>
-    <option value="Singapore">Singapore</option>
-    <option value="UAE">UAE</option>
-  </select>
+<h3>🌐 Select Country</h3>
+<select id="country">
+<option>World</option><option>India</option><option>USA</option>
+<option>UK</option><option>Japan</option><option>China</option>
+<option>France</option><option>Germany</option><option>Australia</option>
+<option>Canada</option><option>Singapore</option><option>UAE</option>
+</select>
 
-  <h3>🗣️ Language Selection</h3>
-  <select id="language">
-    <option>English</option>
-    <option>Tamil</option>
-    <option>Hindi</option>
-    <option>French</option>
-    <option>Spanish</option>
-    <option>German</option>
-    <option>Chinese</option>
-    <option>Japanese</option>
-    <option>Arabic</option>
-  </select>
+<h3>🗣️ Select Language</h3>
+<select id="language">
+<option>English</option><option>Tamil</option><option>Hindi</option>
+<option>French</option><option>Spanish</option><option>German</option>
+<option>Chinese</option><option>Japanese</option><option>Arabic</option>
+</select>
 </div>
 
 <div class="box">
-  <h3>📚 Select Department</h3>
-  <div class="grid" id="categories"></div>
-
-  <select id="department" onchange="loadTopics()">
-    <option value="">Select Department</option>
-  </select>
-
-  <select id="topic">
-    <option value="">Select Topic</option>
-  </select>
+<h3>📚 All Departments</h3>
+<div class="grid" id="categories"></div>
+<select id="department" onchange="loadTopics()">
+<option value="">Select Department</option>
+</select>
+<select id="topic">
+<option value="">Select Topic</option>
+</select>
 </div>
 
 <div class="box">
-  <h3>💬 Ask IntelliMind</h3>
-  <div id="chatBox">
-    <div class="message bot">
-      Welcome to IntelliMind AI!
-      Select a department and topic, then ask your question.
-    </div>
-  </div>
-
-  <input id="question" placeholder="Type your question here...">
-  <button onclick="ask()">Ask AI</button>
-  <button onclick="clearChat()">Clear Chat</button>
+<h3>💬 Ask IntelliMind</h3>
+<div id="chatBox">
+<div class="message bot">Welcome to IntelliMind AI! Select a category and ask a question.</div>
+</div>
+<input id="question" placeholder="Type your question here">
+<button onclick="ask()">Ask AI</button>
+<button onclick="clearChat()">Clear Chat</button>
 </div>
 
 <div class="box">
-  <h3>🧮 Smart Calculator</h3>
-  <input type="number" id="num1" placeholder="Enter first number">
-  <input type="number" id="num2" placeholder="Enter second number">
-
-  <select id="operation">
-    <option value="add">Addition (+)</option>
-    <option value="sub">Subtraction (-)</option>
-    <option value="mul">Multiplication (×)</option>
-    <option value="div">Division (÷)</option>
-  </select>
-
-  <button onclick="calculate()">Calculate</button>
-  <p id="result">Result:</p>
+<h3>🧮 Calculator</h3>
+<input type="number" id="num1" placeholder="First number">
+<input type="number" id="num2" placeholder="Second number">
+<select id="operation">
+<option value="add">Addition</option>
+<option value="sub">Subtraction</option>
+<option value="mul">Multiplication</option>
+<option value="div">Division</option>
+</select>
+<button onclick="calculate()">Calculate</button>
+<p id="result">Result:</p>
 </div>
 
 <div class="box">
-  <h3>🕘 Chat History</h3>
-  <button onclick="showHistory()">View Chat History</button>
-  <button onclick="deleteHistory()">Delete History</button>
-  <div id="history"></div>
+<h3>🕘 Chat History</h3>
+<button onclick="showHistory()">View History</button>
+<button onclick="deleteHistory()">Delete History</button>
+<div id="history"></div>
 </div>
 
-<footer>
-  IntelliMind AI – Global Learning Platform
+<footer class="small" style="text-align:center;padding:15px">
+IntelliMind AI – Global Learning Platform
 </footer>
-
 </div>
 
 <script>
 const topicsData = {
-
-"Education": [
-"MBBS Subjects","BDS Subjects","Medical Courses",
-"Engineering Courses","ECE","CSE","Mechanical Engineering",
-"Civil Engineering","Electrical Engineering",
-"Arts and Science Courses","Commerce","Law",
-"Agriculture","Pharmacy","Nursing","Architecture",
-"Biotechnology","Computer Science","Mathematics",
-"Physics","Chemistry","Biology"
+"Education":[
+"MBBS Subjects","BDS Subjects","Medical Courses","Nursing",
+"Pharmacy","Engineering Courses","ECE","CSE",
+"Mechanical Engineering","Civil Engineering","Electrical Engineering",
+"Arts and Science","Commerce","Law","Agriculture","Architecture",
+"Biotechnology","Physics","Chemistry","Mathematics","Biology"
 ],
-
-"Government Exams": [
-"UPSC","TNPSC","SSC","Banking Exams",
-"Railway Exams","Defence Exams","Teaching Exams",
-"NEET","JEE","GATE","State Government Exams",
-"Government Exam Preparation","Exam Eligibility"
+"Government Exams":[
+"UPSC","TNPSC","SSC","Banking Exams","Railway Exams",
+"Defence Exams","Teaching Exams","NEET","JEE","GATE",
+"State Government Exams","Exam Eligibility","Exam Preparation"
 ],
-
-"Private Jobs": [
-"IT Jobs","Software Developer","Web Developer",
-"Core Engineering Jobs","Medical Jobs","Banking Jobs",
-"Teaching Jobs","Business Jobs","Design Jobs",
-"Marketing Jobs","Data Analyst","Career Guidance"
+"Private Jobs":[
+"IT Jobs","Software Developer","Web Developer","Core Engineering Jobs",
+"Medical Jobs","Banking Jobs","Teaching Jobs","Business Jobs",
+"Design Jobs","Marketing Jobs","Data Analyst","Career Guidance"
 ],
-
-"World Languages": [
-"English Grammar","Tamil Grammar","Hindi",
-"French","Spanish","German","Japanese",
-"Chinese","Arabic","Translation","Vocabulary",
-"Spoken English","Writing Skills"
+"World Languages":[
+"English Grammar","Tamil Grammar","Hindi","French","Spanish",
+"German","Japanese","Chinese","Arabic","Translation",
+"Vocabulary","Spoken English","Writing Skills"
 ],
-
-"Sports Rules": [
-"Cricket","Football","Kabaddi","Hockey",
-"Basketball","Volleyball","Tennis","Badminton",
-"Chess","Olympics","Sports Regulations"
+"Sports Rules":[
+"Cricket","Football","Kabaddi","Hockey","Basketball",
+"Volleyball","Tennis","Badminton","Chess","Olympics"
 ],
-
-"World Laws": [
-"Constitution","Human Rights","International Law",
-"Indian Laws","Traffic Rules","Cyber Laws",
-"Environmental Laws","Consumer Rights",
-"Legal Systems","Fundamental Rights"
+"World Laws":[
+"Constitution","Human Rights","International Law","Indian Laws",
+"Traffic Rules","Cyber Laws","Environmental Laws",
+"Consumer Rights","Legal Systems","Fundamental Rights"
 ],
-
-"World Politics": [
+"World Politics":[
 "Countries and Presidents","Countries and Prime Ministers",
 "India Prime Minister","India State Chief Ministers",
 "World Heads of Government","World Heads of State",
 "State and Provincial Leaders","Political Systems",
-"Political Offices and Responsibilities",
-"Government Structure by Country",
-"World Elections","International Relations"
+"Political Offices","Government Structures","World Elections"
 ],
-
-"History and Geography": [
-"World History","Indian History","Tamil History",
-"World Geography","Indian Geography",
-"Ancient Civilizations","Continents","Oceans",
-"Mountains","Rivers","Deserts"
+"History and Geography":[
+"World History","Indian History","Tamil History","World Geography",
+"Indian Geography","Ancient Civilizations","Continents",
+"Oceans","Mountains","Rivers","Deserts"
 ],
-
-"Science and Technology": [
+"Science and Technology":[
 "Physics","Chemistry","Biology","Computer Science",
 "Artificial Intelligence","Robotics","Space Science",
-"Nanotechnology","Electronics","Internet Technology",
-"Renewable Energy","Scientific Discoveries"
+"Nanotechnology","Electronics","Renewable Energy"
 ],
-
-"General Knowledge": [
-"World GK","India GK","Current Affairs",
-"Important Days","Inventions","Discoveries",
-"Famous Personalities","Awards","World Records"
+"General Knowledge":[
+"World GK","India GK","Current Affairs","Important Days",
+"Inventions","Discoveries","Famous Personalities","Awards","World Records"
 ],
-
-"Global Travel": [
-"World Tourism","Travel Planning","Passport",
-"Visa Information","Air Travel","Train Travel",
-"Hotels","Travel Safety","Travel Budget",
-"Famous Tourist Destinations"
+"Global Travel":[
+"World Tourism","Travel Planning","Passport","Visa Information",
+"Air Travel","Train Travel","Hotels","Travel Safety",
+"Travel Budget","Famous Tourist Destinations"
 ],
-
-"Global Transport and Vehicles": [
-"Airplanes","Helicopters","Private Jets",
-"Passenger Trains","Metro Trains","Bullet Trains",
-"Cars","Electric Vehicles","Buses","Trucks",
-"Motorcycles","Scooters","Boats","Ships",
-"Cruise Ships","Submarines","Tractors",
-"Vehicle Parts","Engines","Transport Safety"
+"Global Transport and Vehicles":[
+"Airplanes","Helicopters","Private Jets","Passenger Trains",
+"Metro Trains","Bullet Trains","Cars","Electric Vehicles",
+"Buses","Trucks","Motorcycles","Scooters","Boats","Ships",
+"Cruise Ships","Submarines","Tractors","Vehicle Parts","Engines"
 ],
-
-"World Richest People": [
-"World Wealth Rankings","Richest Entrepreneurs",
-"Business Founders","Technology Entrepreneurs",
-"Billionaire Net Worth","How Wealth Is Estimated",
-"Business and Investments"
+"World Richest People":[
+"World Wealth Rankings","Richest Entrepreneurs","Business Founders",
+"Technology Entrepreneurs","Billionaire Net Worth",
+"How Wealth Is Estimated","Business and Investments"
 ],
-
-"World Top Companies": [
+"World Top Companies":[
 "World Company Rankings","Technology Companies",
-"Automobile Companies","Healthcare Companies",
-"Banking Companies","Energy Companies",
-"Telecommunication Companies","Company Founders",
+"Automobile Companies","Healthcare Companies","Banking Companies",
+"Energy Companies","Telecommunication Companies","Company Founders",
 "Company CEOs","Market Capitalisation","Company Revenue"
 ],
-
-"World Countries": [
-"World Richest Countries","Beautiful Countries",
-"World Safest Countries","Most Developed Countries",
-"World Largest Countries","World Smallest Countries",
-"Countries and Capitals","Countries and Currencies",
-"Countries and Languages","World Population",
-"Countries by Continent","Famous Tourist Places",
-"Natural Wonders","Countries Culture and Traditions",
+"World Countries":[
+"World Richest Countries",
+"Beautiful Countries",
+"World Safest Countries",
+"Most Developed Countries",
+"World Largest Countries",
+"World Smallest Countries",
+"Countries and Capitals",
+"Countries and Currencies",
+"Countries and Languages",
+"World Population",
+"Countries by Continent",
+"Famous Tourist Places",
+"Natural Wonders",
+"Countries Culture and Traditions",
 "Countries Climate and Geography",
-"Countries History","Countries Economy",
-"Countries Education Systems","Countries Transport Systems"
+"Countries History",
+"Countries Economy",
+"Countries Education Systems",
+"Countries Transport Systems"
 ]
 };
 
-let selectedCategory = "";
+let selectedCategory="";
 
-const department = document.getElementById("department");
-const topic = document.getElementById("topic");
+const department=document.getElementById("department");
+const topic=document.getElementById("topic");
 
-function initialize() {
-  Object.keys(topicsData).forEach(category => {
-    const option = document.createElement("option");
-    option.value = category;
-    option.textContent = category;
-    department.appendChild(option);
+function initialize(){
+Object.keys(topicsData).forEach(category=>{
+const option=document.createElement("option");
+option.value=category;
+option.textContent=category;
+department.appendChild(option);
 
-    const button = document.createElement("button");
-    button.textContent = category;
-    button.onclick = () => choose(category);
-    document.getElementById("categories").appendChild(button);
-  });
+const btn=document.createElement("button");
+btn.textContent=category;
+btn.onclick=()=>choose(category);
+document.getElementById("categories").appendChild(btn);
+});
 }
 
-function loadTopics() {
-  const category = department.value;
-  topic.innerHTML = '<option value="">Select Topic</option>';
-
-  if (!category || !topicsData[category]) return;
-
-  topicsData[category].forEach(item => {
-    const option = document.createElement("option");
-    option.value = item;
-    option.textContent = item;
-    topic.appendChild(option);
-  });
-
-  selectedCategory = category;
+function loadTopics(){
+const category=department.value;
+topic.innerHTML='<option value="">Select Topic</option>';
+if(!category||!topicsData[category])return;
+topicsData[category].forEach(item=>{
+const option=document.createElement("option");
+option.value=item;
+option.textContent=item;
+topic.appendChild(option);
+});
+selectedCategory=category;
 }
 
-function choose(category) {
-  selectedCategory = category;
-  department.value = category;
-  loadTopics();
-  addMessage("bot",
-    "Selected category: " + category +
-    "\nChoose a topic and ask your question.");
+function choose(category){
+selectedCategory=category;
+department.value=category;
+loadTopics();
+addMessage("bot","Selected category: "+category+"\nNow select a topic and ask your question.");
 }
 
-function addMessage(type, text) {
-  const chatBox = document.getElementById("chatBox");
-  const message = document.createElement("div");
-  message.className = "message " + type;
-  message.textContent = text;
-  chatBox.appendChild(message);
-  chatBox.scrollTop = chatBox.scrollHeight;
-
-  saveHistory(type, text);
+function addMessage(type,text){
+const chat=document.getElementById("chatBox");
+const div=document.createElement("div");
+div.className="message "+type;
+div.textContent=text;
+chat.appendChild(div);
+chat.scrollTop=chat.scrollHeight;
+saveHistory(type,text);
 }
 
-function saveHistory(type, text) {
-  let history = JSON.parse(
-    localStorage.getItem("intellimindHistory") || "[]"
-  );
-
-  history.push({
-    type: type,
-    text: text,
-    date: new Date().toLocaleString()
-  });
-
-  localStorage.setItem(
-    "intellimindHistory",
-    JSON.stringify(history)
-  );
+function saveHistory(type,text){
+let history=JSON.parse(localStorage.getItem("intellimindHistory")||"[]");
+history.push({type,text,date:new Date().toLocaleString()});
+localStorage.setItem("intellimindHistory",JSON.stringify(history));
 }
 
-function getAnswer(question) {
-  const q = question.toLowerCase();
-  const selectedTopic = topic.value;
-  const category = selectedCategory;
+function getAnswer(q){
+const question=q.toLowerCase();
+const t=topic.value;
+const c=selectedCategory;
 
-  if (category === "World Countries") {
-    if (q.includes("rich") || selectedTopic === "World Richest Countries") {
-      return "World Richest Countries:\nCountries can be compared using different economic measures, such as total GDP and GDP per person (GDP per capita). These measures produce different rankings. Check the latest World Bank or IMF data and its publication year for an accurate ranking.";
-    }
-
-    if (q.includes("beautiful") || selectedTopic === "Beautiful Countries") {
-      return "Beautiful Countries:\nMany countries are known for their natural scenery and landmarks. Examples include Switzerland, New Zealand, Norway, Japan, Italy, Iceland and Canada. Beauty is subjective, and each country has its own landscapes and culture.";
-    }
-
-    if (selectedTopic === "World Safest Countries" || q.includes("safest")) {
-      return "World Safety:\nSafety rankings depend on factors such as crime, conflict, public safety and political stability. The Global Peace Index is one source to explore. Rankings can change each year.";
-    }
-
-    if (selectedTopic === "Most Developed Countries" || q.includes("developed")) {
-      return "Developed Countries:\nCountries are compared using measures such as income, education, health and the Human Development Index (HDI). UNDP publishes HDI reports.";
-    }
-
-    if (selectedTopic === "World Largest Countries" || q.includes("largest")) {
-      return "World Largest Countries:\nCountries can be ranked by land area or total area. Russia is the largest country by total area.";
-    }
-
-    if (selectedTopic === "World Smallest Countries" || q.includes("smallest")) {
-      return "World Smallest Countries:\nVatican City is the world's smallest independent country by area.";
-    }
-
-    if (selectedTopic === "Countries and Capitals" || q.includes("capital")) {
-      return "A capital city is the main seat of a country's national government. Example: India's capital is New Delhi. Ask about a particular country for more information.";
-    }
-
-    if (selectedTopic === "Countries and Currencies" || q.includes("currency")) {
-      return "Countries use different currencies. Examples: India – Indian Rupee, USA – US Dollar, Japan – Yen, UK – Pound Sterling. Currency details can change, so verify official information.";
-    }
-
-    if (selectedTopic === "Countries and Languages" || q.includes("language")) {
-      return "Countries may have one or more official or widely spoken languages. For example, India has many scheduled languages, and English and Hindi are widely used.";
-    }
-
-    if (selectedTopic === "World Population" || q.includes("population")) {
-      return "World population changes continuously. For current population estimates, refer to the United Nations or World Bank and check the data year.";
-    }
-
-    if (selectedTopic === "Countries by Continent" || q.includes("continent")) {
-      return "The seven commonly recognised continents are Asia, Africa, North America, South America, Antarctica, Europe and Australia/Oceania.";
-    }
-
-    if (selectedTopic === "Natural Wonders" || q.includes("natural wonder")) {
-      return "Natural wonders include mountains, waterfalls, forests, deserts, coral reefs and other remarkable natural features. Examples include the Grand Canyon, Great Barrier Reef and Mount Everest.";
-    }
-
-    if (selectedTopic === "Famous Tourist Places" || q.includes("tourist")) {
-      return "Famous tourist places include the Eiffel Tower in France, the Great Wall of China, the Taj Mahal in India and the Colosseum in Italy.";
-    }
-
-    if (selectedTopic === "Countries Climate and Geography" || q.includes("climate")) {
-      return "Countries can have tropical, dry, temperate, continental or polar climates. Geography includes mountains, plains, rivers, deserts and coastlines.";
-    }
-
-    if (selectedTopic === "Countries Culture and Traditions" || q.includes("culture")) {
-      return "Every country has unique traditions, food, clothing, festivals, music, art and languages. Learn about cultures respectfully and avoid stereotypes.";
-    }
-
-    return "Explore countries through their geography, history, economy, culture, education and tourism. Ask a specific country-related question for a focused explanation.";
-  }
-
-  if (category === "World Richest People") {
-    return "World Richest People:\nWealth rankings change with share prices and asset values. Forbes and Bloomberg publish wealth estimates. Check the source and date before relying on a ranking.";
-  }
-
-  if (category === "World Top Companies") {
-    return "World Top Companies:\nCompanies can be ranked by market capitalisation, revenue, profit or employees. These are different measures. Check recent company reports and financial sources for current rankings.";
-  }
-
-  if (category === "World Politics") {
-    return "World Politics:\nPolitical leaders and government structures change over time. For current Presidents, Prime Ministers and Chief Ministers, check the relevant official government website and note the date. Not every country has a Prime Minister or Chief Minister.";
-  }
-
-  if (category === "Government Exams") {
-    return "Government Exams:\nExamples include UPSC, TNPSC, SSC, Banking, Railway, Defence and Teaching exams. Eligibility, syllabus and exam dates depend on the official notification.";
-  }
-
-  if (category === "Private Jobs") {
-    return "Private Careers:\nCareer options include software development, engineering, healthcare, banking, business, teaching, design and marketing. Required qualifications vary by role.";
-  }
-
-  if (category === "Education") {
-    return "Education:\nThere are many study options, including MBBS, BDS, Engineering, Arts, Science, Commerce, Law, Agriculture and other professional courses. Ask for a particular subject to learn more.";
-  }
-
-  if (category === "World Languages") {
-    return "Language Learning:\nGrammar, vocabulary, reading, writing, listening and speaking are important parts of learning a language. Ask for a word or sentence to practise.";
-  }
-
-  if (category === "Sports Rules") {
-    return "Sports Rules:\nEvery sport has its own rules, scoring system, equipment and regulations. Select a sport and ask about its rules.";
-  }
-
-  if (category === "World Laws") {
-    return "World Laws:\nLaws differ between countries and may change. For accurate legal information, check official government legislation. This chatbot provides educational information, not legal advice.";
-  }
-
-  if (category === "History and Geography") {
-    return "History and Geography:\nExplore world history, Indian history, continents, oceans, mountains, rivers, ancient civilisations and more.";
-  }
-
-  if (category === "Science and Technology") {
-    return "Science and Technology:\nExplore Physics, Chemistry, Biology, AI, Robotics, Space Science, Electronics and other scientific fields.";
-  }
-
-  if (category === "General Knowledge") {
-    return "General Knowledge:\nYou can learn about world facts, Indian GK, inventions, discoveries, awards, famous personalities and important days.";
-  }
-
-  if (category === "Global Travel") {
-    return "Global Travel:\nLearn about destinations, travel planning, passports, visas, flights, trains, hotels and travel safety. Always check official travel requirements.";
-  }
-
-  if (category === "Global Transport and Vehicles") {
-    return "Global Transport:\nExplore cars, electric vehicles, buses, trains, aircraft, ships, vehicle parts, engines and transport safety.";
-  }
-
-  if (q.includes("hello") || q.includes("hi")) {
-    return "Hello! Welcome to IntelliMind AI. What would you like to learn today?";
-  }
-
-  return "I can help with educational topics. Please select a department and topic. This prototype uses predefined answers and does not yet connect to a live AI service.";
+if(c==="World Countries"){
+if(t==="World Richest Countries"||question.includes("richest")){
+return "World Richest Countries:\nCountries can be compared by total GDP or GDP per capita. These give different rankings. Check the latest World Bank or IMF data and its year.";
+}
+if(t==="Beautiful Countries"||question.includes("beautiful")){
+return "Beautiful Countries:\nExamples of countries famous for natural scenery include Switzerland, New Zealand, Norway, Japan, Italy, Iceland and Canada. Beauty is subjective.";
+}
+if(t==="World Safest Countries"){
+return "World Safety:\nSafety depends on crime, conflict, public safety and stability. Check the latest Global Peace Index and its year.";
+}
+if(t==="Most Developed Countries"){
+return "Developed Countries:\nCountries are compared using health, education and income indicators. UNDP's Human Development Index is one important measure.";
+}
+if(t==="World Largest Countries"){
+return "Russia is the world's largest country by total area.";
+}
+if(t==="World Smallest Countries"){
+return "Vatican City is the world's smallest independent country by area.";
+}
+if(t==="Countries and Capitals"){
+return "A capital city is the main seat of a country's national government. Example: India's capital is New Delhi.";
+}
+if(t==="Countries and Currencies"){
+return "Examples: India – Indian Rupee; USA – US Dollar; Japan – Yen; UK – Pound Sterling.";
+}
+if(t==="Countries and Languages"){
+return "Countries may have one or more official or widely spoken languages. India has many languages.";
+}
+if(t==="World Population"){
+return "World population changes continuously. Check the latest United Nations or World Bank estimates.";
+}
+if(t==="Countries by Continent"){
+return "The seven commonly recognised continents are Asia, Africa, North America, South America, Antarctica, Europe and Australia/Oceania.";
+}
+if(t==="Natural Wonders"){
+return "Examples of natural wonders include the Grand Canyon, Great Barrier Reef and Mount Everest.";
+}
+if(t==="Famous Tourist Places"){
+return "Examples: Eiffel Tower in France, Great Wall of China, Taj Mahal in India and Colosseum in Italy.";
+}
+return "Explore countries through geography, history, economy, culture, education and tourism. Select a specific topic to learn more.";
 }
 
-function ask() {
-  const question = document.getElementById("question").value.trim();
-
-  if (!question) {
-    alert("Please enter your question.");
-    return;
-  }
-
-  addMessage("user", question);
-
-  const answer = getAnswer(question);
-  addMessage("bot", answer);
-
-  document.getElementById("question").value = "";
+if(c==="World Richest People"){
+return "Wealth rankings change with market prices. Forbes and Bloomberg publish estimates. Check the source and date.";
+}
+if(c==="World Top Companies"){
+return "Companies can be ranked by market capitalisation, revenue, profit or number of employees. These are different measures.";
+}
+if(c==="World Politics"){
+return "Political leaders and government structures change. Check official government websites for current Presidents, Prime Ministers and Chief Ministers.";
+}
+if(c==="Government Exams"){
+return "Government exams include UPSC, TNPSC, SSC, Banking, Railway, Defence and Teaching exams. Check official notifications for eligibility and dates.";
+}
+if(c==="Private Jobs"){
+return "Career options include IT, engineering, healthcare, banking, teaching, design, marketing and business.";
+}
+if(c==="Education"){
+return "Explore MBBS, BDS, Engineering, Arts, Science, Commerce, Law, Agriculture, Pharmacy and other courses.";
+}
+if(c==="World Languages"){
+return "Learn grammar, vocabulary, reading, writing, listening, translation and spoken languages.";
+}
+if(c==="Sports Rules"){
+return "Every sport has its own rules, scoring system and regulations. Ask about a particular sport.";
+}
+if(c==="World Laws"){
+return "Laws differ by country and may change. Check official legislation. This chatbot provides educational information, not legal advice.";
+}
+if(c==="Global Travel"){
+return "Explore destinations, passports, visas, flights, trains, hotels and travel safety. Verify current travel requirements officially.";
+}
+if(c==="Global Transport and Vehicles"){
+return "Explore cars, electric vehicles, buses, trains, aircraft, ships, engines, vehicle parts and transport safety.";
+}
+if(c==="Science and Technology"){
+return "Explore Physics, Chemistry, Biology, AI, Robotics, Space Science, Electronics and more.";
+}
+if(c==="History and Geography"){
+return "Explore world history, Indian history, continents, oceans, mountains, rivers and ancient civilisations.";
+}
+if(c==="General Knowledge"){
+return "Explore world facts, inventions, discoveries, awards, important days and famous personalities.";
+}
+if(question.includes("hello")||question.includes("hi")){
+return "Hello! Welcome to IntelliMind AI. What would you like to learn?";
+}
+return "Please select a department and topic. This is a learning chatbot prototype with predefined answers, not yet a live AI service.";
 }
 
-function calculate() {
-  const a = Number(document.getElementById("num1").value);
-  const b = Number(document.getElementById("num2").value);
-  const operation = document.getElementById("operation").value;
-  let result;
-
-  if (document.getElementById("num1").value === "" ||
-      document.getElementById("num2").value === "") {
-    alert("Enter both numbers.");
-    return;
-  }
-
-  if (operation === "add") result = a + b;
-  if (operation === "sub") result = a - b;
-  if (operation === "mul") result = a * b;
-
-  if (operation === "div") {
-    if (b === 0) {
-      document.getElementById("result").textContent =
-        "Cannot divide by zero";
-      return;
-    }
-    result = a / b;
-  }
-
-  document.getElementById("result").textContent =
-    "Result: " + result;
+function ask(){
+const input=document.getElementById("question");
+const q=input.value.trim();
+if(!q){alert("Please enter your question.");return;}
+addMessage("user",q);
+addMessage("bot",getAnswer(q));
+input.value="";
 }
 
-function showHistory() {
-  const history = JSON.parse(
-    localStorage.getItem("intellimindHistory") || "[]"
-  );
-
-  const area = document.getElementById("history");
-  area.innerHTML = "";
-
-  if (history.length === 0) {
-    area.textContent = "No chat history available.";
-    return;
-  }
-
-  history.slice().reverse().forEach(item => {
-    const div = document.createElement("div");
-    div.className = "message " + item.type;
-    div.textContent = item.date + " - " + item.text;
-    area.appendChild(div);
-  });
+function calculate(){
+const a=document.getElementById("num1").value;
+const b=document.getElementById("num2").value;
+const op=document.getElementById("operation").value;
+if(a===""||b===""){alert("Enter both numbers.");return;}
+const x=Number(a),y=Number(b);
+let r;
+if(op==="add")r=x+y;
+if(op==="sub")r=x-y;
+if(op==="mul")r=x*y;
+if(op==="div"){
+if(y===0){document.getElementById("result").textContent="Cannot divide by zero";return;}
+r=x/y;
+}
+document.getElementById("result").textContent="Result: "+r;
 }
 
-function deleteHistory() {
-  if (confirm("Delete all chat history?")) {
-    localStorage.removeItem("intellimindHistory");
-    document.getElementById("history").textContent =
-      "Chat history deleted.";
-  }
+function showHistory(){
+const history=JSON.parse(localStorage.getItem("intellimindHistory")||"[]");
+const area=document.getElementById("history");
+area.innerHTML="";
+if(!history.length){area.textContent="No chat history available.";return;}
+history.slice().reverse().forEach(item=>{
+const div=document.createElement("div");
+div.className="message "+item.type;
+div.textContent=item.date+" - "+item.text;
+area.appendChild(div);
+});
 }
 
-function clearChat() {
-  document.getElementById("chatBox").innerHTML = "";
+function deleteHistory(){
+if(confirm("Delete all chat history?")){
+localStorage.removeItem("intellimindHistory");
+document.getElementById("history").textContent="History deleted.";
+}
 }
 
-document.getElementById("question").addEventListener(
-  "keydown",
-  function(event) {
-    if (event.key === "Enter") ask();
-  }
-);
+function clearChat(){
+document.getElementById("chatBox").innerHTML="";
+}
+
+document.getElementById("question").addEventListener("keydown",event=>{
+if(event.key==="Enter")ask();
+});
 
 initialize();
 </script>
-
 </body>
 </html>

@@ -1,5 +1,4 @@
 
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -27,7 +26,7 @@ header {
 header h1 { color: #5145cd; margin: 0; }
 
 .container {
-  max-width: 700px;
+  max-width: 750px;
   margin: 20px auto;
   padding: 15px;
 }
@@ -46,7 +45,7 @@ header h1 { color: #5145cd; margin: 0; }
   background: white;
   border: 1px solid #eee;
   border-radius: 10px;
-  padding: 15px;
+  padding: 15px 8px;
   text-align: center;
   color: #5145cd;
   font-weight: bold;
@@ -55,7 +54,7 @@ header h1 { color: #5145cd; margin: 0; }
 
 .subject:active { background: #eeecff; }
 
-.calculator {
+.calculator, .history-section {
   background: white;
   border: 1px solid #eee;
   border-radius: 15px;
@@ -63,13 +62,12 @@ header h1 { color: #5145cd; margin: 0; }
   margin-bottom: 20px;
 }
 
-.calculator h2 {
+.calculator h2, .history-section h2 {
   color: #5145cd;
   text-align: center;
 }
 
-.calculator input,
-.calculator select {
+.calculator input, .calculator select {
   width: 100%;
   padding: 13px;
   margin: 7px 0;
@@ -87,22 +85,12 @@ header h1 { color: #5145cd; margin: 0; }
   overflow-wrap: anywhere;
 }
 
-.history-section {
-  background: white;
-  border: 1px solid #eee;
-  border-radius: 15px;
-  padding: 15px;
-  margin-bottom: 20px;
-}
-
 .history-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
   gap: 10px;
 }
-
-.history-header h2 { color: #5145cd; }
 
 .clear-btn {
   padding: 9px 12px;
@@ -188,7 +176,7 @@ footer {
 
 <div class="welcome">
   <h2>Welcome to IntelliMind AI!</h2>
-  <p>Learn Python, Maths, English and more.</p>
+  <p>Learn 12 subjects in one place.</p>
 </div>
 
 <h3>📚 Select Your Subject</h3>
@@ -200,13 +188,17 @@ footer {
   <div class="subject" onclick="chooseSubject('physics')">⚡ Physics</div>
   <div class="subject" onclick="chooseSubject('chemistry')">🧪 Chemistry</div>
   <div class="subject" onclick="chooseSubject('computer')">💻 Computer Science</div>
+  <div class="subject" onclick="chooseSubject('biology')">📖 Biology</div>
+  <div class="subject" onclick="chooseSubject('social')">🌍 Social Science</div>
+  <div class="subject" onclick="chooseSubject('statistics')">📊 Statistics</div>
+  <div class="subject" onclick="chooseSubject('engineering')">⚙️ Engineering</div>
+  <div class="subject" onclick="chooseSubject('electronics')">🔌 Digital Electronics</div>
+  <div class="subject" onclick="chooseSubject('gk')">🧠 General Knowledge</div>
 </div>
 
 <div class="calculator">
   <h2>🧮 Smart Calculator</h2>
-
   <input type="number" id="num1" placeholder="Enter first number">
-
   <input type="number" id="num2" placeholder="Enter second number">
 
   <select id="operation">
@@ -217,7 +209,6 @@ footer {
   </select>
 
   <button onclick="calculate()">Calculate</button>
-
   <h3 id="result">Answer:</h3>
 </div>
 
@@ -247,6 +238,21 @@ footer {
 
 let currentSubject = "";
 
+const subjectNames = {
+  python: "Python",
+  maths: "Maths",
+  english: "English",
+  physics: "Physics",
+  chemistry: "Chemistry",
+  computer: "Computer Science",
+  biology: "Biology",
+  social: "Social Science",
+  statistics: "Statistics",
+  engineering: "Engineering",
+  electronics: "Digital Electronics",
+  gk: "General Knowledge"
+};
+
 function getHistory() {
   try {
     return JSON.parse(localStorage.getItem("intellimindHistory")) || [];
@@ -259,22 +265,20 @@ function saveHistory(history) {
   try {
     localStorage.setItem("intellimindHistory", JSON.stringify(history));
   } catch (error) {
-    alert("Unable to save chat history on this browser.");
+    alert("Unable to save chat history.");
   }
 }
 
 function addMessage(message, type) {
   let chatBox = document.getElementById("chatBox");
-
   let div = document.createElement("div");
   div.className = "message " + type;
   div.textContent = message;
-
   chatBox.appendChild(div);
   chatBox.scrollTop = chatBox.scrollHeight;
 
   let history = getHistory();
-  history.push({ message: message, type: type });
+  history.push({message: message, type: type});
   saveHistory(history);
 }
 
@@ -311,18 +315,9 @@ function clearHistory() {
 
 function chooseSubject(subject) {
   currentSubject = subject;
-
-  let names = {
-    python: "Python",
-    maths: "Maths",
-    english: "English",
-    physics: "Physics",
-    chemistry: "Chemistry",
-    computer: "Computer Science"
-  };
-
-  addMessage("Selected Subject: " + names[subject], "user");
-  addMessage("Welcome to " + names[subject] + " Tutor! Ask me a question.", "bot");
+  addMessage("Selected Subject: " + subjectNames[subject], "user");
+  addMessage("Welcome to " + subjectNames[subject] +
+    " Tutor! Ask me a question.", "bot");
 }
 
 function calculate() {
@@ -340,13 +335,10 @@ function calculate() {
   let b = Number(second);
   let result;
 
-  if (operation === "add") {
-    result = a + b;
-  } else if (operation === "subtract") {
-    result = a - b;
-  } else if (operation === "multiply") {
-    result = a * b;
-  } else if (operation === "divide") {
+  if (operation === "add") result = a + b;
+  else if (operation === "subtract") result = a - b;
+  else if (operation === "multiply") result = a * b;
+  else {
     if (b === 0) {
       document.getElementById("result").textContent =
         "Cannot divide by zero.";
@@ -382,7 +374,7 @@ function ask() {
   }
 
   else if (currentSubject === "maths") {
-    if (q.includes("add") || q.includes("கூட்டல்") || q.includes("addition")) a = "Addition: 10 + 5 = 15";
+    if (q.includes("add") || q.includes("addition") || q.includes("கூட்டல்")) a = "Addition: 10 + 5 = 15";
     else if (q.includes("subtract") || q.includes("கழித்தல்")) a = "Subtraction: 10 - 5 = 5";
     else if (q.includes("multiply") || q.includes("பெருக்கல்")) a = "Multiplication: 5 × 3 = 15";
     else if (q.includes("divide") || q.includes("வகுத்தல்")) a = "Division: 10 ÷ 2 = 5";
@@ -428,6 +420,55 @@ function ask() {
     else if (q.includes("hardware")) a = "Hardware means the physical parts of a computer.";
   }
 
+  else if (currentSubject === "biology") {
+    if (q.includes("biology")) a = "Biology is the study of living organisms.";
+    else if (q.includes("cell")) a = "The cell is the basic structural and functional unit of life.";
+    else if (q.includes("plant")) a = "Plants make their food through photosynthesis.";
+    else if (q.includes("photosynthesis")) a = "Photosynthesis is the process by which green plants make food using sunlight.";
+    else if (q.includes("human")) a = "The human body has different organ systems that work together.";
+  }
+
+  else if (currentSubject === "social") {
+    if (q.includes("history")) a = "History is the study of past events.";
+    else if (q.includes("geography")) a = "Geography is the study of Earth and its features.";
+    else if (q.includes("democracy")) a = "Democracy is a system in which people choose their representatives.";
+    else if (q.includes("constitution")) a = "The Constitution is the supreme law of a country.";
+    else if (q.includes("india")) a = "India is a country in South Asia. Its capital is New Delhi.";
+  }
+
+  else if (currentSubject === "statistics") {
+    if (q.includes("statistics")) a = "Statistics is the study of collecting, organizing and analyzing data.";
+    else if (q.includes("mean")) a = "Mean = Sum of values / Number of values.";
+    else if (q.includes("median")) a = "Median is the middle value in an ordered data set.";
+    else if (q.includes("mode")) a = "Mode is the value that occurs most often.";
+    else if (q.includes("range")) a = "Range = Highest value - Lowest value.";
+  }
+
+  else if (currentSubject === "engineering") {
+    if (q.includes("engineering")) a = "Engineering applies science and mathematics to solve practical problems.";
+    else if (q.includes("civil")) a = "Civil engineering deals with buildings, roads, bridges and infrastructure.";
+    else if (q.includes("mechanical")) a = "Mechanical engineering deals with machines, motion and energy.";
+    else if (q.includes("electrical")) a = "Electrical engineering deals with electrical systems and power.";
+    else if (q.includes("ece")) a = "Electronics and Communication Engineering studies electronic circuits and communication systems.";
+  }
+
+  else if (currentSubject === "electronics") {
+    if (q.includes("digital electronics")) a = "Digital electronics uses binary values 0 and 1.";
+    else if (q.includes("logic gate") || q.includes("gate")) a = "Basic logic gates include AND, OR and NOT gates.";
+    else if (q.includes("and gate")) a = "AND gate gives output 1 only when all inputs are 1.";
+    else if (q.includes("or gate")) a = "OR gate gives output 1 when at least one input is 1.";
+    else if (q.includes("not gate")) a = "NOT gate reverses the input: 0 becomes 1 and 1 becomes 0.";
+    else if (q.includes("binary")) a = "Binary number system uses only 0 and 1.";
+  }
+
+  else if (currentSubject === "gk") {
+    if (q.includes("capital of india")) a = "The capital of India is New Delhi.";
+    else if (q.includes("national animal")) a = "The national animal of India is the Bengal tiger.";
+    else if (q.includes("national bird")) a = "The national bird of India is the Indian peacock.";
+    else if (q.includes("gk") || q.includes("general knowledge")) a = "General Knowledge helps us learn about the world.";
+    else if (q.includes("solar system")) a = "The Solar System has the Sun and the objects that orbit it.";
+  }
+
   else {
     a = "முதலில் ஒரு Subject-ஐ தேர்வு செய்யுங்கள். Please select a subject.";
   }
@@ -439,6 +480,5 @@ function ask() {
 loadHistory();
 
 </script>
-
 </body>
 </html>

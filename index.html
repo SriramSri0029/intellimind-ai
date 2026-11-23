@@ -12,7 +12,6 @@ body{font-family:Arial,sans-serif;background:#f4f6fb;margin:0;padding:14px;color
 header,.box{background:white;padding:18px;margin-bottom:14px;border-radius:13px;box-shadow:0 2px 9px #ddd}
 header{text-align:center}
 h1{color:#5145cd}
-h3{margin-top:5px}
 .grid{display:grid;grid-template-columns:repeat(2,1fr);gap:9px}
 button,select,input{width:100%;padding:12px;margin:6px 0;border:1px solid #ccc;border-radius:8px;font-size:15px}
 button{background:#5145cd;color:white;border:0;cursor:pointer}
@@ -21,6 +20,7 @@ button{background:#5145cd;color:white;border:0;cursor:pointer}
 .user{background:#e5e1ff;text-align:right}
 .bot{background:#e8f5e9}
 .small{font-size:13px;color:#666}
+.info{background:#f0efff;padding:12px;border-radius:8px;margin-top:10px;white-space:pre-wrap}
 @media(max-width:450px){.grid{grid-template-columns:1fr}}
 </style>
 </head>
@@ -34,28 +34,38 @@ button{background:#5145cd;color:white;border:0;cursor:pointer}
 </header>
 
 <div class="box">
-<h3>🌐 Select Country</h3>
-<select id="country">
-<option>World</option><option>India</option><option>USA</option>
-<option>UK</option><option>Japan</option><option>China</option>
-<option>France</option><option>Germany</option><option>Australia</option>
-<option>Canada</option><option>Singapore</option><option>UAE</option>
+<h3>🌐 World Country Explorer</h3>
+<p class="small">Select any country from the list of 195 countries.</p>
+<input id="countrySearch" placeholder="Search country..." oninput="filterCountries()">
+<select id="country" onchange="showCountry()">
+<option value="">Select a Country</option>
 </select>
+<div id="countryInfo" class="info">
+Choose a country to explore.
+</div>
 
 <h3>🗣️ Select Language</h3>
 <select id="language">
-<option>English</option><option>Tamil</option><option>Hindi</option>
-<option>French</option><option>Spanish</option><option>German</option>
-<option>Chinese</option><option>Japanese</option><option>Arabic</option>
+<option>English</option>
+<option>Tamil</option>
+<option>Hindi</option>
+<option>French</option>
+<option>Spanish</option>
+<option>German</option>
+<option>Chinese</option>
+<option>Japanese</option>
+<option>Arabic</option>
 </select>
 </div>
 
 <div class="box">
 <h3>📚 All Departments</h3>
 <div class="grid" id="categories"></div>
+
 <select id="department" onchange="loadTopics()">
 <option value="">Select Department</option>
 </select>
+
 <select id="topic">
 <option value="">Select Topic</option>
 </select>
@@ -64,7 +74,10 @@ button{background:#5145cd;color:white;border:0;cursor:pointer}
 <div class="box">
 <h3>💬 Ask IntelliMind</h3>
 <div id="chatBox">
-<div class="message bot">Welcome to IntelliMind AI! Select a category and ask a question.</div>
+<div class="message bot">
+Welcome to IntelliMind AI!
+Select a department and topic, then ask a question.
+</div>
 </div>
 <input id="question" placeholder="Type your question here">
 <button onclick="ask()">Ask AI</button>
@@ -76,10 +89,10 @@ button{background:#5145cd;color:white;border:0;cursor:pointer}
 <input type="number" id="num1" placeholder="First number">
 <input type="number" id="num2" placeholder="Second number">
 <select id="operation">
-<option value="add">Addition</option>
-<option value="sub">Subtraction</option>
-<option value="mul">Multiplication</option>
-<option value="div">Division</option>
+<option value="add">Addition (+)</option>
+<option value="sub">Subtraction (-)</option>
+<option value="mul">Multiplication (×)</option>
+<option value="div">Division (÷)</option>
 </select>
 <button onclick="calculate()">Calculate</button>
 <p id="result">Result:</p>
@@ -98,13 +111,61 @@ IntelliMind AI – Global Learning Platform
 </div>
 
 <script>
+
+// 195 COUNTRIES
+const countries = [
+"Afghanistan","Albania","Algeria","Andorra","Angola",
+"Antigua and Barbuda","Argentina","Armenia","Australia","Austria",
+"Azerbaijan","Bahamas","Bahrain","Bangladesh","Barbados",
+"Belarus","Belgium","Belize","Benin","Bhutan","Bolivia",
+"Bosnia and Herzegovina","Botswana","Brazil","Brunei","Bulgaria",
+"Burkina Faso","Burundi","Cabo Verde","Cambodia","Cameroon",
+"Canada","Central African Republic","Chad","Chile","China",
+"Colombia","Comoros","Congo","Costa Rica","Côte d’Ivoire",
+"Croatia","Cuba","Cyprus","Czechia",
+"Democratic People's Republic of Korea",
+"Democratic Republic of the Congo","Denmark","Djibouti",
+"Dominica","Dominican Republic","Ecuador","Egypt","El Salvador",
+"Equatorial Guinea","Eritrea","Estonia","Eswatini","Ethiopia",
+"Fiji","Finland","France","Gabon","Gambia","Georgia","Germany",
+"Ghana","Greece","Grenada","Guatemala","Guinea","Guinea-Bissau",
+"Guyana","Haiti","Honduras","Hungary","Iceland","India",
+"Indonesia","Iran","Iraq","Ireland","Israel","Italy","Jamaica",
+"Japan","Jordan","Kazakhstan","Kenya","Kiribati","Kuwait",
+"Kyrgyzstan","Lao People's Democratic Republic","Latvia",
+"Lebanon","Lesotho","Liberia","Libya","Liechtenstein",
+"Lithuania","Luxembourg","Madagascar","Malawi","Malaysia",
+"Maldives","Mali","Malta","Marshall Islands","Mauritania",
+"Mauritius","Mexico","Micronesia","Monaco","Mongolia",
+"Montenegro","Morocco","Mozambique","Myanmar","Namibia","Nauru",
+"Nepal","Netherlands","New Zealand","Nicaragua","Niger","Nigeria",
+"North Macedonia","Norway","Oman","Pakistan","Palau","Panama",
+"Papua New Guinea","Paraguay","Peru","Philippines","Poland",
+"Portugal","Qatar","Republic of Korea","Republic of Moldova",
+"Romania","Russian Federation","Rwanda","Saint Kitts and Nevis",
+"Saint Lucia","Saint Vincent and the Grenadines","Samoa",
+"San Marino","Sao Tome and Principe","Saudi Arabia","Senegal",
+"Serbia","Seychelles","Sierra Leone","Singapore","Slovakia",
+"Slovenia","Solomon Islands","Somalia","South Africa",
+"South Sudan","Spain","Sri Lanka","Sudan","Suriname","Sweden",
+"Switzerland","Syrian Arab Republic","Tajikistan","Thailand",
+"Timor-Leste","Togo","Tonga","Trinidad and Tobago","Tunisia",
+"Türkiye","Turkmenistan","Tuvalu","Uganda","Ukraine",
+"United Arab Emirates","United Kingdom",
+"United Republic of Tanzania","United States","Uruguay",
+"Uzbekistan","Vanuatu","Venezuela","Viet Nam","Yemen",
+"Zambia","Zimbabwe","Holy See","State of Palestine"
+];
+
+// DEPARTMENTS AND TOPICS
 const topicsData = {
 "Education":[
 "MBBS Subjects","BDS Subjects","Medical Courses","Nursing",
 "Pharmacy","Engineering Courses","ECE","CSE",
-"Mechanical Engineering","Civil Engineering","Electrical Engineering",
-"Arts and Science","Commerce","Law","Agriculture","Architecture",
-"Biotechnology","Physics","Chemistry","Mathematics","Biology"
+"Mechanical Engineering","Civil Engineering",
+"Electrical Engineering","Arts and Science","Commerce",
+"Law","Agriculture","Architecture","Biotechnology",
+"Physics","Chemistry","Mathematics","Biology"
 ],
 "Government Exams":[
 "UPSC","TNPSC","SSC","Banking Exams","Railway Exams",
@@ -112,9 +173,10 @@ const topicsData = {
 "State Government Exams","Exam Eligibility","Exam Preparation"
 ],
 "Private Jobs":[
-"IT Jobs","Software Developer","Web Developer","Core Engineering Jobs",
-"Medical Jobs","Banking Jobs","Teaching Jobs","Business Jobs",
-"Design Jobs","Marketing Jobs","Data Analyst","Career Guidance"
+"IT Jobs","Software Developer","Web Developer",
+"Core Engineering Jobs","Medical Jobs","Banking Jobs",
+"Teaching Jobs","Business Jobs","Design Jobs","Marketing Jobs",
+"Data Analyst","Career Guidance"
 ],
 "World Languages":[
 "English Grammar","Tamil Grammar","Hindi","French","Spanish",
@@ -138,9 +200,9 @@ const topicsData = {
 "Political Offices","Government Structures","World Elections"
 ],
 "History and Geography":[
-"World History","Indian History","Tamil History","World Geography",
-"Indian Geography","Ancient Civilizations","Continents",
-"Oceans","Mountains","Rivers","Deserts"
+"World History","Indian History","Tamil History",
+"World Geography","Indian Geography","Ancient Civilizations",
+"Continents","Oceans","Mountains","Rivers","Deserts"
 ],
 "Science and Technology":[
 "Physics","Chemistry","Biology","Computer Science",
@@ -149,7 +211,8 @@ const topicsData = {
 ],
 "General Knowledge":[
 "World GK","India GK","Current Affairs","Important Days",
-"Inventions","Discoveries","Famous Personalities","Awards","World Records"
+"Inventions","Discoveries","Famous Personalities","Awards",
+"World Records"
 ],
 "Global Travel":[
 "World Tourism","Travel Planning","Passport","Visa Information",
@@ -163,44 +226,89 @@ const topicsData = {
 "Cruise Ships","Submarines","Tractors","Vehicle Parts","Engines"
 ],
 "World Richest People":[
-"World Wealth Rankings","Richest Entrepreneurs","Business Founders",
-"Technology Entrepreneurs","Billionaire Net Worth",
-"How Wealth Is Estimated","Business and Investments"
+"World Wealth Rankings","Richest Entrepreneurs",
+"Business Founders","Technology Entrepreneurs",
+"Billionaire Net Worth","How Wealth Is Estimated",
+"Business and Investments"
 ],
 "World Top Companies":[
 "World Company Rankings","Technology Companies",
-"Automobile Companies","Healthcare Companies","Banking Companies",
-"Energy Companies","Telecommunication Companies","Company Founders",
+"Automobile Companies","Healthcare Companies",
+"Banking Companies","Energy Companies",
+"Telecommunication Companies","Company Founders",
 "Company CEOs","Market Capitalisation","Company Revenue"
 ],
 "World Countries":[
-"World Richest Countries",
-"Beautiful Countries",
-"World Safest Countries",
-"Most Developed Countries",
-"World Largest Countries",
-"World Smallest Countries",
-"Countries and Capitals",
-"Countries and Currencies",
-"Countries and Languages",
-"World Population",
-"Countries by Continent",
-"Famous Tourist Places",
-"Natural Wonders",
-"Countries Culture and Traditions",
-"Countries Climate and Geography",
-"Countries History",
-"Countries Economy",
-"Countries Education Systems",
+"World Richest Countries","Beautiful Countries",
+"World Safest Countries","Most Developed Countries",
+"World Largest Countries","World Smallest Countries",
+"Countries and Capitals","Countries and Currencies",
+"Countries and Languages","World Population",
+"Countries by Continent","Famous Tourist Places",
+"Natural Wonders","Countries Culture and Traditions",
+"Countries Climate and Geography","Countries History",
+"Countries Economy","Countries Education Systems",
 "Countries Transport Systems"
 ]
 };
 
-let selectedCategory="";
-
 const department=document.getElementById("department");
 const topic=document.getElementById("topic");
+let selectedCategory="";
 
+// CREATE COUNTRY DROPDOWN
+function loadCountries(list=countries){
+const select=document.getElementById("country");
+const previous=select.value;
+select.innerHTML='<option value="">Select a Country</option>';
+
+list.forEach(name=>{
+const option=document.createElement("option");
+option.value=name;
+option.textContent=name;
+select.appendChild(option);
+});
+
+if(list.includes(previous))select.value=previous;
+}
+
+// SEARCH COUNTRY
+function filterCountries(){
+const q=document.getElementById("countrySearch").value.toLowerCase();
+const filtered=countries.filter(name=>
+name.toLowerCase().includes(q)
+);
+loadCountries(filtered);
+}
+
+// SHOW SELECTED COUNTRY
+function showCountry(){
+const name=document.getElementById("country").value;
+const area=document.getElementById("countryInfo");
+
+if(!name){
+area.textContent="Choose a country to explore.";
+return;
+}
+
+area.textContent=
+"Selected Country: "+name+
+"\n\nCountry profile selected successfully."+
+"\n\nMore information planned for this profile:"+
+"\n• Capital city"+
+"\n• Currency"+
+"\n• Official languages"+
+"\n• Population"+
+"\n• Area"+
+"\n• Government and leaders"+
+"\n• Economy"+
+"\n• Education"+
+"\n• Culture and traditions"+
+"\n• Famous tourist places"+
+"\n\nNote: These detailed country records are not connected yet.";
+}
+
+// CREATE CATEGORY BUTTONS
 function initialize(){
 Object.keys(topicsData).forEach(category=>{
 const option=document.createElement("option");
@@ -213,12 +321,15 @@ btn.textContent=category;
 btn.onclick=()=>choose(category);
 document.getElementById("categories").appendChild(btn);
 });
+loadCountries();
 }
 
 function loadTopics(){
 const category=department.value;
 topic.innerHTML='<option value="">Select Topic</option>';
+
 if(!category||!topicsData[category])return;
+
 topicsData[category].forEach(item=>{
 const option=document.createElement("option");
 option.value=item;
@@ -232,9 +343,12 @@ function choose(category){
 selectedCategory=category;
 department.value=category;
 loadTopics();
-addMessage("bot","Selected category: "+category+"\nNow select a topic and ask your question.");
+addMessage("bot",
+"Selected category: "+category+
+"\nChoose a topic and ask your question.");
 }
 
+// CHAT
 function addMessage(type,text){
 const chat=document.getElementById("chatBox");
 const div=document.createElement("div");
@@ -246,9 +360,17 @@ saveHistory(type,text);
 }
 
 function saveHistory(type,text){
-let history=JSON.parse(localStorage.getItem("intellimindHistory")||"[]");
-history.push({type,text,date:new Date().toLocaleString()});
-localStorage.setItem("intellimindHistory",JSON.stringify(history));
+let history=JSON.parse(
+localStorage.getItem("intellimindHistory")||"[]"
+);
+history.push({
+type:type,
+text:text,
+date:new Date().toLocaleString()
+});
+localStorage.setItem(
+"intellimindHistory",JSON.stringify(history)
+);
 }
 
 function getAnswer(q){
@@ -257,93 +379,93 @@ const t=topic.value;
 const c=selectedCategory;
 
 if(c==="World Countries"){
-if(t==="World Richest Countries"||question.includes("richest")){
-return "World Richest Countries:\nCountries can be compared by total GDP or GDP per capita. These give different rankings. Check the latest World Bank or IMF data and its year.";
-}
-if(t==="Beautiful Countries"||question.includes("beautiful")){
-return "Beautiful Countries:\nExamples of countries famous for natural scenery include Switzerland, New Zealand, Norway, Japan, Italy, Iceland and Canada. Beauty is subjective.";
-}
-if(t==="World Safest Countries"){
-return "World Safety:\nSafety depends on crime, conflict, public safety and stability. Check the latest Global Peace Index and its year.";
-}
-if(t==="Most Developed Countries"){
-return "Developed Countries:\nCountries are compared using health, education and income indicators. UNDP's Human Development Index is one important measure.";
-}
-if(t==="World Largest Countries"){
+if(t==="World Richest Countries")
+return "Countries can be compared by total GDP or GDP per capita. These produce different rankings. Check the latest World Bank or IMF data and its year.";
+
+if(t==="Beautiful Countries")
+return "Examples of countries famous for natural scenery include Switzerland, New Zealand, Norway, Japan, Italy, Iceland and Canada. Beauty is subjective.";
+
+if(t==="World Safest Countries")
+return "Safety comparisons consider crime, conflict and public safety. Check the latest Global Peace Index and its publication year.";
+
+if(t==="Most Developed Countries")
+return "Countries can be compared using health, education and income indicators. The UNDP Human Development Index is one important measure.";
+
+if(t==="World Largest Countries")
 return "Russia is the world's largest country by total area.";
-}
-if(t==="World Smallest Countries"){
+
+if(t==="World Smallest Countries")
 return "Vatican City is the world's smallest independent country by area.";
-}
-if(t==="Countries and Capitals"){
+
+if(t==="Countries and Capitals")
 return "A capital city is the main seat of a country's national government. Example: India's capital is New Delhi.";
-}
-if(t==="Countries and Currencies"){
+
+if(t==="Countries and Currencies")
 return "Examples: India – Indian Rupee; USA – US Dollar; Japan – Yen; UK – Pound Sterling.";
-}
-if(t==="Countries and Languages"){
+
+if(t==="Countries and Languages")
 return "Countries may have one or more official or widely spoken languages. India has many languages.";
-}
-if(t==="World Population"){
+
+if(t==="World Population")
 return "World population changes continuously. Check the latest United Nations or World Bank estimates.";
-}
-if(t==="Countries by Continent"){
+
+if(t==="Countries by Continent")
 return "The seven commonly recognised continents are Asia, Africa, North America, South America, Antarctica, Europe and Australia/Oceania.";
-}
-if(t==="Natural Wonders"){
-return "Examples of natural wonders include the Grand Canyon, Great Barrier Reef and Mount Everest.";
-}
-if(t==="Famous Tourist Places"){
+
+if(t==="Natural Wonders")
+return "Examples include the Grand Canyon, Great Barrier Reef and Mount Everest.";
+
+if(t==="Famous Tourist Places")
 return "Examples: Eiffel Tower in France, Great Wall of China, Taj Mahal in India and Colosseum in Italy.";
-}
-return "Explore countries through geography, history, economy, culture, education and tourism. Select a specific topic to learn more.";
+
+return "Explore countries through geography, history, economy, culture, education and tourism. Select a topic for more information.";
 }
 
-if(c==="World Richest People"){
+if(c==="World Richest People")
 return "Wealth rankings change with market prices. Forbes and Bloomberg publish estimates. Check the source and date.";
-}
-if(c==="World Top Companies"){
+
+if(c==="World Top Companies")
 return "Companies can be ranked by market capitalisation, revenue, profit or number of employees. These are different measures.";
-}
-if(c==="World Politics"){
-return "Political leaders and government structures change. Check official government websites for current Presidents, Prime Ministers and Chief Ministers.";
-}
-if(c==="Government Exams"){
-return "Government exams include UPSC, TNPSC, SSC, Banking, Railway, Defence and Teaching exams. Check official notifications for eligibility and dates.";
-}
-if(c==="Private Jobs"){
+
+if(c==="World Politics")
+return "Political leaders and government structures change. Check official government websites for current leaders.";
+
+if(c==="Government Exams")
+return "Examples include UPSC, TNPSC, SSC, Banking, Railway, Defence and Teaching exams. Check official notifications.";
+
+if(c==="Private Jobs")
 return "Career options include IT, engineering, healthcare, banking, teaching, design, marketing and business.";
-}
-if(c==="Education"){
+
+if(c==="Education")
 return "Explore MBBS, BDS, Engineering, Arts, Science, Commerce, Law, Agriculture, Pharmacy and other courses.";
-}
-if(c==="World Languages"){
+
+if(c==="World Languages")
 return "Learn grammar, vocabulary, reading, writing, listening, translation and spoken languages.";
-}
-if(c==="Sports Rules"){
+
+if(c==="Sports Rules")
 return "Every sport has its own rules, scoring system and regulations. Ask about a particular sport.";
-}
-if(c==="World Laws"){
+
+if(c==="World Laws")
 return "Laws differ by country and may change. Check official legislation. This chatbot provides educational information, not legal advice.";
-}
-if(c==="Global Travel"){
+
+if(c==="Global Travel")
 return "Explore destinations, passports, visas, flights, trains, hotels and travel safety. Verify current travel requirements officially.";
-}
-if(c==="Global Transport and Vehicles"){
-return "Explore cars, electric vehicles, buses, trains, aircraft, ships, engines, vehicle parts and transport safety.";
-}
-if(c==="Science and Technology"){
+
+if(c==="Global Transport and Vehicles")
+return "Explore cars, electric vehicles, buses, trains, aircraft, ships, engines and vehicle parts.";
+
+if(c==="Science and Technology")
 return "Explore Physics, Chemistry, Biology, AI, Robotics, Space Science, Electronics and more.";
-}
-if(c==="History and Geography"){
+
+if(c==="History and Geography")
 return "Explore world history, Indian history, continents, oceans, mountains, rivers and ancient civilisations.";
-}
-if(c==="General Knowledge"){
+
+if(c==="General Knowledge")
 return "Explore world facts, inventions, discoveries, awards, important days and famous personalities.";
-}
-if(question.includes("hello")||question.includes("hi")){
+
+if(question.includes("hello")||question.includes("hi"))
 return "Hello! Welcome to IntelliMind AI. What would you like to learn?";
-}
+
 return "Please select a department and topic. This is a learning chatbot prototype with predefined answers, not yet a live AI service.";
 }
 
@@ -356,28 +478,48 @@ addMessage("bot",getAnswer(q));
 input.value="";
 }
 
+// CALCULATOR
 function calculate(){
 const a=document.getElementById("num1").value;
 const b=document.getElementById("num2").value;
 const op=document.getElementById("operation").value;
-if(a===""||b===""){alert("Enter both numbers.");return;}
+
+if(a===""||b===""){
+alert("Enter both numbers.");
+return;
+}
+
 const x=Number(a),y=Number(b);
 let r;
+
 if(op==="add")r=x+y;
 if(op==="sub")r=x-y;
 if(op==="mul")r=x*y;
+
 if(op==="div"){
-if(y===0){document.getElementById("result").textContent="Cannot divide by zero";return;}
+if(y===0){
+document.getElementById("result").textContent="Cannot divide by zero";
+return;
+}
 r=x/y;
 }
+
 document.getElementById("result").textContent="Result: "+r;
 }
 
+// HISTORY
 function showHistory(){
-const history=JSON.parse(localStorage.getItem("intellimindHistory")||"[]");
+const history=JSON.parse(
+localStorage.getItem("intellimindHistory")||"[]"
+);
 const area=document.getElementById("history");
 area.innerHTML="";
-if(!history.length){area.textContent="No chat history available.";return;}
+
+if(!history.length){
+area.textContent="No chat history available.";
+return;
+}
+
 history.slice().reverse().forEach(item=>{
 const div=document.createElement("div");
 div.className="message "+item.type;
@@ -397,7 +539,8 @@ function clearChat(){
 document.getElementById("chatBox").innerHTML="";
 }
 
-document.getElementById("question").addEventListener("keydown",event=>{
+document.getElementById("question").addEventListener(
+"keydown",event=>{
 if(event.key==="Enter")ask();
 });
 

@@ -3,21 +3,18 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>IntelliMind AI</title>
 
 <style>
 body {
   font-family: Arial, sans-serif;
-  background: #ffffff;
-  color: #222;
   margin: 0;
   padding: 18px;
+  background: white;
+  color: #222;
 }
-h1 {
-  text-align: center;
-  color: #2457c5;
-}
+h1 { text-align: center; color: #2457c5; }
 h2 { color: #2457c5; }
 button, select, input {
   width: 100%;
@@ -25,47 +22,43 @@ button, select, input {
   margin: 6px 0;
   border: 1px solid #ccc;
   border-radius: 8px;
-  font-size: 16px;
   box-sizing: border-box;
+  font-size: 16px;
 }
 button {
   background: #2457c5;
   color: white;
-  border: none;
   cursor: pointer;
 }
-button:hover { background: #173d91; }
-#answer, #topicList {
-  padding: 14px;
-  margin-top: 12px;
+#topics, #answer {
+  padding: 12px;
   border: 1px solid #ddd;
   border-radius: 8px;
+  margin-top: 12px;
+}
+.topic {
+  background: #f1f4ff;
+  color: #222;
+  text-align: left;
 }
 .modal {
   display: none;
   position: fixed;
   inset: 0;
-  background: rgba(0,0,0,0.5);
-  padding: 20px;
-  z-index: 10;
+  background: #0008;
+  padding: 18px;
+  z-index: 5;
 }
-.modalBox {
+.modal-content {
   background: white;
-  padding: 20px;
+  padding: 18px;
   margin: 35px auto;
   max-width: 450px;
   max-height: 75vh;
   overflow-y: auto;
   border-radius: 12px;
 }
-.topic {
-  background: #f2f5ff;
-  color: #222;
-  text-align: left;
-}
-.close {
-  background: #555;
-}
+.close { background: #555; }
 </style>
 </head>
 
@@ -74,25 +67,22 @@ button:hover { background: #173d91; }
 <h1>IntelliMind AI</h1>
 <p style="text-align:center">Global Learning Platform</p>
 
-<h2>Entrance Examinations</h2>
-<button onclick="showExam('JEE Main')">JEE Main</button>
-<button onclick="showExam('JEE Advanced')">JEE Advanced</button>
-<button onclick="showExam('NEET UG')">NEET UG</button>
-
-<h2>Select Subject</h2>
-<select id="subject" onchange="showTopics()">
-<option value="">Select Subject</option>
-<option>Physics</option>
-<option>Chemistry</option>
-<option>Mathematics</option>
-<option>Biology</option>
-<option>Botany</option>
-<option>Zoology</option>
+<h2>All Departments</h2>
+<select id="department" onchange="loadSubjects()">
+<option value="">Select Department</option>
 </select>
 
-<div id="topicList">
-Select a subject to see its topics.
-</div>
+<h2>All Subjects</h2>
+<select id="subject" onchange="loadTopics()">
+<option value="">Select Subject</option>
+</select>
+
+<div id="topics">Select a department and subject.</div>
+
+<h2>Entrance Examinations</h2>
+<button onclick="exam('JEE Main')">JEE Main</button>
+<button onclick="exam('JEE Advanced')">JEE Advanced</button>
+<button onclick="exam('NEET UG')">NEET UG</button>
 
 <h2>Ask IntelliMind AI</h2>
 <input id="question" placeholder="Ask your question">
@@ -100,134 +90,163 @@ Select a subject to see its topics.
 <div id="answer"></div>
 
 <div class="modal" id="modal" onclick="closeOutside(event)">
-  <div class="modalBox">
-    <h2 id="modalTitle"></h2>
-    <div id="modalContent"></div>
-    <button class="close" onclick="closeModal()">Close</button>
-  </div>
+ <div class="modal-content">
+  <h2 id="modalTitle"></h2>
+  <div id="modalText"></div>
+  <button class="close" onclick="closeModal()">Close</button>
+ </div>
 </div>
 
 <script>
 
-const topics = {
-  "Physics": [
-    "Units and Measurements",
-    "Motion",
-    "Laws of Motion",
-    "Work, Energy and Power",
-    "Gravitation",
-    "Thermodynamics",
-    "Waves",
-    "Optics",
-    "Electricity",
-    "Magnetism",
-    "Modern Physics"
-  ],
+const data = {
+"Medical": {
+"MBBS": ["Anatomy","Physiology","Biochemistry","Pathology","Pharmacology","Microbiology","Forensic Medicine","Community Medicine","General Medicine","Surgery","Pediatrics","Obstetrics and Gynecology"],
+"BDS": ["Dental Anatomy","Oral Pathology","Oral Medicine","Orthodontics","Periodontics","Prosthodontics"],
+"Nursing": ["Anatomy","Physiology","Nutrition","Pharmacology","Medical Surgical Nursing","Community Health Nursing"],
+"Pharmacy": ["Pharmaceutics","Pharmacology","Pharmaceutical Chemistry","Pharmacognosy"],
+"Allied Health Sciences": ["Medical Laboratory Technology","Radiology","Physiotherapy","Optometry","Operation Theatre Technology"]
+},
 
-  "Chemistry": [
-    "Atomic Structure",
-    "Periodic Table",
-    "Chemical Bonding",
-    "States of Matter",
-    "Thermodynamics",
-    "Chemical Equilibrium",
-    "Redox Reactions",
-    "Organic Chemistry",
-    "Hydrocarbons",
-    "Electrochemistry"
-  ],
+"Engineering": {
+"CSE": ["Programming","Python","Java","Data Structures","Algorithms","Database Management","Operating Systems","Computer Networks"],
+"IT": ["Web Development","Software Engineering","Cloud Computing","Cyber Security","Networking"],
+"ECE": ["Electronic Devices","Digital Electronics","Communication Systems","Microprocessors","Signals and Systems"],
+"EEE": ["Electrical Machines","Power Systems","Control Systems","Circuit Theory"],
+"Mechanical": ["Engineering Mechanics","Thermodynamics","Fluid Mechanics","Manufacturing Technology","Machine Design"],
+"Civil": ["Structural Engineering","Surveying","Geotechnical Engineering","Transportation Engineering"],
+"AI and Data Science": ["Artificial Intelligence","Machine Learning","Deep Learning","Data Analytics","Statistics"],
+"Biomedical Engineering": ["Human Anatomy","Medical Instruments","Biomaterials","Medical Imaging"],
+"Chemical Engineering": ["Chemical Process","Mass Transfer","Heat Transfer","Reaction Engineering"],
+"Automobile Engineering": ["IC Engines","Automotive Systems","Vehicle Dynamics","Electric Vehicles"],
+"Mechatronics": ["Robotics","Sensors","Control Systems","Automation"]
+},
 
-  "Mathematics": [
-    "Sets",
-    "Relations and Functions",
-    "Trigonometry",
-    "Complex Numbers",
-    "Quadratic Equations",
-    "Sequences and Series",
-    "Permutations and Combinations",
-    "Probability",
-    "Limits",
-    "Differentiation",
-    "Integration",
-    "Coordinate Geometry"
-  ],
+"Arts and Science": {
+"Mathematics": ["Algebra","Calculus","Geometry","Statistics","Differential Equations"],
+"Physics": ["Mechanics","Thermodynamics","Optics","Electricity","Magnetism","Modern Physics"],
+"Chemistry": ["Organic Chemistry","Inorganic Chemistry","Physical Chemistry","Analytical Chemistry"],
+"Biology": ["Cell Biology","Genetics","Evolution","Ecology","Human Physiology"],
+"Botany": ["Plant Anatomy","Plant Physiology","Plant Taxonomy","Plant Ecology"],
+"Zoology": ["Animal Diversity","Animal Physiology","Genetics","Evolution"],
+"Computer Science": ["Programming","Python","Java","Database","Computer Networks"],
+"English": ["Grammar","Literature","Writing","Communication Skills"],
+"Tamil": ["Tamil Grammar","Tamil Literature","Modern Tamil"],
+"Economics": ["Microeconomics","Macroeconomics","Indian Economy"],
+"Psychology": ["Cognitive Psychology","Social Psychology","Developmental Psychology"],
+"Statistics": ["Probability","Data Analysis","Statistical Methods"]
+},
 
-  "Biology": [
-    "Living World",
-    "Biological Classification",
-    "Plant Kingdom",
-    "Animal Kingdom",
-    "Cell Biology",
-    "Biomolecules",
-    "Genetics",
-    "Evolution",
-    "Human Physiology",
-    "Ecology"
-  ],
+"Commerce and Management": {
+"B.Com": ["Accounting","Business Law","Taxation","Auditing","Finance"],
+"BBA": ["Management","Marketing","Human Resources","Business Communication"],
+"MBA": ["Finance","Marketing","HR","Operations","Business Analytics"],
+"Accounting": ["Financial Accounting","Cost Accounting","Management Accounting"],
+"Banking and Finance": ["Banking","Financial Markets","Investment Basics","Risk Management"]
+},
 
-  "Botany": [
-    "Plant Kingdom",
-    "Morphology of Plants",
-    "Anatomy of Plants",
-    "Plant Physiology",
-    "Photosynthesis",
-    "Respiration in Plants",
-    "Plant Reproduction",
-    "Genetics"
-  ],
+"Law": {
+"LLB": ["Constitutional Law","Criminal Law","Civil Law","Contract Law","Family Law"],
+"LLM": ["International Law","Corporate Law","Human Rights Law","Environmental Law"]
+},
 
-  "Zoology": [
-    "Animal Kingdom",
-    "Human Anatomy",
-    "Human Physiology",
-    "Animal Tissues",
-    "Evolution",
-    "Human Reproduction",
-    "Reproductive Health",
-    "Animal Diversity"
-  ]
+"Agriculture": {
+"BSc Agriculture": ["Agronomy","Soil Science","Horticulture","Plant Pathology","Agricultural Economics"],
+"Horticulture": ["Fruit Science","Vegetable Science","Floriculture"],
+"Forestry": ["Forest Ecology","Forest Management","Wildlife Conservation"]
+},
+
+"Architecture and Design": {
+"Architecture": ["Architectural Design","Building Materials","History of Architecture","Urban Planning"],
+"Fashion Design": ["Textile Design","Fashion Illustration","Garment Construction"],
+"Graphic Design": ["Typography","Illustration","Visual Communication","Digital Design"]
+},
+
+"Education": {
+"B.Ed": ["Teaching Methods","Educational Psychology","Assessment"],
+"Teacher Training": ["Classroom Management","Lesson Planning","Child Development"]
+},
+
+"Hospitality and Tourism": {
+"Hotel Management": ["Food Production","Front Office","Housekeeping","Food and Beverage Service"],
+"Tourism": ["Travel Management","Tourism Geography","Hospitality"]
+},
+
+"Veterinary Science": {
+"Veterinary Medicine": ["Animal Anatomy","Animal Physiology","Veterinary Surgery","Animal Nutrition"]
+},
+
+"Entrance Exams": {
+"JEE Main": ["Physics","Chemistry","Mathematics"],
+"JEE Advanced": ["Physics","Chemistry","Mathematics"],
+"NEET UG": ["Physics","Chemistry","Biology","Botany","Zoology"]
+}
 };
 
-function showExam(exam) {
-  let info = "";
+const dept = document.getElementById("department");
+const subject = document.getElementById("subject");
+const topicsBox = document.getElementById("topics");
 
-  if (exam === "JEE Main") {
-    info = "Engineering entrance examination. Main subjects: Physics, Chemistry and Mathematics.";
-  } else if (exam === "JEE Advanced") {
-    info = "Entrance examination for IIT undergraduate programmes. Main subjects: Physics, Chemistry and Mathematics.";
-  } else {
-    info = "Medical entrance examination for undergraduate courses. Main subjects: Physics, Chemistry and Biology.";
-  }
+Object.keys(data).forEach(name => {
+  let option = document.createElement("option");
+  option.value = name;
+  option.textContent = name;
+  dept.appendChild(option);
+});
 
-  openModal(exam, info);
-}
+function loadSubjects() {
+  subject.innerHTML = '<option value="">Select Subject</option>';
+  topicsBox.textContent = "Select a subject to see topics.";
 
-function showTopics() {
-  let subject = document.getElementById("subject").value;
-  let box = document.getElementById("topicList");
+  let selected = data[dept.value];
+  if (!selected) return;
 
-  if (!subject) {
-    box.innerText = "Select a subject to see its topics.";
-    return;
-  }
-
-  box.innerHTML = "<h3>" + subject + " Topics</h3>";
-
-  topics[subject].forEach(function(topic) {
-    let btn = document.createElement("button");
-    btn.className = "topic";
-    btn.innerText = topic;
-    btn.onclick = function() {
-      openModal(topic, "You selected " + topic + " in " + subject + ". This is a study topic. Select it and ask a question below.");
-      document.getElementById("question").value = topic;
-    };
-    box.appendChild(btn);
+  Object.keys(selected).forEach(name => {
+    let option = document.createElement("option");
+    option.value = name;
+    option.textContent = name;
+    subject.appendChild(option);
   });
 }
 
-function openModal(title, content) {
-  document.getElementById("modalTitle").innerText = title;
-  document.getElementById("modalContent").innerText = content;
+function loadTopics() {
+  let selected = data[dept.value]?.[subject.value];
+  topicsBox.innerHTML = "";
+
+  if (!selected) {
+    topicsBox.textContent = "Select a subject to see topics.";
+    return;
+  }
+
+  let heading = document.createElement("h3");
+  heading.textContent = subject.value + " Topics";
+  topicsBox.appendChild(heading);
+
+  selected.forEach(topic => {
+    let btn = document.createElement("button");
+    btn.className = "topic";
+    btn.textContent = topic;
+    btn.onclick = () => {
+      document.getElementById("question").value = topic;
+      showModal(topic, "Selected subject: " + subject.value +
+        ". You can ask questions about this topic.");
+    };
+    topicsBox.appendChild(btn);
+  });
+}
+
+function exam(name) {
+  let details = {
+    "JEE Main": "Engineering entrance examination. Subjects: Physics, Chemistry and Mathematics.",
+    "JEE Advanced": "IIT undergraduate engineering entrance examination. Subjects: Physics, Chemistry and Mathematics.",
+    "NEET UG": "Undergraduate medical entrance examination. Subjects: Physics, Chemistry and Biology."
+  };
+  showModal(name, details[name]);
+}
+
+function showModal(title, message) {
+  document.getElementById("modalTitle").textContent = title;
+  document.getElementById("modalText").textContent = message;
   document.getElementById("modal").style.display = "block";
 }
 
@@ -236,37 +255,32 @@ function closeModal() {
 }
 
 function closeOutside(event) {
-  if (event.target.id === "modal") {
-    closeModal();
-  }
+  if (event.target.id === "modal") closeModal();
 }
 
 function ask() {
-  let q = document.getElementById("question").value.toLowerCase();
-  let answer = "Please ask a question about your selected subject or topic.";
+  let q = document.getElementById("question").value.trim();
+  let selected = subject.value;
 
-  if (q.includes("jee")) {
-    answer = "JEE is an entrance examination for engineering courses.";
-  } else if (q.includes("neet")) {
-    answer = "NEET UG is an entrance examination for undergraduate medical courses.";
-  } else if (q.includes("physics") || q.includes("motion")) {
-    answer = "Physics studies matter, energy, motion and forces.";
-  } else if (q.includes("chemistry") || q.includes("atom")) {
-    answer = "Chemistry studies matter, elements and chemical reactions.";
-  } else if (q.includes("math") || q.includes("algebra")) {
-    answer = "Mathematics includes algebra, geometry, calculus and probability.";
-  } else if (q.includes("biology") || q.includes("cell")) {
-    answer = "Biology is the study of living organisms.";
-  } else if (q.includes("botany") || q.includes("plant")) {
-    answer = "Botany is the scientific study of plants.";
-  } else if (q.includes("zoology") || q.includes("animal")) {
-    answer = "Zoology is the scientific study of animals.";
+  if (!q) {
+    document.getElementById("answer").textContent = "Please enter a question.";
+    return;
   }
 
-  document.getElementById("answer").innerText = answer;
+  let answer = "This is a learning chatbot prototype. Please ask a specific question about " +
+    (selected || "your topic") + ". Detailed answers are not connected to a live AI service yet.";
+
+  if (q.toLowerCase().includes("jee")) {
+    answer = "JEE is an entrance examination for engineering courses.";
+  } else if (q.toLowerCase().includes("neet")) {
+    answer = "NEET UG is an entrance examination for undergraduate medical courses.";
+  } else if (q.toLowerCase().includes("python")) {
+    answer = "Python is a high-level programming language.";
+  }
+
+  document.getElementById("answer").textContent = answer;
 }
 
 </script>
-
 </body>
 </html>

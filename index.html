@@ -3,20 +3,23 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width,initial-scale=1">
 <title>IntelliMind AI</title>
 <style>
 *{box-sizing:border-box}
-body{font-family:Arial,sans-serif;background:white;color:#222;padding:16px;margin:0}
+body{font-family:Arial;margin:0;padding:16px;background:#fff;color:#222}
 h1{text-align:center;color:#2457c5}
 h2{color:#2457c5}
-select,input,button{width:100%;padding:12px;margin:6px 0;border:1px solid #ccc;border-radius:8px;font-size:15px}
-button{background:#2457c5;color:white;border:0}
-.topic{background:#edf2ff;color:#222;text-align:left}
-.panel{padding:12px;border:1px solid #ddd;border-radius:8px;margin-top:12px}
-.modal{display:none;position:fixed;inset:0;background:#0008;padding:15px;z-index:5}
-.modalBox{background:white;padding:18px;margin:30px auto;max-width:500px;max-height:80vh;overflow:auto;border-radius:12px}
-.close{background:#555}
+.section{border:1px solid #ddd;border-radius:12px;padding:12px;margin:14px 0}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+button{padding:12px 8px;border:0;border-radius:8px;background:#2457c5;color:white;font-size:14px;cursor:pointer;min-width:0}
+button:active{background:#173d91}
+.secondary{background:#edf2ff;color:#222;border:1px solid #dce4ff}
+#details{padding:12px;border:1px solid #ddd;border-radius:8px;margin-top:10px}
+input{width:100%;padding:12px;border:1px solid #ccc;border-radius:8px;font-size:16px}
+.modal{display:none;position:fixed;inset:0;background:#0008;padding:15px;z-index:10}
+.modalBox{background:white;padding:18px;margin:35px auto;max-width:500px;max-height:80vh;overflow:auto;border-radius:12px}
+.close{background:#555;width:100%;margin-top:12px}
 </style>
 </head>
 <body>
@@ -24,73 +27,83 @@ button{background:#2457c5;color:white;border:0}
 <h1>IntelliMind AI</h1>
 <p style="text-align:center">Your Personal Learning Platform</p>
 
-<h2>1. Select Department</h2>
-<select id="department" onchange="loadCourses()">
-<option value="">Select Department</option>
-</select>
-
-<h2>2. Select Course</h2>
-<select id="course" onchange="loadSubjects()">
-<option value="">Select Course</option>
-</select>
-
-<h2>3. Select Subject</h2>
-<select id="subject" onchange="loadTopics()">
-<option value="">Select Subject</option>
-</select>
-
-<h2>4. Select Topic</h2>
-<select id="topic" onchange="showTopic()">
-<option value="">Select Topic</option>
-</select>
-
-<div id="topicInfo" class="panel">
-Choose your department, course and subject.
+<div class="section">
+<h2>1. All Departments</h2>
+<div id="departments" class="grid"></div>
 </div>
 
-<h2>5. Entrance Exams</h2>
-<button onclick="showExam('JEE Main')">JEE Main</button>
-<button onclick="showExam('JEE Advanced')">JEE Advanced</button>
-<button onclick="showExam('NEET UG')">NEET UG</button>
+<div class="section">
+<h2>2. All Courses</h2>
+<div id="courses" class="grid">
+Select a department.
+</div>
+</div>
 
+<div class="section">
+<h2>3. All Subjects</h2>
+<div id="subjects" class="grid">
+Select a course.
+</div>
+</div>
+
+<div class="section">
+<h2>4. All Topics</h2>
+<div id="topics" class="grid">
+Select a subject.
+</div>
+</div>
+
+<div class="section">
+<h2>5. Entrance Exams</h2>
+<div class="grid">
+<button onclick="exam('JEE Main')">JEE Main</button>
+<button onclick="exam('JEE Advanced')">JEE Advanced</button>
+<button onclick="exam('NEET UG')">NEET UG</button>
+</div>
+</div>
+
+<div class="section">
 <h2>6. Ask IntelliMind AI</h2>
 <input id="question" placeholder="Enter your question">
-<button onclick="ask()">Ask AI</button>
-<div id="answer" class="panel"></div>
+<button style="width:100%;margin-top:8px" onclick="ask()">Ask AI</button>
+<div id="answer"></div>
+</div>
 
 <div class="modal" id="modal" onclick="closeOutside(event)">
- <div class="modalBox">
-  <h2 id="modalTitle"></h2>
-  <p id="modalText"></p>
-  <button class="close" onclick="closeModal()">Close</button>
- </div>
+<div class="modalBox">
+<h2 id="modalTitle"></h2>
+<p id="modalText"></p>
+<button class="close" onclick="closeModal()">Close</button>
+</div>
 </div>
 
 <script>
+
 const data = {
+
 "Medical and Healthcare":{
 "MBBS":{
-"Anatomy":["Cell","Tissues","Skeletal System","Muscular System","Nervous System","Cardiovascular System"],
-"Physiology":["Blood","Heart","Respiratory System","Digestive System","Kidney","Nervous System"],
+"Anatomy":["Cells","Tissues","Skeletal System","Muscular System","Nervous System","Heart"],
+"Physiology":["Blood","Respiration","Digestion","Kidney","Nervous System"],
 "Biochemistry":["Carbohydrates","Proteins","Lipids","Enzymes","Metabolism"],
-"Pathology":["Cell Injury","Inflammation","Healing","Tumours","Blood Disorders"],
-"Pharmacology":["Drug Basics","Drug Actions","Antibiotics","Analgesics"],
+"Pathology":["Cell Injury","Inflammation","Tumours","Blood Disorders"],
+"Pharmacology":["Drug Basics","Drug Actions","Antibiotics"],
 "Microbiology":["Bacteria","Viruses","Fungi","Immunology"],
 "General Medicine":["Cardiology","Neurology","Respiratory Medicine"],
-"General Surgery":["Surgical Principles","Wound Healing","Basic Procedures"],
-"Pediatrics":["Child Growth","Nutrition","Childhood Diseases"],
+"General Surgery":["Surgical Principles","Wound Healing"],
+"Pediatrics":["Child Growth","Nutrition"],
 "Obstetrics and Gynecology":["Pregnancy","Labour","Reproductive Health"]
 },
 "BDS":{
 "Dental Anatomy":["Tooth Structure","Tooth Types","Oral Cavity"],
-"Oral Pathology":["Oral Lesions","Dental Diseases"],
-"Orthodontics":["Malocclusion","Dental Alignment"],
+"Oral Pathology":["Oral Diseases","Oral Lesions"],
+"Orthodontics":["Tooth Alignment","Malocclusion"],
 "Periodontics":["Gums","Periodontal Health"],
-"Prosthodontics":["Dental Prostheses","Crowns","Dentures"]
+"Prosthodontics":["Crowns","Dentures"]
 },
 "Nursing":{
-"Anatomy":["Body Systems","Organs","Tissues"],
-"Nutrition":["Balanced Diet","Nutrients","Diet Planning"],
+"Anatomy":["Organs","Body Systems"],
+"Nutrition":["Nutrients","Balanced Diet"],
 "Pharmacology":["Drug Classes","Medication Safety"],
 "Medical Surgical Nursing":["Patient Care","Clinical Assessment"],
 "Community Health Nursing":["Public Health","Health Education"]
@@ -104,14 +117,13 @@ const data = {
 "Physiotherapy":{
 "Anatomy":["Muscles","Bones","Joints"],
 "Exercise Therapy":["Movement","Exercise Principles"],
-"Electrotherapy":["Basic Modalities","Therapeutic Applications"],
+"Electrotherapy":["Basic Modalities","Applications"],
 "Orthopedics":["Bone Health","Joint Conditions"]
 },
 "Medical Laboratory Technology":{
 "Hematology":["Blood Cells","Blood Groups"],
 "Clinical Biochemistry":["Blood Tests","Enzymes"],
-"Microbiology":["Bacteria","Viruses","Fungi"],
-"Pathology":["Tissue Samples","Disease Processes"]
+"Microbiology":["Bacteria","Viruses"]
 },
 "Optometry":{
 "Visual Optics":["Light","Lenses","Refraction"],
@@ -123,23 +135,23 @@ const data = {
 "Engineering":{
 "CSE":{
 "Programming":["Variables","Data Types","Operators","Conditions","Loops","Functions"],
-"Python":["Syntax","Variables","Lists","Tuples","Functions","File Handling"],
+"Python":["Syntax","Variables","Lists","Tuples","Functions"],
 "Java":["Classes","Objects","Inheritance","Polymorphism"],
 "Data Structures":["Arrays","Stacks","Queues","Linked Lists","Trees","Graphs"],
-"Algorithms":["Searching","Sorting","Recursion","Complexity"],
+"Algorithms":["Searching","Sorting","Recursion"],
 "Database Management":["SQL","Tables","Keys","Normalization"],
 "Operating Systems":["Processes","Threads","Memory Management"],
 "Computer Networks":["Network Models","IP Addressing","Protocols"],
-"Artificial Intelligence":["Search","Knowledge Representation","AI Applications"],
-"Machine Learning":["Supervised Learning","Unsupervised Learning","Model Evaluation"],
-"Cyber Security":["Security Principles","Encryption Basics","Network Security"]
+"Artificial Intelligence":["AI Basics","Search","Applications"],
+"Machine Learning":["Supervised Learning","Unsupervised Learning"],
+"Cyber Security":["Security Principles","Encryption Basics"]
 },
 "IT":{
 "Web Development":["HTML","CSS","JavaScript","Responsive Design"],
 "Cloud Computing":["Cloud Basics","Virtualization","Cloud Storage"],
 "Mobile Computing":["Mobile Networks","Mobile Applications"],
-"Networking":["Network Devices","Protocols","Network Design"],
-"Software Engineering":["Requirements","Design","Testing","Maintenance"]
+"Networking":["Network Devices","Protocols"],
+"Software Engineering":["Requirements","Design","Testing"]
 },
 "ECE":{
 "Electronic Devices":["Diodes","Transistors","Semiconductors"],
@@ -154,31 +166,29 @@ const data = {
 "Circuit Theory":["Ohms Law","Network Theorems","AC Circuits"],
 "Electrical Machines":["Transformers","Motors","Generators"],
 "Power Systems":["Generation","Transmission","Distribution"],
-"Control Systems":["Feedback","Stability","Control Models"],
-"Power Electronics":["Converters","Inverters","Applications"]
+"Control Systems":["Feedback","Stability"],
+"Power Electronics":["Converters","Inverters"]
 },
 "Mechanical":{
 "Engineering Mechanics":["Force","Motion","Equilibrium"],
-"Thermodynamics":["Laws","Heat","Work","Cycles"],
+"Thermodynamics":["Heat","Work","Laws"],
 "Fluid Mechanics":["Fluid Properties","Pressure","Flow"],
 "Manufacturing Technology":["Casting","Welding","Machining"],
-"Machine Design":["Stress","Strain","Design Principles"],
-"Heat Transfer":["Conduction","Convection","Radiation"]
+"Machine Design":["Stress","Strain","Design Principles"]
 },
 "Civil":{
 "Structural Engineering":["Loads","Beams","Columns"],
 "Surveying":["Levelling","Measurements","Mapping"],
 "Geotechnical Engineering":["Soil Properties","Foundations"],
 "Transportation Engineering":["Roads","Railways","Traffic"],
-"Environmental Engineering":["Water","Wastewater","Pollution"],
-"Construction Management":["Planning","Estimation","Project Management"]
+"Environmental Engineering":["Water","Wastewater","Pollution"]
 },
 "AI and Data Science":{
 "Artificial Intelligence":["AI Basics","Search","Applications"],
 "Machine Learning":["Regression","Classification","Clustering"],
 "Deep Learning":["Neural Networks","Deep Learning Basics"],
-"Data Analytics":["Data Cleaning","Data Visualization","Analysis"],
-"Statistics":["Probability","Distributions","Hypothesis Testing"]
+"Data Analytics":["Data Cleaning","Data Visualization"],
+"Statistics":["Probability","Distributions"]
 },
 "Biomedical Engineering":{
 "Human Anatomy":["Organs","Body Systems"],
@@ -189,38 +199,33 @@ const data = {
 "Chemical Engineering":{
 "Mass Transfer":["Diffusion","Absorption"],
 "Heat Transfer":["Conduction","Convection"],
-"Reaction Engineering":["Chemical Reactions","Reactors"],
-"Process Control":["Process Variables","Control Systems"]
+"Reaction Engineering":["Chemical Reactions","Reactors"]
 },
 "Automobile Engineering":{
 "IC Engines":["Engine Components","Engine Cycles"],
 "Vehicle Dynamics":["Motion","Stability"],
-"Electric Vehicles":["EV Basics","Batteries","Motors"],
-"Automotive Systems":["Brakes","Transmission","Steering"]
+"Electric Vehicles":["EV Basics","Batteries","Motors"]
 },
 "Aerospace Engineering":{
 "Aerodynamics":["Airflow","Lift","Drag"],
 "Aircraft Structures":["Materials","Structural Loads"],
-"Flight Mechanics":["Aircraft Motion","Stability"],
-"Propulsion":["Jet Engines","Rocket Basics"]
+"Flight Mechanics":["Aircraft Motion","Stability"]
 },
 "Mechatronics":{
 "Robotics":["Robot Basics","Robot Applications"],
 "Sensors":["Sensor Types","Measurement"],
-"Automation":["Control","Industrial Automation"],
-"Embedded Systems":["Microcontrollers","Embedded Programming"]
+"Automation":["Control","Industrial Automation"]
 },
 "Biotechnology":{
 "Molecular Biology":["DNA","RNA","Proteins"],
-"Genetics":["Genes","Inheritance","Variation"],
-"Bioprocess Engineering":["Fermentation","Bioreactors"]
+"Genetics":["Genes","Inheritance","Variation"]
 }
 },
 
 "Arts and Humanities":{
 "BA English":{
-"Literature":["Poetry","Drama","Fiction","Literary Criticism"],
-"Grammar":["Parts of Speech","Tenses","Articles","Prepositions"],
+"Literature":["Poetry","Drama","Fiction"],
+"Grammar":["Parts of Speech","Tenses","Articles"],
 "Communication":["Speaking","Listening","Writing"]
 },
 "BA Tamil":{
@@ -229,10 +234,9 @@ const data = {
 "Modern Literature":["Poetry","Short Stories","Novels"]
 },
 "BA History":{
-"Ancient History":["Early Civilizations","Ancient India"],
+"Ancient History":["Civilizations","Ancient India"],
 "Medieval History":["Medieval India","World History"],
-"Modern History":["Freedom Movement","Modern World"],
-"Indian History":["Dynasties","National Movement"]
+"Modern History":["Freedom Movement","Modern World"]
 },
 "BA Political Science":{
 "Political Theory":["State","Power","Democracy"],
@@ -241,13 +245,12 @@ const data = {
 },
 "BA Sociology":{
 "Indian Society":["Social Groups","Institutions"],
-"Social Change":["Modernization","Urbanization"],
-"Social Research":["Methods","Data Collection"]
+"Social Change":["Modernization","Urbanization"]
 },
 "BA Psychology":{
 "Cognitive Psychology":["Memory","Learning","Thinking"],
 "Social Psychology":["Groups","Attitudes"],
-"Developmental Psychology":["Child Development","Lifespan"]
+"Developmental Psychology":["Child Development"]
 },
 "BA Geography":{
 "Physical Geography":["Landforms","Climate","Rivers"],
@@ -256,8 +259,7 @@ const data = {
 },
 "BA Journalism":{
 "Reporting":["News Writing","Interviewing"],
-"Media Studies":["Print Media","Broadcast Media"],
-"Digital Journalism":["Online News","Media Literacy"]
+"Media Studies":["Print Media","Broadcast Media"]
 }
 },
 
@@ -266,8 +268,7 @@ const data = {
 "Algebra":["Equations","Matrices","Groups"],
 "Calculus":["Limits","Differentiation","Integration"],
 "Geometry":["Lines","Circles","Conic Sections"],
-"Statistics":["Mean","Median","Mode","Variance"],
-"Differential Equations":["First Order","Higher Order"]
+"Statistics":["Mean","Median","Mode","Variance"]
 },
 "BSc Physics":{
 "Mechanics":["Motion","Force","Energy"],
@@ -280,8 +281,7 @@ const data = {
 "BSc Chemistry":{
 "Organic Chemistry":["Hydrocarbons","Functional Groups"],
 "Inorganic Chemistry":["Elements","Periodic Trends"],
-"Physical Chemistry":["Thermodynamics","Kinetics"],
-"Analytical Chemistry":["Qualitative Analysis","Quantitative Analysis"]
+"Physical Chemistry":["Thermodynamics","Kinetics"]
 },
 "BSc Biology":{
 "Cell Biology":["Cell Structure","Organelles"],
@@ -292,31 +292,22 @@ const data = {
 "BSc Botany":{
 "Plant Anatomy":["Plant Tissues","Roots","Stems"],
 "Plant Physiology":["Photosynthesis","Respiration"],
-"Plant Taxonomy":["Classification","Plant Groups"],
-"Plant Ecology":["Habitats","Ecosystems"]
+"Plant Taxonomy":["Classification","Plant Groups"]
 },
 "BSc Zoology":{
 "Animal Diversity":["Animal Groups","Classification"],
 "Animal Physiology":["Body Systems","Functions"],
-"Evolution":["Adaptation","Natural Selection"],
-"Animal Behaviour":["Behaviour Patterns","Communication"]
+"Evolution":["Adaptation","Natural Selection"]
 },
 "BSc Computer Science":{
 "Programming":["Python","C","Java"],
 "Data Structures":["Arrays","Stacks","Queues"],
-"Database":["SQL","Data Models"],
-"Computer Networks":["Protocols","Network Basics"]
+"Database":["SQL","Data Models"]
 },
 "BSc Microbiology":{
 "Bacteriology":["Bacterial Structure","Growth"],
 "Virology":["Virus Structure","Virus Types"],
-"Mycology":["Fungi","Fungal Diversity"],
 "Immunology":["Immune System","Antibodies"]
-},
-"BSc Biochemistry":{
-"Biomolecules":["Carbohydrates","Proteins","Lipids"],
-"Enzymology":["Enzymes","Enzyme Activity"],
-"Metabolism":["Energy","Metabolic Pathways"]
 }
 },
 
@@ -332,15 +323,13 @@ const data = {
 "Management":["Planning","Organizing","Leadership"],
 "Marketing":["Marketing Mix","Consumer Behaviour"],
 "Human Resources":["Recruitment","Training","Performance"],
-"Business Communication":["Writing","Presentations"],
-"Entrepreneurship":["Business Ideas","Business Plans"]
+"Business Communication":["Writing","Presentations"]
 },
 "MBA":{
 "Finance":["Financial Management","Investment"],
 "Marketing":["Branding","Market Research"],
 "Human Resources":["Talent Management","Workplace Relations"],
-"Operations":["Supply Chain","Quality Management"],
-"Business Analytics":["Data Analysis","Decision Making"]
+"Operations":["Supply Chain","Quality Management"]
 },
 "Banking and Finance":{
 "Banking":["Bank Accounts","Banking Services"],
@@ -352,17 +341,15 @@ const data = {
 "Law":{
 "LLB":{
 "Constitutional Law":["Constitution","Fundamental Rights","Directive Principles"],
-"Criminal Law":["Criminal Justice","Offences","Legal Process"],
+"Criminal Law":["Criminal Justice","Offences"],
 "Civil Law":["Civil Rights","Civil Procedure"],
 "Contract Law":["Agreement","Offer","Acceptance"],
-"Family Law":["Marriage","Family Rights","Inheritance"],
-"Environmental Law":["Environmental Protection","Sustainability"]
+"Family Law":["Marriage","Family Rights","Inheritance"]
 },
 "LLM":{
 "International Law":["Treaties","International Organizations"],
 "Corporate Law":["Companies","Corporate Governance"],
-"Human Rights Law":["Human Rights","Legal Protection"],
-"Intellectual Property":["Copyright","Patents","Trademarks"]
+"Human Rights Law":["Human Rights","Legal Protection"]
 },
 "BA LLB":{
 "Political Science":["Democracy","Government"],
@@ -376,29 +363,21 @@ const data = {
 "Agronomy":["Crop Production","Crop Management"],
 "Soil Science":["Soil Types","Soil Fertility"],
 "Horticulture":["Fruit Crops","Vegetable Crops"],
-"Plant Pathology":["Plant Diseases","Disease Management"],
-"Agricultural Economics":["Farm Economics","Markets"]
+"Plant Pathology":["Plant Diseases","Disease Management"]
 },
 "Horticulture":{
 "Fruit Science":["Fruit Production","Orchards"],
 "Vegetable Science":["Vegetable Crops","Cultivation"],
 "Floriculture":["Flower Crops","Flower Design"]
 },
-"Forestry":{
-"Forest Ecology":["Forest Ecosystems","Biodiversity"],
-"Forest Management":["Forest Resources","Conservation"],
-"Wildlife Conservation":["Wildlife","Habitats"]
-},
 "Veterinary Science":{
 "Animal Anatomy":["Animal Body Structure","Organs"],
 "Animal Physiology":["Body Functions","Systems"],
-"Animal Nutrition":["Feed","Nutrients"],
-"Veterinary Surgery":["Surgical Principles","Animal Care"]
+"Animal Nutrition":["Feed","Nutrients"]
 },
 "Fisheries":{
 "Aquaculture":["Fish Farming","Water Quality"],
-"Fish Biology":["Fish Structure","Fish Life Cycle"],
-"Fisheries Management":["Fish Resources","Conservation"]
+"Fish Biology":["Fish Structure","Fish Life Cycle"]
 }
 },
 
@@ -420,8 +399,7 @@ const data = {
 },
 "Interior Design":{
 "Space Planning":["Room Layout","Space Use"],
-"Furniture Design":["Furniture","Materials"],
-"Lighting":["Lighting Basics","Interior Lighting"]
+"Furniture Design":["Furniture","Materials"]
 }
 },
 
@@ -429,13 +407,11 @@ const data = {
 "BEd":{
 "Educational Psychology":["Learning","Child Development"],
 "Teaching Methods":["Lesson Planning","Teaching Strategies"],
-"Assessment":["Tests","Evaluation"],
-"Classroom Management":["Classroom Rules","Student Engagement"]
+"Assessment":["Tests","Evaluation"]
 },
 "MEd":{
 "Educational Research":["Research Methods","Data"],
-"Educational Technology":["Digital Learning","Teaching Tools"],
-"Curriculum Development":["Curriculum Design","Evaluation"]
+"Educational Technology":["Digital Learning","Teaching Tools"]
 }
 },
 
@@ -443,13 +419,28 @@ const data = {
 "Hotel Management":{
 "Food Production":["Kitchen Basics","Food Preparation"],
 "Front Office":["Guest Services","Reservations"],
-"Housekeeping":["Room Management","Cleaning Standards"],
-"Food and Beverage":["Restaurant Service","Menu Planning"]
+"Housekeeping":["Room Management","Cleaning Standards"]
 },
 "Tourism Management":{
 "Travel Management":["Travel Planning","Tour Packages"],
-"Tourism Geography":["Destinations","Tourism Regions"],
-"Tourism Marketing":["Promotion","Customer Service"]
+"Tourism Geography":["Destinations","Tourism Regions"]
+}
+},
+
+"Computer and Technology":{
+"Data Science":{
+"Statistics":["Probability","Distributions"],
+"Python":["Variables","Functions","Lists"],
+"Data Visualization":["Charts","Graphs"]
+},
+"Cyber Security":{
+"Network Security":["Network Basics","Security Principles"],
+"Cryptography":["Encryption","Decryption"],
+"Digital Forensics":["Digital Evidence","Forensic Basics"]
+},
+"Cloud Computing":{
+"Cloud Architecture":["Cloud Models","Cloud Services"],
+"Virtualization":["Virtual Machines","Containers"]
 }
 },
 
@@ -474,69 +465,98 @@ const data = {
 }
 };
 
-const dept=document.getElementById("department");
-const course=document.getElementById("course");
-const subject=document.getElementById("subject");
-const topic=document.getElementById("topic");
+let selectedDepartment="";
+let selectedCourse="";
+let selectedSubject="";
 
-Object.keys(data).forEach(d=>{
-let o=document.createElement("option");
-o.value=d;o.textContent=d;dept.appendChild(o);
-});
-
-function resetSelect(element,label){
-element.innerHTML="";
-let o=document.createElement("option");
-o.value="";o.textContent=label;element.appendChild(o);
+function makeButton(name,container,fn){
+let b=document.createElement("button");
+b.textContent=name;
+b.onclick=()=>fn(name);
+container.appendChild(b);
 }
 
-function loadCourses(){
-resetSelect(course,"Select Course");
-resetSelect(subject,"Select Subject");
-resetSelect(topic,"Select Topic");
-document.getElementById("topicInfo").textContent="Select a course.";
-Object.keys(data[dept.value]||{}).forEach(c=>{
-let o=document.createElement("option");
-o.value=c;o.textContent=c;course.appendChild(o);
+function renderDepartments(){
+let box=document.getElementById("departments");
+Object.keys(data).forEach(name=>{
+makeButton(name,box,selectDepartment);
 });
 }
 
-function loadSubjects(){
-resetSelect(subject,"Select Subject");
-resetSelect(topic,"Select Topic");
-document.getElementById("topicInfo").textContent="Select a subject.";
-Object.keys(data[dept.value]?.[course.value]||{}).forEach(s=>{
-let o=document.createElement("option");
-o.value=s;o.textContent=s;subject.appendChild(o);
+function selectDepartment(name){
+selectedDepartment=name;
+selectedCourse="";
+selectedSubject="";
+document.getElementById("courses").innerHTML="";
+document.getElementById("subjects").innerHTML="Select a course.";
+document.getElementById("topics").innerHTML="Select a subject.";
+Object.keys(data[name]).forEach(c=>{
+makeButton(c,document.getElementById("courses"),selectCourse);
 });
+document.getElementById("courses").scrollIntoView({behavior:"smooth"});
 }
 
-function loadTopics(){
-resetSelect(topic,"Select Topic");
-document.getElementById("topicInfo").textContent="Select a topic.";
-let list=data[dept.value]?.[course.value]?.[subject.value]||[];
-list.forEach(t=>{
-let o=document.createElement("option");
-o.value=t;o.textContent=t;topic.appendChild(o);
+function selectCourse(name){
+selectedCourse=name;
+selectedSubject="";
+document.getElementById("subjects").innerHTML="";
+document.getElementById("topics").innerHTML="Select a subject.";
+Object.keys(data[selectedDepartment][name]).forEach(s=>{
+makeButton(s,document.getElementById("subjects"),selectSubject);
 });
+document.getElementById("subjects").scrollIntoView({behavior:"smooth"});
 }
 
-function showTopic(){
-let t=topic.value;
-if(!t)return;
-let message="Department: "+dept.value+
-"\nCourse: "+course.value+
-"\nSubject: "+subject.value+
-"\nTopic: "+t+
-"\n\nThis is a learning topic. Ask a question to explore it.";
-document.getElementById("topicInfo").textContent=message;
-showModal(t,message);
-document.getElementById("question").value=t;
+function selectSubject(name){
+selectedSubject=name;
+let box=document.getElementById("topics");
+box.innerHTML="";
+data[selectedDepartment][selectedCourse][name].forEach(t=>{
+makeButton(t,box,selectTopic);
+});
+box.scrollIntoView({behavior:"smooth"});
 }
 
-function showExam(name){
-let message="";
-if(name==="JEE Main"||name==="JEE Advanced"){
-message="Engineering entrance examination. Main subjects: Physics, Chemistry and Mathematics.";
-}else{
-message="Medical entrance examination. Main subjects: Physics, Chemistry a
+function selectTopic(name){
+document.getElementById("question").value=name;
+let message="Department: "+selectedDepartment+
+"\nCourse: "+selectedCourse+
+"\nSubject: "+selectedSubject+
+"\nTopic: "+name+
+"\n\nThis is a learning topic. You can ask a question about it.";
+showModal(name,message);
+}
+
+function exam(name){
+let info={
+"JEE Main":"Engineering entrance examination. Subjects: Physics, Chemistry and Mathematics.",
+"JEE Advanced":"IIT undergraduate engineering entrance examination. Subjects: Physics, Chemistry and Mathematics.",
+"NEET UG":"Undergraduate medical entrance examination. Subjects: Physics, Chemistry and Biology."
+};
+showModal(name,info[name]);
+}
+
+function showModal(title,message){
+document.getElementById("modalTitle").textContent=title;
+document.getElementById("modalText").textContent=message;
+document.getElementById("modal").style.display="block";
+}
+function closeModal(){
+document.getElementById("modal").style.display="none";
+}
+function closeOutside(e){
+if(e.target.id==="modal")closeModal();
+}
+function ask(){
+let q=document.getElementById("question").value.trim();
+let a=document.getElementById("answer");
+if(!q){a.textContent="Please enter a question.";return;}
+a.textContent="IntelliMind AI learning prototype: You selected "+q+
+". Detailed answers need verified learning content or a connected AI service.";
+}
+
+renderDepartments();
+
+</script>
+</body>
+</html>

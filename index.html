@@ -1,70 +1,102 @@
+HTML
 
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>IntelliMind AI</title>
 
 <style>
 *{box-sizing:border-box}
 body{
-  margin:0;
-  font-family:Arial,sans-serif;
-  background:#f5f7fb;
-  color:#222;
+ margin:0;
+ font-family:Arial,sans-serif;
+ background:#f4f6fa;
+ color:#222;
 }
 header{
-  background:white;
-  padding:18px;
-  text-align:center;
-  border-bottom:1px solid #ddd;
+ background:white;
+ padding:20px;
+ text-align:center;
+ border-bottom:1px solid #ddd;
 }
-header h1{margin:0;color:#2457c5}
-header p{margin:7px 0 0;color:#666}
-main{max-width:900px;margin:auto;padding:15px}
+header h1{color:#2457c5;margin:0}
+main{max-width:950px;margin:auto;padding:15px}
 .panel{
-  background:white;
-  padding:16px;
-  margin:14px 0;
-  border:1px solid #e5e7eb;
-  border-radius:12px;
+ background:white;
+ padding:16px;
+ margin:14px 0;
+ border:1px solid #ddd;
+ border-radius:12px;
 }
-h2{font-size:19px;margin-top:0}
-button,select,input{
-  padding:11px;
-  border:1px solid #ccd2dd;
-  border-radius:8px;
-  font-size:15px;
+h2{font-size:19px;color:#2457c5}
+.grid{
+ display:grid;
+ grid-template-columns:repeat(auto-fit,minmax(140px,1fr));
+ gap:10px;
 }
 button{
-  background:#2457c5;
-  color:white;
-  border:0;
-  cursor:pointer;
+ background:#2457c5;
+ color:white;
+ border:0;
+ border-radius:8px;
+ padding:12px;
+ cursor:pointer;
+ font-size:14px;
 }
 button:hover{background:#17429c}
-input,select{width:100%;margin:6px 0}
-.grid{
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(140px,1fr));
-  gap:9px;
+input,select{
+ width:100%;
+ padding:12px;
+ margin:7px 0;
+ border:1px solid #ccc;
+ border-radius:8px;
+ font-size:15px;
 }
-.grid button{min-height:48px}
-#answer,#countryResult{
-  white-space:pre-wrap;
-  background:#f5f7fb;
-  padding:12px;
-  border-radius:8px;
-  min-height:45px;
-  margin-top:10px;
+#answer,#result,#countryResult{
+ background:#f1f4fa;
+ padding:12px;
+ border-radius:8px;
+ margin-top:10px;
+ white-space:pre-wrap;
+}
+.modal{
+ display:none;
+ position:fixed;
+ z-index:999;
+ inset:0;
+ background:rgba(0,0,0,.6);
+ justify-content:center;
+ align-items:center;
+ padding:15px;
+}
+.modal-content{
+ background:white;
+ width:100%;
+ max-width:520px;
+ max-height:85vh;
+ overflow-y:auto;
+ padding:20px;
+ border-radius:14px;
+}
+.close-btn{
+ float:right;
+ background:#e53935;
+ font-size:22px;
+ padding:5px 12px;
+}
+#modalBody{
+ white-space:pre-wrap;
+ line-height:1.6;
+ overflow-wrap:anywhere;
 }
 .history-item{
-  padding:10px;
-  border-bottom:1px solid #eee;
-  overflow-wrap:anywhere;
+ padding:12px 0;
+ border-bottom:1px solid #ddd;
+ overflow-wrap:anywhere;
 }
-.small{font-size:13px;color:#666}
+.small{font-size:12px;color:#777}
 footer{text-align:center;padding:20px;color:#777}
 </style>
 </head>
@@ -72,14 +104,14 @@ footer{text-align:center;padding:20px;color:#777}
 <body>
 
 <header>
-  <h1>IntelliMind AI</h1>
-  <p>Global Learning and Knowledge Platform</p>
+<h1>IntelliMind AI</h1>
+<p>Global Learning and Knowledge Platform</p>
 </header>
 
 <main>
 
 <section class="panel">
-<h2>Explore Categories</h2>
+<h2>Explore All Categories</h2>
 <div class="grid" id="categoryButtons"></div>
 </section>
 
@@ -93,340 +125,514 @@ footer{text-align:center;padding:20px;color:#777}
 <select id="topic">
 <option value="">Select Topic</option>
 </select>
-<button onclick="useTopic()">Use Selected Topic</button>
+
+<button onclick="useTopic()">Open Selected Topic</button>
 </section>
 
 <section class="panel">
 <h2>Ask IntelliMind</h2>
-<input id="question" placeholder="Type your question here">
+<input id="question" placeholder="Enter your question">
 <button onclick="ask()">Ask AI</button>
 <div id="answer">Your answer will appear here.</div>
 </section>
 
 <section class="panel">
 <h2>World Countries</h2>
-<input id="countrySearch" placeholder="Search a country..." oninput="searchCountries()">
-<select id="countrySelect" onchange="showCountry()">
-<option value="">Select Country</option>
-</select>
-<div id="countryResult">Select a country to view its information.</div>
+<button onclick="openCountries()">Open Countries</button>
+</section>
+
+<section class="panel">
+<h2>World Politics</h2>
+<button onclick="openModal('World Politics',
+'Presidents\\nPrime Ministers\\nChief Ministers\\nElections\\nParliament\\nDemocracy\\nInternational Relations')">
+Open Politics
+</button>
+</section>
+
+<section class="panel">
+<h2>World Sports</h2>
+<button onclick="openModal('Sports Rules',
+'Cricket\\nFootball\\nKabaddi\\nHockey\\nBasketball\\nVolleyball\\nTennis\\nBadminton')">
+Open Sports
+</button>
+</section>
+
+<section class="panel">
+<h2>World Laws</h2>
+<button onclick="openModal('World Laws',
+'Constitutional Law\\nCriminal Law\\nCivil Law\\nInternational Law\\nHuman Rights\\nTraffic Rules\\nConsumer Rights')">
+Open Laws
+</button>
+</section>
+
+<section class="panel">
+<h2>Global Travel</h2>
+<button onclick="openModal('Global Travel',
+'Countries\\nTourist Places\\nPassport\\nVisa\\nAir Travel\\nTrain Travel\\nTravel Safety\\nWorld Heritage Sites')">
+Open Travel
+</button>
+</section>
+
+<section class="panel">
+<h2>Global Transport and Vehicles</h2>
+<button onclick="openModal('Global Transport',
+'Airplanes\\nHelicopters\\nPassenger Trains\\nBullet Trains\\nCars\\nElectric Vehicles\\nBuses\\nShips\\nSubmarines\\nTractors')">
+Open Transport
+</button>
+</section>
+
+<section class="panel">
+<h2>World Richest People</h2>
+<button onclick="openModal('World Richest People',
+'Wealth Rankings\\nEntrepreneurs\\nBusiness Leaders\\nNet Worth\\nRankings need current verified sources.')">
+Open Richest People
+</button>
+</section>
+
+<section class="panel">
+<h2>World Top Companies</h2>
+<button onclick="openModal('World Top Companies',
+'Technology Companies\\nAutomobile Companies\\nHealthcare Companies\\nAerospace Companies\\nFinance Companies\\nCompany rankings need current verified sources.')">
+Open Companies
+</button>
 </section>
 
 <section class="panel">
 <h2>Calculator</h2>
-<input id="num1" type="number" placeholder="First number">
+<input type="number" id="num1" placeholder="First number">
 <select id="operator">
-<option value="+">Addition (+)</option>
-<option value="-">Subtraction (-)</option>
-<option value="*">Multiplication (×)</option>
-<option value="/">Division (÷)</option>
+<option value="+">Addition +</option>
+<option value="-">Subtraction -</option>
+<option value="*">Multiplication ×</option>
+<option value="/">Division ÷</option>
 </select>
-<input id="num2" type="number" placeholder="Second number">
+<input type="number" id="num2" placeholder="Second number">
 <button onclick="calculate()">Calculate</button>
-<div id="calcResult"></div>
+<div id="result"></div>
 </section>
 
 <section class="panel">
 <h2>Chat History</h2>
-<button onclick="showHistory()">Refresh History</button>
-<button onclick="clearHistory()" style="background:#c0392b">Clear History</button>
-<div id="historyList">No history yet.</div>
+<button onclick="openHistory()">Open History</button>
+<button onclick="clearHistory()" style="background:#d32f2f">Clear History</button>
 </section>
 
 </main>
 
-<footer>
-IntelliMind AI – Learning Prototype
-</footer>
+<footer>IntelliMind AI – Global Edition</footer>
+
+<!-- MODAL -->
+<div id="myModal" class="modal">
+ <div class="modal-content">
+  <button class="close-btn" onclick="closeModal()">×</button>
+  <h2 id="modalTitle">IntelliMind AI</h2>
+  <div id="modalBody"></div>
+ </div>
+</div>
 
 <script>
-const data = {
-"Education":["Mathematics","Physics","Chemistry","Computer Science","English","Biology"],
-"Medical and Healthcare":["MBBS","BDS","Anatomy","Physiology","Biochemistry","Pharmacology","Pathology","Microbiology","Community Medicine","Nursing","Pharmacy"],
-"Engineering":["Computer Science Engineering","Electronics and Communication Engineering","Electrical Engineering","Mechanical Engineering","Civil Engineering","Information Technology","Artificial Intelligence","VLSI"],
-"Arts and Science":["History","Geography","Economics","Political Science","Psychology","Sociology","Tamil","English Literature"],
-"Commerce and Management":["Accounting","Finance","Business Studies","Marketing","Human Resources","Business Administration"],
-"Law":["Constitutional Law","Criminal Law","Civil Law","International Law","Human Rights"],
-"Agriculture":["Agronomy","Horticulture","Soil Science","Agricultural Engineering"],
-"Government Exams":["UPSC","TNPSC","SSC","Banking Exams","Railway Exams","Defence Exams","Teaching Exams","State Government Exams"],
-"Private Jobs and Careers":["Software Developer","Web Developer","Data Analyst","VLSI Engineer","Embedded Engineer","Medical Jobs","Accountant","Teacher"],
-"World Languages":["English","Tamil","Hindi","French","German","Spanish","Japanese","Chinese","Arabic"],
-"Sports Rules":["Cricket","Football","Kabaddi","Hockey","Basketball","Volleyball","Tennis","Badminton"],
-"World Laws":["Constitution","Fundamental Rights","International Law","Traffic Rules","Consumer Rights"],
-"World Politics":["Democracy","Parliament","Presidential System","Prime Minister","President","Elections","International Relations"],
-"History and Geography":["World History","Indian History","World Geography","Continents","Oceans"],
-"Science and Technology":["Artificial Intelligence","Robotics","Space Science","Nanotechnology","Computer Science"],
-"General Knowledge":["Science GK","World GK","Indian GK","Current Affairs"],
-"Global Travel":["Countries","Tourist Places","Passport","Visa","Travel Safety","World Heritage Sites"],
-"Global Transport and Vehicles":["Airplanes","Helicopters","Passenger Trains","Bullet Trains","Cars","Electric Vehicles","Buses","Ships","Submarines","Tractors"],
-"World Richest People":["Wealth Rankings","Entrepreneurs","Business Leaders"],
-"World Top Companies":["Technology Companies","Automobile Companies","Aerospace Companies","Healthcare Companies"],
-"World Countries":["Country Information","Capitals","Currencies","Languages","Population","Geography","Economy","Tourism"]
+
+const data={
+
+"Education":[
+"Mathematics","Physics","Chemistry","Biology","Computer Science","English"
+],
+
+"Medical and Healthcare":[
+"MBBS","BDS","Anatomy","Physiology","Biochemistry",
+"Pharmacology","Pathology","Microbiology","Nursing","Pharmacy"
+],
+
+"Engineering":[
+"Computer Science Engineering",
+"Electronics and Communication Engineering",
+"Electrical Engineering","Mechanical Engineering",
+"Civil Engineering","Information Technology",
+"Artificial Intelligence","VLSI","Automobile Engineering"
+],
+
+"Arts and Science":[
+"History","Geography","Economics","Political Science",
+"Psychology","Sociology","Tamil","English Literature"
+],
+
+"Commerce and Management":[
+"Accounting","Finance","Business Studies",
+"Marketing","Human Resources","Business Administration"
+],
+
+"Law":[
+"Constitutional Law","Criminal Law","Civil Law",
+"International Law","Human Rights"
+],
+
+"Agriculture":[
+"Agronomy","Horticulture","Soil Science","Agricultural Engineering"
+],
+
+"Government Exams":[
+"UPSC","TNPSC","SSC","Banking Exams","Railway Exams",
+"Defence Exams","Teaching Exams","State Government Exams"
+],
+
+"Private Jobs and Careers":[
+"Software Developer","Web Developer","Data Analyst",
+"VLSI Engineer","Embedded Engineer","Medical Jobs",
+"Accountant","Teacher","Designer"
+],
+
+"World Languages":[
+"English","Tamil","Hindi","French","German",
+"Spanish","Japanese","Chinese","Arabic"
+],
+
+"Sports Rules":[
+"Cricket","Football","Kabaddi","Hockey",
+"Basketball","Volleyball","Tennis","Badminton"
+],
+
+"World Laws":[
+"Constitution","Fundamental Rights","International Law",
+"Traffic Rules","Consumer Rights"
+],
+
+"World Politics":[
+"Democracy","Parliament","Presidential System",
+"Prime Minister","President","Elections","International Relations"
+],
+
+"History and Geography":[
+"World History","Indian History","World Geography",
+"Continents","Oceans"
+],
+
+"Science and Technology":[
+"Artificial Intelligence","Robotics","Space Science",
+"Nanotechnology","Computer Science"
+],
+
+"General Knowledge":[
+"Science GK","World GK","Indian GK","Current Affairs"
+],
+
+"Global Travel":[
+"Countries","Tourist Places","Passport","Visa",
+"Travel Safety","World Heritage Sites"
+],
+
+"Global Transport and Vehicles":[
+"Airplanes","Helicopters","Passenger Trains",
+"Bullet Trains","Cars","Electric Vehicles","Buses",
+"Ships","Submarines","Tractors"
+],
+
+"World Richest People":[
+"Wealth Rankings","Entrepreneurs","Business Leaders"
+],
+
+"World Top Companies":[
+"Technology Companies","Automobile Companies",
+"Aerospace Companies","Healthcare Companies"
+],
+
+"World Countries":[
+"Country Information","Capitals","Currencies",
+"Languages","Population","Geography","Economy","Tourism"
+]
+
 };
 
-const categories = Object.keys(data);
+const departments=document.getElementById("department");
+const topics=document.getElementById("topic");
 
-const departments = document.getElementById("department");
-const topics = document.getElementById("topic");
-
-categories.forEach(category=>{
-  const option=document.createElement("option");
-  option.value=category;
-  option.textContent=category;
-  departments.appendChild(option);
+Object.keys(data).forEach(category=>{
+ let option=document.createElement("option");
+ option.value=category;
+ option.textContent=category;
+ departments.appendChild(option);
 });
 
 const categoryButtons=document.getElementById("categoryButtons");
 
-categories.forEach(category=>{
-  const button=document.createElement("button");
-  button.textContent=category;
-  button.onclick=()=>{
-    departments.value=category;
-    loadTopics();
-    document.getElementById("department").scrollIntoView({behavior:"smooth"});
-  };
-  categoryButtons.appendChild(button);
+Object.keys(data).forEach(category=>{
+ let button=document.createElement("button");
+ button.textContent=category;
+ button.onclick=()=>{
+  departments.value=category;
+  loadTopics();
+  openCategory(category);
+ };
+ categoryButtons.appendChild(button);
 });
 
 function loadTopics(){
-  const selected=departments.value;
-  topics.innerHTML='<option value="">Select Topic</option>';
+ let selected=departments.value;
+ topics.innerHTML='<option value="">Select Topic</option>';
 
-  if(!selected || !data[selected]) return;
-
+ if(data[selected]){
   data[selected].forEach(item=>{
-    const option=document.createElement("option");
-    option.value=item;
-    option.textContent=item;
-    topics.appendChild(option);
+   let option=document.createElement("option");
+   option.value=item;
+   option.textContent=item;
+   topics.appendChild(option);
   });
+ }
 }
 
 function useTopic(){
-  const selected=topics.value;
-  if(!selected){
-    alert("Please select a topic.");
-    return;
-  }
-  document.getElementById("question").value=selected;
-  document.getElementById("question").focus();
+ let selected=topics.value;
+
+ if(!selected){
+  alert("Please select a topic");
+  return;
+ }
+
+ openModal(selected,"You selected: "+selected+
+ "\n\nAsk this topic in the IntelliMind chat section to learn more.");
+}
+
+function openModal(title,content){
+ document.getElementById("modalTitle").textContent=title;
+ document.getElementById("modalBody").textContent=content;
+ document.getElementById("myModal").style.display="flex";
+}
+
+function closeModal(){
+ document.getElementById("myModal").style.display="none";
+}
+
+document.getElementById("myModal").addEventListener("click",function(e){
+ if(e.target===this) closeModal();
+});
+
+function openCategory(category){
+ openModal(category,data[category].join("\n"));
 }
 
 function getAnswer(question){
-  const q=question.toLowerCase();
+ let q=question.toLowerCase();
 
-  if(q.includes("hello") || q.includes("hi"))
-    return "Hello! Welcome to IntelliMind AI. Ask me an educational question.";
+ if(q.includes("hello")||q.includes("hi"))
+  return "Hello! Welcome to IntelliMind AI.";
 
-  if(q.includes("python"))
-    return "Python is a high-level programming language. It is used in web development, automation, data science and AI.";
+ if(q.includes("python"))
+  return "Python is a high-level programming language used in software development, automation and data science.";
 
-  if(q.includes("math"))
-    return "Mathematics is the study of numbers, quantities, shapes and patterns.";
+ if(q.includes("math"))
+  return "Mathematics is the study of numbers, quantities, shapes and patterns.";
 
-  if(q.includes("grammar"))
-    return "Grammar is the set of rules used to speak and write a language correctly.";
+ if(q.includes("grammar"))
+  return "Grammar is the set of rules used to speak and write a language correctly.";
 
-  if(q.includes("engineering") || q.includes("ece"))
-    return "Engineering applies science and mathematics to design and develop useful systems. ECE includes electronics, communication and signal processing.";
+ if(q.includes("engineering"))
+  return "Engineering uses science and mathematics to design and develop useful systems.";
 
-  if(q.includes("mbbs"))
-    return "MBBS is a medical degree that teaches students about human health, diseases, diagnosis and treatment.";
+ if(q.includes("mbbs"))
+  return "MBBS is a medical degree that teaches human health, diseases, diagnosis and treatment.";
 
-  if(q.includes("upsc"))
-    return "UPSC Civil Services Examination is a competitive examination for recruitment to services such as IAS, IPS and IFS. Check the official UPSC website for current details.";
+ if(q.includes("upsc"))
+  return "UPSC conducts Civil Services Examination for services such as IAS and IPS. Check the official UPSC website for current details.";
 
-  if(q.includes("kabaddi"))
-    return "Kabaddi is a team sport. Players take turns raiding the opposing team's half while following the official rules.";
+ if(q.includes("kabaddi"))
+  return "Kabaddi is a team sport. Players take turns raiding the opposing team's half under official rules.";
 
-  if(q.includes("president") || q.includes("prime minister"))
-    return "Presidents and Prime Ministers have different roles depending on each country's constitution. Check an official government source for current office-holders.";
+ if(q.includes("law"))
+  return "Laws are rules made and enforced by a country's legal system. Laws differ between countries.";
 
-  if(q.includes("law"))
-    return "Laws are rules made and enforced by a country's legal system. Laws differ between countries.";
+ if(q.includes("job")||q.includes("career"))
+  return "Career options include engineering, healthcare, education, business, government services and technology.";
 
-  if(q.includes("job") || q.includes("career"))
-    return "Career options include engineering, healthcare, education, business, government services and technology. Choose based on your interests and qualifications.";
+ if(q.includes("country")||q.includes("world"))
+  return "The world has many countries with different capitals, languages, currencies and cultures.";
 
-  if(q.includes("richest") || q.includes("wealth"))
-    return "Wealth rankings change over time and depend on the source and date. A reliable, current financial source is needed for accurate rankings.";
+ if(q.includes("president")||q.includes("prime minister"))
+  return "The roles of Presidents and Prime Ministers depend on each country's constitution. Use official government sources for current leaders.";
 
-  if(q.includes("country") || q.includes("world"))
-    return "The world has many countries with different capitals, languages, currencies, cultures and governments. Select a country in the World Countries section.";
-
-  return "I can help with basic learning topics. Try asking about Python, Mathematics, English, Engineering, MBBS, UPSC, Sports or World Countries. This prototype uses predefined answers.";
+ return "I can help with basic learning topics. Try Python, Mathematics, English, Engineering, MBBS, UPSC, Sports or World Countries. This prototype uses predefined answers.";
 }
 
 function ask(){
-  const question=document.getElementById("question").value.trim();
+ let question=document.getElementById("question").value.trim();
 
-  if(!question){
-    alert("Please enter a question.");
-    return;
-  }
+ if(!question){
+  alert("Enter your question");
+  return;
+ }
 
-  const answer=getAnswer(question);
-  document.getElementById("answer").textContent=answer;
+ let answer=getAnswer(question);
+ document.getElementById("answer").textContent=answer;
 
-  let history=[];
-  try{
-    history=JSON.parse(localStorage.getItem("imHistory") || "[]");
-    if(!Array.isArray(history)) history=[];
-  }catch(error){
-    history=[];
-  }
+ let history=[];
+ try{
+  history=JSON.parse(localStorage.getItem("imHistory")||"[]");
+  if(!Array.isArray(history)) history=[];
+ }catch(e){history=[];}
 
-  history.unshift({
-    question:question,
-    answer:answer,
-    date:new Date().toLocaleString()
-  });
+ history.unshift({
+  question:question,
+  answer:answer,
+  date:new Date().toLocaleString()
+ });
 
-  history=history.slice(0,100);
-  localStorage.setItem("imHistory",JSON.stringify(history));
-  showHistory();
+ localStorage.setItem("imHistory",JSON.stringify(history.slice(0,100)));
 }
 
-const countries = [
-"Afghanistan","Albania","Algeria","Andorra","Angola","Antigua and Barbuda",
-"Argentina","Armenia","Australia","Austria","Azerbaijan","Bahamas","Bahrain",
-"Bangladesh","Barbados","Belarus","Belgium","Belize","Benin","Bhutan",
-"Bolivia","Bosnia and Herzegovina","Botswana","Brazil","Brunei","Bulgaria",
+const countries=[
+"Afghanistan","Albania","Algeria","Andorra","Angola",
+"Antigua and Barbuda","Argentina","Armenia","Australia","Austria",
+"Azerbaijan","Bahamas","Bahrain","Bangladesh","Barbados","Belarus",
+"Belgium","Belize","Benin","Bhutan","Bolivia",
+"Bosnia and Herzegovina","Botswana","Brazil","Brunei","Bulgaria",
 "Burkina Faso","Burundi","Cabo Verde","Cambodia","Cameroon","Canada",
 "Central African Republic","Chad","Chile","China","Colombia","Comoros",
-"Congo","Costa Rica","Cote d'Ivoire","Croatia","Cuba","Cyprus","Czechia",
-"Democratic Republic of the Congo","Denmark","Djibouti","Dominica",
-"Dominican Republic","Ecuador","Egypt","El Salvador","Equatorial Guinea",
-"Eritrea","Estonia","Eswatini","Ethiopia","Fiji","Finland","France","Gabon",
-"Gambia","Georgia","Germany","Ghana","Greece","Grenada","Guatemala","Guinea",
-"Guinea-Bissau","Guyana","Haiti","Honduras","Hungary","Iceland","India",
-"Indonesia","Iran","Iraq","Ireland","Israel","Italy","Jamaica","Japan",
-"Jordan","Kazakhstan","Kenya","Kiribati","Kuwait","Kyrgyzstan","Laos",
-"Latvia","Lebanon","Lesotho","Liberia","Libya","Liechtenstein","Lithuania",
-"Luxembourg","Madagascar","Malawi","Malaysia","Maldives","Mali","Malta",
-"Marshall Islands","Mauritania","Mauritius","Mexico","Micronesia","Moldova",
-"Monaco","Mongolia","Montenegro","Morocco","Mozambique","Myanmar","Namibia",
-"Nauru","Nepal","Netherlands","New Zealand","Nicaragua","Niger","Nigeria",
-"North Korea","North Macedonia","Norway","Oman","Pakistan","Palau","Panama",
-"Papua New Guinea","Paraguay","Peru","Philippines","Poland","Portugal",
-"Qatar","Romania","Russia","Rwanda","Saint Kitts and Nevis","Saint Lucia",
-"Saint Vincent and the Grenadines","Samoa","San Marino","Sao Tome and Principe",
-"Saudi Arabia","Senegal","Serbia","Seychelles","Sierra Leone","Singapore",
-"Slovakia","Slovenia","Solomon Islands","Somalia","South Africa","South Korea",
-"South Sudan","Spain","Sri Lanka","Sudan","Suriname","Sweden","Switzerland",
-"Syria","Tajikistan","Tanzania","Thailand","Timor-Leste","Togo","Tonga",
-"Trinidad and Tobago","Tunisia","Turkey","Turkmenistan","Tuvalu","Uganda",
-"Ukraine","United Arab Emirates","United Kingdom","United States","Uruguay",
-"Uzbekistan","Vanuatu","Vatican City","Venezuela","Vietnam","Yemen","Zambia",
-"Zimbabwe","State of Palestine"
+"Congo","Costa Rica","Cote d'Ivoire","Croatia","Cuba","Cyprus",
+"Czechia","Democratic Republic of the Congo","Denmark","Djibouti",
+"Dominica","Dominican Republic","Ecuador","Egypt","El Salvador",
+"Equatorial Guinea","Eritrea","Estonia","Eswatini","Ethiopia","Fiji",
+"Finland","France","Gabon","Gambia","Georgia","Germany","Ghana",
+"Greece","Grenada","Guatemala","Guinea","Guinea-Bissau","Guyana",
+"Haiti","Honduras","Hungary","Iceland","India","Indonesia","Iran",
+"Iraq","Ireland","Israel","Italy","Jamaica","Japan","Jordan",
+"Kazakhstan","Kenya","Kiribati","Kuwait","Kyrgyzstan","Laos",
+"Latvia","Lebanon","Lesotho","Liberia","Libya","Liechtenstein",
+"Lithuania","Luxembourg","Madagascar","Malawi","Malaysia","Maldives",
+"Mali","Malta","Marshall Islands","Mauritania","Mauritius","Mexico",
+"Micronesia","Moldova","Monaco","Mongolia","Montenegro","Morocco",
+"Mozambique","Myanmar","Namibia","Nauru","Nepal","Netherlands",
+"New Zealand","Nicaragua","Niger","Nigeria","North Korea",
+"North Macedonia","Norway","Oman","Pakistan","Palau","Panama",
+"Papua New Guinea","Paraguay","Peru","Philippines","Poland",
+"Portugal","Qatar","Romania","Russia","Rwanda","Saint Kitts and Nevis",
+"Saint Lucia","Saint Vincent and the Grenadines","Samoa","San Marino",
+"Sao Tome and Principe","Saudi Arabia","Senegal","Serbia","Seychelles",
+"Sierra Leone","Singapore","Slovakia","Slovenia","Solomon Islands",
+"Somalia","South Africa","South Korea","South Sudan","Spain",
+"Sri Lanka","Sudan","Suriname","Sweden","Switzerland","Syria",
+"Tajikistan","Tanzania","Thailand","Timor-Leste","Togo","Tonga",
+"Trinidad and Tobago","Tunisia","Turkey","Turkmenistan","Tuvalu",
+"Uganda","Ukraine","United Arab Emirates","United Kingdom",
+"United States","Uruguay","Uzbekistan","Vanuatu","Vatican City",
+"Venezuela","Vietnam","Yemen","Zambia","Zimbabwe","State of Palestine"
 ];
 
-const countrySelect=document.getElementById("countrySelect");
-
-countries.sort().forEach(country=>{
-  const option=document.createElement("option");
-  option.value=country;
-  option.textContent=country;
-  countrySelect.appendChild(option);
-});
-
-function searchCountries(){
-  const search=document.getElementById("countrySearch").value.toLowerCase();
-  countrySelect.innerHTML='<option value="">Select Country</option>';
-
-  countries.filter(country=>country.toLowerCase().includes(search))
-  .forEach(country=>{
-    const option=document.createElement("option");
-    option.value=country;
-    option.textContent=country;
-    countrySelect.appendChild(option);
-  });
+function openCountries(){
+ let html='<input id="countrySearch" placeholder="Search country..." oninput="filterCountries()">';
+ html+='<select id="countryList" size="8" style="width:100%;margin-top:10px" onchange="selectCountry()">';
+ countries.forEach(c=>html+='<option>'+c+'</option>');
+ html+='</select><p id="countryInfo">Select a country.</p>';
+ document.getElementById("modalTitle").textContent="World Countries";
+ document.getElementById("modalBody").innerHTML=html;
+ document.getElementById("myModal").style.display="flex";
 }
 
-function showCountry(){
-  const country=countrySelect.value;
-  document.getElementById("countryResult").textContent=
-    country
-    ? country+"\n\nCountry selected.\nCapital, currency, population, language, laws and current leaders require verified country data sources."
-    : "Select a country to view its information.";
+function filterCountries(){
+ let search=document.getElementById("countrySearch").value.toLowerCase();
+ let list=document.getElementById("countryList");
+ list.innerHTML="";
+ countries.filter(c=>c.toLowerCase().includes(search)).forEach(c=>{
+  let option=document.createElement("option");
+  option.textContent=c;
+  list.appendChild(option);
+ });
+}
+
+function selectCountry(){
+ let country=document.getElementById("countryList").value;
+ document.getElementById("countryInfo").textContent=
+ country+" selected. Verified capital, currency, population and other current information require a reliable data source.";
 }
 
 function calculate(){
-  const a=parseFloat(document.getElementById("num1").value);
-  const b=parseFloat(document.getElementById("num2").value);
-  const op=document.getElementById("operator").value;
+ let a=parseFloat(document.getElementById("num1").value);
+ let b=parseFloat(document.getElementById("num2").value);
+ let op=document.getElementById("operator").value;
 
-  if(Number.isNaN(a)||Number.isNaN(b)){
-    document.getElementById("calcResult").textContent="Enter both numbers.";
-    return;
+ if(Number.isNaN(a)||Number.isNaN(b)){
+  document.getElementById("result").textContent="Enter both numbers.";
+  return;
+ }
+
+ let result;
+
+ if(op==="+")result=a+b;
+ if(op==="-")result=a-b;
+ if(op==="*")result=a*b;
+ if(op==="/"){
+  if(b===0){
+   document.getElementById("result").textContent="Cannot divide by zero.";
+   return;
   }
+  result=a/b;
+ }
 
-  let result;
-
-  if(op==="+") result=a+b;
-  if(op==="-") result=a-b;
-  if(op==="*") result=a*b;
-  if(op==="/"){
-    if(b===0){
-      document.getElementById("calcResult").textContent="Cannot divide by zero.";
-      return;
-    }
-    result=a/b;
-  }
-
-  document.getElementById("calcResult").textContent="Result: "+result;
+ document.getElementById("result").textContent="Result: "+result;
 }
 
-function showHistory(){
-  let history=[];
-  try{
-    history=JSON.parse(localStorage.getItem("imHistory") || "[]");
-    if(!Array.isArray(history)) history=[];
-  }catch(error){
-    history=[];
-  }
+function openHistory(){
+ let history=[];
+ try{
+  history=JSON.parse(localStorage.getItem("imHistory")||"[]");
+  if(!Array.isArray(history)) history=[];
+ }catch(e){history=[];}
 
-  const list=document.getElementById("historyList");
+ let html="";
 
-  if(history.length===0){
-    list.textContent="No history yet.";
-    return;
-  }
-
-  list.innerHTML="";
-
+ if(history.length===0){
+  html="No chat history yet.";
+ }else{
   history.forEach(item=>{
-    const div=document.createElement("div");
-    div.className="history-item";
+   let q=typeof item==="string"?item:item.question;
+   let a=typeof item==="string"?"":item.answer;
+   let d=typeof item==="string"?"":item.date;
 
-    const question=typeof item==="string" ? item : item.question;
-    const answer=typeof item==="string" ? "" : item.answer;
-    const date=typeof item==="string" ? "" : item.date;
+   let box=document.createElement("div");
+   box.className="history-item";
 
-    const q=document.createElement("strong");
-    q.textContent="Q: "+(question || "");
+   let strong=document.createElement("strong");
+   strong.textContent="Q: "+(q||"");
 
-    const a=document.createElement("p");
-    a.textContent="A: "+(answer || "Previous history item");
+   let p=document.createElement("p");
+   p.textContent="A: "+(a||"Previous history item");
 
-    const d=document.createElement("div");
-    d.className="small";
-    d.textContent=date || "";
+   let small=document.createElement("div");
+   small.className="small";
+   small.textContent=d||"";
 
-    div.append(q,a,d);
-    list.appendChild(div);
+   box.append(strong,p,small);
+   document.getElementById("modalBody").appendChild(box);
   });
+ }
+
+ document.getElementById("modalTitle").textContent="Chat History";
+ document.getElementById("modalBody").innerHTML="";
+ if(typeof html==="string"&&html) {
+  document.getElementById("modalBody").textContent=html;
+ }
+ if(history.length>0){
+  history.forEach(item=>{
+   let box=document.createElement("div");
+   box.className="history-item";
+   let q=document.createElement("strong");
+   q.textContent="Q: "+(typeof item==="string"?item:item.question||"");
+   let p=document.createElement("p");
+   p.textContent="A: "+(typeof item==="string"?"":item.answer||"");
+   let small=document.createElement("div");
+   small.className="small";
+   small.textContent=typeof item==="string"?"":item.date||"";
+   box.append(q,p,small);
+   document.getElementById("modalBody").appendChild(box);
+  });
+ }
+ document.getElementById("myModal").style.display="flex";
 }
 
 function clearHistory(){
-  if(confirm("Are you sure you want to clear chat history?")){
-    localStorage.removeItem("imHistory");
-    showHistory();
-  }
+ if(confirm("Clear all chat history?")){
+  localStorage.removeItem("imHistory");
+  openModal("Chat History","No chat history yet.");
+ }
 }
 
-showHistory();
 </script>
 
 </body>

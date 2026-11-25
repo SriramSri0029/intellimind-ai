@@ -9,93 +9,23 @@ HTML
 
 <style>
 *{box-sizing:border-box}
-body{
- margin:0;
- font-family:Arial,sans-serif;
- background:#f4f6fa;
- color:#222;
-}
-header{
- background:white;
- padding:20px;
- text-align:center;
- border-bottom:1px solid #ddd;
-}
+body{margin:0;font-family:Arial;background:#f4f6fa;color:#222}
+header{background:white;padding:20px;text-align:center;border-bottom:1px solid #ddd}
 header h1{color:#2457c5;margin:0}
-main{max-width:950px;margin:auto;padding:15px}
-.panel{
- background:white;
- padding:16px;
- margin:14px 0;
- border:1px solid #ddd;
- border-radius:12px;
-}
+header p{color:#666}
+main{max-width:1000px;margin:auto;padding:14px}
+.panel{background:white;padding:16px;margin:14px 0;border:1px solid #ddd;border-radius:12px}
 h2{font-size:19px;color:#2457c5}
-.grid{
- display:grid;
- grid-template-columns:repeat(auto-fit,minmax(140px,1fr));
- gap:10px;
-}
-button{
- background:#2457c5;
- color:white;
- border:0;
- border-radius:8px;
- padding:12px;
- cursor:pointer;
- font-size:14px;
-}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:9px}
+button{background:#2457c5;color:white;border:0;border-radius:8px;padding:12px;cursor:pointer;font-size:14px}
 button:hover{background:#17429c}
-input,select{
- width:100%;
- padding:12px;
- margin:7px 0;
- border:1px solid #ccc;
- border-radius:8px;
- font-size:15px;
-}
-#answer,#result,#countryResult{
- background:#f1f4fa;
- padding:12px;
- border-radius:8px;
- margin-top:10px;
- white-space:pre-wrap;
-}
-.modal{
- display:none;
- position:fixed;
- z-index:999;
- inset:0;
- background:rgba(0,0,0,.6);
- justify-content:center;
- align-items:center;
- padding:15px;
-}
-.modal-content{
- background:white;
- width:100%;
- max-width:520px;
- max-height:85vh;
- overflow-y:auto;
- padding:20px;
- border-radius:14px;
-}
-.close-btn{
- float:right;
- background:#e53935;
- font-size:22px;
- padding:5px 12px;
-}
-#modalBody{
- white-space:pre-wrap;
- line-height:1.6;
- overflow-wrap:anywhere;
-}
-.history-item{
- padding:12px 0;
- border-bottom:1px solid #ddd;
- overflow-wrap:anywhere;
-}
+input,select{width:100%;padding:12px;margin:7px 0;border:1px solid #ccc;border-radius:8px;font-size:15px}
+#answer,#result{background:#f1f4fa;padding:12px;border-radius:8px;margin-top:10px;white-space:pre-wrap}
+.modal{display:none;position:fixed;z-index:999;inset:0;background:rgba(0,0,0,.6);justify-content:center;align-items:center;padding:15px}
+.modal-content{background:white;width:100%;max-width:550px;max-height:85vh;overflow-y:auto;padding:20px;border-radius:14px}
+.close-btn{float:right;background:#e53935;font-size:22px;padding:5px 12px}
+#modalBody{white-space:pre-wrap;line-height:1.6;overflow-wrap:anywhere}
+.history-item{padding:12px 0;border-bottom:1px solid #ddd;overflow-wrap:anywhere}
 .small{font-size:12px;color:#777}
 footer{text-align:center;padding:20px;color:#777}
 </style>
@@ -142,59 +72,13 @@ footer{text-align:center;padding:20px;color:#777}
 </section>
 
 <section class="panel">
-<h2>World Politics</h2>
-<button onclick="openModal('World Politics',
-'Presidents\\nPrime Ministers\\nChief Ministers\\nElections\\nParliament\\nDemocracy\\nInternational Relations')">
-Open Politics
-</button>
+<h2>JEE Preparation</h2>
+<button onclick="openCategory('JEE Preparation')">Open JEE</button>
 </section>
 
 <section class="panel">
-<h2>World Sports</h2>
-<button onclick="openModal('Sports Rules',
-'Cricket\\nFootball\\nKabaddi\\nHockey\\nBasketball\\nVolleyball\\nTennis\\nBadminton')">
-Open Sports
-</button>
-</section>
-
-<section class="panel">
-<h2>World Laws</h2>
-<button onclick="openModal('World Laws',
-'Constitutional Law\\nCriminal Law\\nCivil Law\\nInternational Law\\nHuman Rights\\nTraffic Rules\\nConsumer Rights')">
-Open Laws
-</button>
-</section>
-
-<section class="panel">
-<h2>Global Travel</h2>
-<button onclick="openModal('Global Travel',
-'Countries\\nTourist Places\\nPassport\\nVisa\\nAir Travel\\nTrain Travel\\nTravel Safety\\nWorld Heritage Sites')">
-Open Travel
-</button>
-</section>
-
-<section class="panel">
-<h2>Global Transport and Vehicles</h2>
-<button onclick="openModal('Global Transport',
-'Airplanes\\nHelicopters\\nPassenger Trains\\nBullet Trains\\nCars\\nElectric Vehicles\\nBuses\\nShips\\nSubmarines\\nTractors')">
-Open Transport
-</button>
-</section>
-
-<section class="panel">
-<h2>World Richest People</h2>
-<button onclick="openModal('World Richest People',
-'Wealth Rankings\\nEntrepreneurs\\nBusiness Leaders\\nNet Worth\\nRankings need current verified sources.')">
-Open Richest People
-</button>
-</section>
-
-<section class="panel">
-<h2>World Top Companies</h2>
-<button onclick="openModal('World Top Companies',
-'Technology Companies\\nAutomobile Companies\\nHealthcare Companies\\nAerospace Companies\\nFinance Companies\\nCompany rankings need current verified sources.')">
-Open Companies
-</button>
+<h2>NEET Preparation</h2>
+<button onclick="openCategory('NEET Preparation')">Open NEET</button>
 </section>
 
 <section class="panel">
@@ -221,13 +105,12 @@ Open Companies
 
 <footer>IntelliMind AI – Global Edition</footer>
 
-<!-- MODAL -->
 <div id="myModal" class="modal">
- <div class="modal-content">
-  <button class="close-btn" onclick="closeModal()">×</button>
-  <h2 id="modalTitle">IntelliMind AI</h2>
-  <div id="modalBody"></div>
- </div>
+<div class="modal-content">
+<button class="close-btn" onclick="closeModal()">×</button>
+<h2 id="modalTitle">IntelliMind AI</h2>
+<div id="modalBody"></div>
+</div>
 </div>
 
 <script>
@@ -235,246 +118,287 @@ Open Companies
 const data={
 
 "Education":[
-"Mathematics","Physics","Chemistry","Biology","Computer Science","English"
+"Mathematics","Physics","Chemistry","Biology","Computer Science","English","Tamil"
+],
+
+"JEE Preparation":[
+"JEE Main","JEE Advanced","Physics","Chemistry","Mathematics",
+"Mechanics","Thermodynamics","Optics","Electrostatics",
+"Organic Chemistry","Inorganic Chemistry","Physical Chemistry",
+"Algebra","Calculus","Coordinate Geometry","Trigonometry"
+],
+
+"NEET Preparation":[
+"NEET UG","Physics","Chemistry","Biology","Botany","Zoology",
+"Human Physiology","Genetics","Ecology","Cell Biology",
+"Organic Chemistry","Inorganic Chemistry","Physical Chemistry",
+"Mechanics","Optics"
 ],
 
 "Medical and Healthcare":[
 "MBBS","BDS","Anatomy","Physiology","Biochemistry",
-"Pharmacology","Pathology","Microbiology","Nursing","Pharmacy"
+"Pharmacology","Pathology","Microbiology","Nursing","Pharmacy",
+"Medical Laboratory Technology","Physiotherapy"
 ],
 
 "Engineering":[
-"Computer Science Engineering",
-"Electronics and Communication Engineering",
-"Electrical Engineering","Mechanical Engineering",
-"Civil Engineering","Information Technology",
-"Artificial Intelligence","VLSI","Automobile Engineering"
+"Computer Science Engineering","Electronics and Communication Engineering",
+"Electrical Engineering","Mechanical Engineering","Civil Engineering",
+"Information Technology","Artificial Intelligence","VLSI",
+"Automobile Engineering","Biomedical Engineering","Chemical Engineering",
+"Aerospace Engineering","Agricultural Engineering"
 ],
 
 "Arts and Science":[
 "History","Geography","Economics","Political Science",
-"Psychology","Sociology","Tamil","English Literature"
+"Psychology","Sociology","Tamil","English Literature",
+"Physics","Chemistry","Mathematics","Botany","Zoology"
 ],
 
 "Commerce and Management":[
-"Accounting","Finance","Business Studies",
-"Marketing","Human Resources","Business Administration"
+"Accounting","Finance","Business Studies","Marketing",
+"Human Resources","Business Administration","Economics","Taxation"
 ],
 
 "Law":[
 "Constitutional Law","Criminal Law","Civil Law",
-"International Law","Human Rights"
+"International Law","Human Rights","Corporate Law"
 ],
 
 "Agriculture":[
-"Agronomy","Horticulture","Soil Science","Agricultural Engineering"
+"Agronomy","Horticulture","Soil Science","Agricultural Engineering",
+"Plant Breeding","Agricultural Economics"
 ],
 
 "Government Exams":[
 "UPSC","TNPSC","SSC","Banking Exams","Railway Exams",
-"Defence Exams","Teaching Exams","State Government Exams"
+"Defence Exams","Teaching Exams","State Government Exams",
+"Police Exams","Public Sector Exams"
 ],
 
 "Private Jobs and Careers":[
 "Software Developer","Web Developer","Data Analyst",
 "VLSI Engineer","Embedded Engineer","Medical Jobs",
-"Accountant","Teacher","Designer"
+"Accountant","Teacher","Designer","Digital Marketing",
+"Mechanical Engineer","Civil Engineer"
 ],
 
 "World Languages":[
-"English","Tamil","Hindi","French","German",
-"Spanish","Japanese","Chinese","Arabic"
+"English","Tamil","Hindi","French","German","Spanish",
+"Japanese","Chinese","Arabic","Korean","Russian","Italian"
 ],
 
 "Sports Rules":[
-"Cricket","Football","Kabaddi","Hockey",
-"Basketball","Volleyball","Tennis","Badminton"
+"Cricket","Football","Kabaddi","Hockey","Basketball",
+"Volleyball","Tennis","Badminton","Chess","Athletics",
+"Swimming","Rugby"
 ],
 
 "World Laws":[
 "Constitution","Fundamental Rights","International Law",
-"Traffic Rules","Consumer Rights"
+"Traffic Rules","Consumer Rights","Criminal Law","Civil Law"
 ],
 
 "World Politics":[
 "Democracy","Parliament","Presidential System",
-"Prime Minister","President","Elections","International Relations"
+"Prime Minister","President","Elections","International Relations",
+"Government Systems","Federalism"
 ],
 
 "History and Geography":[
 "World History","Indian History","World Geography",
-"Continents","Oceans"
+"Continents","Oceans","Ancient History","Modern History"
 ],
 
 "Science and Technology":[
 "Artificial Intelligence","Robotics","Space Science",
-"Nanotechnology","Computer Science"
+"Nanotechnology","Computer Science","Biotechnology",
+"Renewable Energy","Cybersecurity"
 ],
 
 "General Knowledge":[
-"Science GK","World GK","Indian GK","Current Affairs"
+"Science GK","World GK","Indian GK","Current Affairs",
+"Geography GK","History GK","Sports GK"
 ],
 
 "Global Travel":[
 "Countries","Tourist Places","Passport","Visa",
-"Travel Safety","World Heritage Sites"
+"Travel Safety","World Heritage Sites","Air Travel",
+"Train Travel","Travel Planning"
 ],
 
 "Global Transport and Vehicles":[
-"Airplanes","Helicopters","Passenger Trains",
-"Bullet Trains","Cars","Electric Vehicles","Buses",
-"Ships","Submarines","Tractors"
+"Airplanes","Helicopters","Passenger Trains","Bullet Trains",
+"Cars","Electric Vehicles","Buses","Trucks","Ships",
+"Submarines","Tractors","Motorcycles","Metro Trains"
 ],
 
 "World Richest People":[
-"Wealth Rankings","Entrepreneurs","Business Leaders"
+"Wealth Rankings","Entrepreneurs","Business Leaders",
+"Net Worth","Business History"
 ],
 
 "World Top Companies":[
 "Technology Companies","Automobile Companies",
-"Aerospace Companies","Healthcare Companies"
+"Aerospace Companies","Healthcare Companies",
+"Finance Companies","Energy Companies"
 ],
 
 "World Countries":[
 "Country Information","Capitals","Currencies",
-"Languages","Population","Geography","Economy","Tourism"
+"Languages","Population","Geography","Economy",
+"Education","Tourism","Culture","Climate"
+],
+
+"Environment and Nature":[
+"Climate Change","Forests","Wildlife","Oceans",
+"Pollution","Biodiversity","Conservation"
 ]
 
 };
 
 const departments=document.getElementById("department");
 const topics=document.getElementById("topic");
-
-Object.keys(data).forEach(category=>{
- let option=document.createElement("option");
- option.value=category;
- option.textContent=category;
- departments.appendChild(option);
-});
-
 const categoryButtons=document.getElementById("categoryButtons");
 
 Object.keys(data).forEach(category=>{
- let button=document.createElement("button");
- button.textContent=category;
- button.onclick=()=>{
-  departments.value=category;
-  loadTopics();
-  openCategory(category);
- };
- categoryButtons.appendChild(button);
+let option=document.createElement("option");
+option.value=category;
+option.textContent=category;
+departments.appendChild(option);
+
+let button=document.createElement("button");
+button.textContent=category;
+button.onclick=()=>{
+departments.value=category;
+loadTopics();
+openCategory(category);
+};
+categoryButtons.appendChild(button);
 });
 
 function loadTopics(){
- let selected=departments.value;
- topics.innerHTML='<option value="">Select Topic</option>';
+let selected=departments.value;
+topics.innerHTML='<option value="">Select Topic</option>';
 
- if(data[selected]){
-  data[selected].forEach(item=>{
-   let option=document.createElement("option");
-   option.value=item;
-   option.textContent=item;
-   topics.appendChild(option);
-  });
- }
+if(data[selected]){
+data[selected].forEach(item=>{
+let option=document.createElement("option");
+option.value=item;
+option.textContent=item;
+topics.appendChild(option);
+});
+}
 }
 
 function useTopic(){
- let selected=topics.value;
-
- if(!selected){
-  alert("Please select a topic");
-  return;
- }
-
- openModal(selected,"You selected: "+selected+
- "\n\nAsk this topic in the IntelliMind chat section to learn more.");
+let selected=topics.value;
+if(!selected){
+alert("Please select a topic");
+return;
+}
+openModal(selected,"Selected Topic: "+selected+
+"\n\nEnter a question about this topic in Ask IntelliMind.");
 }
 
 function openModal(title,content){
- document.getElementById("modalTitle").textContent=title;
- document.getElementById("modalBody").textContent=content;
- document.getElementById("myModal").style.display="flex";
+document.getElementById("modalTitle").textContent=title;
+document.getElementById("modalBody").textContent=content;
+document.getElementById("myModal").style.display="flex";
 }
 
 function closeModal(){
- document.getElementById("myModal").style.display="none";
+document.getElementById("myModal").style.display="none";
 }
 
 document.getElementById("myModal").addEventListener("click",function(e){
- if(e.target===this) closeModal();
+if(e.target===this)closeModal();
 });
 
 function openCategory(category){
- openModal(category,data[category].join("\n"));
+openModal(category,data[category].join("\n"));
 }
 
 function getAnswer(question){
- let q=question.toLowerCase();
+let q=question.toLowerCase();
 
- if(q.includes("hello")||q.includes("hi"))
-  return "Hello! Welcome to IntelliMind AI.";
-
- if(q.includes("python"))
-  return "Python is a high-level programming language used in software development, automation and data science.";
-
- if(q.includes("math"))
-  return "Mathematics is the study of numbers, quantities, shapes and patterns.";
-
- if(q.includes("grammar"))
-  return "Grammar is the set of rules used to speak and write a language correctly.";
-
- if(q.includes("engineering"))
-  return "Engineering uses science and mathematics to design and develop useful systems.";
-
- if(q.includes("mbbs"))
-  return "MBBS is a medical degree that teaches human health, diseases, diagnosis and treatment.";
-
- if(q.includes("upsc"))
-  return "UPSC conducts Civil Services Examination for services such as IAS and IPS. Check the official UPSC website for current details.";
-
- if(q.includes("kabaddi"))
-  return "Kabaddi is a team sport. Players take turns raiding the opposing team's half under official rules.";
-
- if(q.includes("law"))
-  return "Laws are rules made and enforced by a country's legal system. Laws differ between countries.";
-
- if(q.includes("job")||q.includes("career"))
-  return "Career options include engineering, healthcare, education, business, government services and technology.";
-
- if(q.includes("country")||q.includes("world"))
-  return "The world has many countries with different capitals, languages, currencies and cultures.";
-
- if(q.includes("president")||q.includes("prime minister"))
-  return "The roles of Presidents and Prime Ministers depend on each country's constitution. Use official government sources for current leaders.";
-
- return "I can help with basic learning topics. Try Python, Mathematics, English, Engineering, MBBS, UPSC, Sports or World Countries. This prototype uses predefined answers.";
+if(q.includes("jee")){
+return "JEE Main and JEE Advanced are engineering entrance examinations in India. JEE Main is used for admission to NITs and other participating institutions. JEE Advanced is used for IIT admission, subject to eligibility.";
+}
+if(q.includes("neet")){
+return "NEET UG is the entrance examination for undergraduate medical admissions in India, including MBBS and BDS, subject to current admission rules.";
+}
+if(q.includes("physics")){
+return "Physics studies matter, energy, motion and forces. Important areas include mechanics, electricity, optics and thermodynamics.";
+}
+if(q.includes("chemistry")){
+return "Chemistry studies matter, its properties and reactions. Its main branches are physical, organic and inorganic chemistry.";
+}
+if(q.includes("biology")||q.includes("botany")||q.includes("zoology")){
+return "Biology is the study of living organisms. Botany studies plants and Zoology studies animals.";
+}
+if(q.includes("hello")||q.includes("hi")){
+return "Hello! Welcome to IntelliMind AI.";
+}
+if(q.includes("python")){
+return "Python is a high-level programming language used in software development, automation and data science.";
+}
+if(q.includes("math")){
+return "Mathematics is the study of numbers, quantities, shapes and patterns.";
+}
+if(q.includes("grammar")){
+return "Grammar is the set of rules used to speak and write a language correctly.";
+}
+if(q.includes("engineering")){
+return "Engineering uses science and mathematics to design and develop useful systems.";
+}
+if(q.includes("mbbs")){
+return "MBBS is a medical degree that teaches human health, diseases, diagnosis and treatment.";
+}
+if(q.includes("upsc")){
+return "UPSC conducts the Civil Services Examination for services such as IAS and IPS. Check the official UPSC website for current details.";
+}
+if(q.includes("tnpsc")){
+return "TNPSC conducts recruitment examinations for various Tamil Nadu government posts. Check the official TNPSC website for current notifications.";
+}
+if(q.includes("kabaddi")){
+return "Kabaddi is a team sport. Players take turns raiding the opposing team's half under official rules.";
+}
+if(q.includes("law")){
+return "Laws are rules made and enforced by a country's legal system. Laws differ between countries.";
+}
+if(q.includes("job")||q.includes("career")){
+return "Career options include engineering, healthcare, education, business, government services and technology.";
+}
+if(q.includes("country")||q.includes("world")){
+return "The world has many countries with different capitals, languages, currencies and cultures.";
+}
+return "I can help with basic learning topics. Try JEE, NEET, Physics, Chemistry, Biology, Mathematics, English, Engineering or UPSC. This prototype uses predefined answers.";
 }
 
 function ask(){
- let question=document.getElementById("question").value.trim();
+let question=document.getElementById("question").value.trim();
+if(!question){
+alert("Enter your question");
+return;
+}
 
- if(!question){
-  alert("Enter your question");
-  return;
- }
+let answer=getAnswer(question);
+document.getElementById("answer").textContent=answer;
 
- let answer=getAnswer(question);
- document.getElementById("answer").textContent=answer;
+let history=[];
+try{
+history=JSON.parse(localStorage.getItem("imHistory")||"[]");
+if(!Array.isArray(history))history=[];
+}catch(e){history=[];}
 
- let history=[];
- try{
-  history=JSON.parse(localStorage.getItem("imHistory")||"[]");
-  if(!Array.isArray(history)) history=[];
- }catch(e){history=[];}
+history.unshift({
+question:question,
+answer:answer,
+date:new Date().toLocaleString()
+});
 
- history.unshift({
-  question:question,
-  answer:answer,
-  date:new Date().toLocaleString()
- });
-
- localStorage.setItem("imHistory",JSON.stringify(history.slice(0,100)));
+localStorage.setItem("imHistory",JSON.stringify(history.slice(0,100)));
 }
 
 const countries=[
@@ -516,124 +440,93 @@ const countries=[
 ];
 
 function openCountries(){
- let html='<input id="countrySearch" placeholder="Search country..." oninput="filterCountries()">';
- html+='<select id="countryList" size="8" style="width:100%;margin-top:10px" onchange="selectCountry()">';
- countries.forEach(c=>html+='<option>'+c+'</option>');
- html+='</select><p id="countryInfo">Select a country.</p>';
- document.getElementById("modalTitle").textContent="World Countries";
- document.getElementById("modalBody").innerHTML=html;
- document.getElementById("myModal").style.display="flex";
+let body=document.getElementById("modalBody");
+document.getElementById("modalTitle").textContent="World Countries";
+body.innerHTML='<input id="countrySearch" placeholder="Search country..." oninput="filterCountries()"><select id="countryList" size="8" style="width:100%" onchange="selectCountry()"></select><p id="countryInfo">Select a country.</p>';
+filterCountries();
+document.getElementById("myModal").style.display="flex";
 }
 
 function filterCountries(){
- let search=document.getElementById("countrySearch").value.toLowerCase();
- let list=document.getElementById("countryList");
- list.innerHTML="";
- countries.filter(c=>c.toLowerCase().includes(search)).forEach(c=>{
-  let option=document.createElement("option");
-  option.textContent=c;
-  list.appendChild(option);
- });
+let search=document.getElementById("countrySearch").value.toLowerCase();
+let list=document.getElementById("countryList");
+list.innerHTML="";
+countries.filter(c=>c.toLowerCase().includes(search)).forEach(c=>{
+let option=document.createElement("option");
+option.value=c;
+option.textContent=c;
+list.appendChild(option);
+});
 }
 
 function selectCountry(){
- let country=document.getElementById("countryList").value;
- document.getElementById("countryInfo").textContent=
- country+" selected. Verified capital, currency, population and other current information require a reliable data source.";
+let country=document.getElementById("countryList").value;
+document.getElementById("countryInfo").textContent=
+country+" selected. Verified capital, currency, population and current leader information require reliable sources.";
 }
 
 function calculate(){
- let a=parseFloat(document.getElementById("num1").value);
- let b=parseFloat(document.getElementById("num2").value);
- let op=document.getElementById("operator").value;
+let a=parseFloat(document.getElementById("num1").value);
+let b=parseFloat(document.getElementById("num2").value);
+let op=document.getElementById("operator").value;
 
- if(Number.isNaN(a)||Number.isNaN(b)){
-  document.getElementById("result").textContent="Enter both numbers.";
-  return;
- }
+if(Number.isNaN(a)||Number.isNaN(b)){
+document.getElementById("result").textContent="Enter both numbers.";
+return;
+}
 
- let result;
-
- if(op==="+")result=a+b;
- if(op==="-")result=a-b;
- if(op==="*")result=a*b;
- if(op==="/"){
-  if(b===0){
-   document.getElementById("result").textContent="Cannot divide by zero.";
-   return;
-  }
-  result=a/b;
- }
-
- document.getElementById("result").textContent="Result: "+result;
+let result;
+if(op==="+")result=a+b;
+if(op==="-")result=a-b;
+if(op==="*")result=a*b;
+if(op==="/"){
+if(b===0){
+document.getElementById("result").textContent="Cannot divide by zero.";
+return;
+}
+result=a/b;
+}
+document.getElementById("result").textContent="Result: "+result;
 }
 
 function openHistory(){
- let history=[];
- try{
-  history=JSON.parse(localStorage.getItem("imHistory")||"[]");
-  if(!Array.isArray(history)) history=[];
- }catch(e){history=[];}
+let history=[];
+try{
+history=JSON.parse(localStorage.getItem("imHistory")||"[]");
+if(!Array.isArray(history))history=[];
+}catch(e){history=[];}
 
- let html="";
+let body=document.getElementById("modalBody");
+body.innerHTML="";
+document.getElementById("modalTitle").textContent="Chat History";
 
- if(history.length===0){
-  html="No chat history yet.";
- }else{
-  history.forEach(item=>{
-   let q=typeof item==="string"?item:item.question;
-   let a=typeof item==="string"?"":item.answer;
-   let d=typeof item==="string"?"":item.date;
-
-   let box=document.createElement("div");
-   box.className="history-item";
-
-   let strong=document.createElement("strong");
-   strong.textContent="Q: "+(q||"");
-
-   let p=document.createElement("p");
-   p.textContent="A: "+(a||"Previous history item");
-
-   let small=document.createElement("div");
-   small.className="small";
-   small.textContent=d||"";
-
-   box.append(strong,p,small);
-   document.getElementById("modalBody").appendChild(box);
-  });
- }
-
- document.getElementById("modalTitle").textContent="Chat History";
- document.getElementById("modalBody").innerHTML="";
- if(typeof html==="string"&&html) {
-  document.getElementById("modalBody").textContent=html;
- }
- if(history.length>0){
-  history.forEach(item=>{
-   let box=document.createElement("div");
-   box.className="history-item";
-   let q=document.createElement("strong");
-   q.textContent="Q: "+(typeof item==="string"?item:item.question||"");
-   let p=document.createElement("p");
-   p.textContent="A: "+(typeof item==="string"?"":item.answer||"");
-   let small=document.createElement("div");
-   small.className="small";
-   small.textContent=typeof item==="string"?"":item.date||"";
-   box.append(q,p,small);
-   document.getElementById("modalBody").appendChild(box);
-  });
- }
- document.getElementById("myModal").style.display="flex";
+if(history.length===0){
+body.textContent="No chat history yet.";
+}else{
+history.forEach(item=>{
+let box=document.createElement("div");
+box.className="history-item";
+let q=document.createElement("strong");
+q.textContent="Q: "+(typeof item==="string"?item:item.question||"");
+let a=document.createElement("p");
+a.textContent="A: "+(typeof item==="string"?"":item.answer||"");
+let d=document.createElement("div");
+d.className="small";
+d.textContent=typeof item==="string"?"":item.date||"";
+box.append(q,a,d);
+body.appendChild(box);
+});
+}
+document.getElementById("myModal").style.display="flex";
 }
 
 function clearHistory(){
- if(confirm("Clear all chat history?")){
-  localStorage.removeItem("imHistory");
-  openModal("Chat History","No chat history yet.");
- }
+if(confirm("Clear all chat history?")){
+localStorage.removeItem("imHistory");
+openModal("Chat History","No chat history yet.");
+}
 }
 
 </script>
-
 </body>
 </html>

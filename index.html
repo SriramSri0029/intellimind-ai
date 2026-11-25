@@ -1,135 +1,259 @@
-HTML
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>IntelliMind AI</title>
-
 <style>
-body {
-  font-family: Arial;
-  background: white;
-  color: #222;
-  margin: 0;
-  padding: 20px;
-}
-h1 { text-align: center; color: #2457c5; }
-button, select, input {
-  padding: 12px;
-  margin: 6px 0;
-  width: 100%;
-  border: 1px solid #ccc;
-  border-radius: 8px;
-  background: white;
-  font-size: 16px;
-}
-button {
-  background: #2457c5;
-  color: white;
-  cursor: pointer;
-}
-#answer, #popup {
-  margin-top: 15px;
-  padding: 15px;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-}
-#popup { display: none; }
+*{box-sizing:border-box}
+body{font-family:Arial;background:white;color:#222;margin:0;padding:16px}
+h1{text-align:center;color:#2457c5}
+h2{color:#2457c5}
+select,input,button{width:100%;padding:12px;margin:6px 0;border:1px solid #ccc;border-radius:8px;font-size:15px}
+button{background:#2457c5;color:white;border:0}
+.topic{background:#eef2ff;color:#222;text-align:left}
+#topics,#answer{padding:12px;border:1px solid #ddd;border-radius:8px;margin-top:12px}
+.modal{display:none;position:fixed;inset:0;background:#0008;padding:15px;z-index:5}
+.modalBox{background:white;padding:18px;margin:35px auto;max-width:500px;max-height:80vh;overflow:auto;border-radius:12px}
+.close{background:#555}
 </style>
 </head>
-
 <body>
 
 <h1>IntelliMind AI</h1>
 <p style="text-align:center">Global Learning Platform</p>
 
-<h3>Entrance Exams</h3>
-
-<button onclick="showExam('JEE Main')">JEE Main</button>
-<button onclick="showExam('JEE Advanced')">JEE Advanced</button>
-<button onclick="showExam('NEET UG')">NEET UG</button>
-
-<h3>Select Subject</h3>
-
-<select id="subject">
-<option value="">Select Subject</option>
-<option>Physics</option>
-<option>Chemistry</option>
-<option>Mathematics</option>
-<option>Biology</option>
-<option>Botany</option>
-<option>Zoology</option>
+<h2>All Departments</h2>
+<select id="department" onchange="loadCourses()">
+<option value="">Select Department</option>
 </select>
 
-<h3>Ask IntelliMind AI</h3>
+<h2>All Courses</h2>
+<select id="course" onchange="loadSubjects()">
+<option value="">Select Course</option>
+</select>
 
+<h2>All Subjects</h2>
+<select id="subject" onchange="loadTopics()">
+<option value="">Select Subject</option>
+</select>
+
+<div id="topics">Select a department, course and subject.</div>
+
+<h2>Entrance Examinations</h2>
+<button onclick="exam('JEE Main')">JEE Main</button>
+<button onclick="exam('JEE Advanced')">JEE Advanced</button>
+<button onclick="exam('NEET UG')">NEET UG</button>
+
+<h2>Ask IntelliMind AI</h2>
 <input id="question" placeholder="Enter your question">
-
 <button onclick="ask()">Ask AI</button>
-
 <div id="answer"></div>
 
-<div id="popup">
-  <h3 id="examTitle"></h3>
-  <p id="examInfo"></p>
-  <button onclick="closePopup()">Close</button>
+<div class="modal" id="modal" onclick="closeOutside(event)">
+<div class="modalBox">
+<h2 id="modalTitle"></h2>
+<p id="modalText"></p>
+<button class="close" onclick="closeModal()">Close</button>
+</div>
 </div>
 
 <script>
+const data = {
+"Medical and Healthcare":{
+"MBBS":["Anatomy","Physiology","Biochemistry","Pathology","Pharmacology","Microbiology","Forensic Medicine","Community Medicine","General Medicine","General Surgery","Pediatrics","Orthopedics","Dermatology","Psychiatry","Radiology","Anesthesiology","ENT","Ophthalmology","Obstetrics and Gynecology"],
+"BDS":["Dental Anatomy","Dental Materials","Oral Pathology","Oral Medicine","Oral Surgery","Orthodontics","Periodontics","Prosthodontics","Public Health Dentistry"],
+"BSc Nursing":["Anatomy","Physiology","Nutrition","Psychology","Pharmacology","Medical Surgical Nursing","Child Health Nursing","Community Health Nursing"],
+"Pharmacy":["Pharmaceutics","Pharmacology","Pharmaceutical Chemistry","Pharmacognosy","Clinical Pharmacy"],
+"Physiotherapy":["Anatomy","Exercise Therapy","Electrotherapy","Orthopedics","Neurology"],
+"Medical Laboratory Technology":["Clinical Biochemistry","Hematology","Microbiology","Pathology"],
+"Radiology":["Radiographic Techniques","Imaging Physics","CT","MRI","Ultrasound"],
+"Optometry":["Ocular Anatomy","Visual Optics","Eye Diseases","Contact Lenses"],
+"Public Health":["Epidemiology","Health Education","Biostatistics"]
+},
+"Engineering":{
+"CSE":["Programming","Python","Java","C","Data Structures","Algorithms","Database Management","Operating Systems","Computer Networks","Software Engineering","Artificial Intelligence","Machine Learning","Cyber Security"],
+"IT":["Web Technology","Cloud Computing","Networking","Information Security","Mobile Computing","Software Development"],
+"ECE":["Electronic Devices","Digital Electronics","Analog Circuits","Communication Systems","Microprocessors","Signals and Systems","VLSI"],
+"EEE":["Circuit Theory","Electrical Machines","Power Systems","Control Systems","Power Electronics","Electrical Measurements"],
+"Mechanical":["Engineering Mechanics","Thermodynamics","Fluid Mechanics","Manufacturing Technology","Machine Design","Heat Transfer","Automobile Engineering"],
+"Civil":["Structural Engineering","Surveying","Geotechnical Engineering","Transportation Engineering","Environmental Engineering","Construction Management"],
+"AI and Data Science":["Artificial Intelligence","Machine Learning","Deep Learning","Data Analytics","Big Data","Statistics"],
+"Biomedical Engineering":["Human Anatomy","Medical Electronics","Biomaterials","Medical Imaging","Biomechanics"],
+"Chemical Engineering":["Chemical Process","Mass Transfer","Heat Transfer","Reaction Engineering","Process Control"],
+"Automobile Engineering":["IC Engines","Vehicle Dynamics","Automotive Electrical Systems","Electric Vehicles","Automotive Design"],
+"Mechatronics":["Robotics","Sensors","Control Systems","Automation","Embedded Systems"],
+"Aerospace Engineering":["Aerodynamics","Aircraft Structures","Flight Mechanics","Propulsion","Space Technology"],
+"Biotechnology":["Molecular Biology","Genetics","Biochemistry","Bioprocess Engineering"],
+"Marine Engineering":["Marine Engines","Ship Construction","Marine Electrical Systems"],
+"Mining Engineering":["Mine Surveying","Rock Mechanics","Mine Safety","Mineral Processing"]
+},
+"Arts and Humanities":{
+"BA English":["English Literature","Poetry","Drama","Fiction","Linguistics","Communication Skills"],
+"BA Tamil":["Tamil Grammar","Sangam Literature","Modern Tamil Literature","Tamil History"],
+"BA History":["Ancient History","Medieval History","Modern History","World History","Indian History"],
+"BA Political Science":["Political Theory","Indian Government","International Relations","Public Administration"],
+"BA Sociology":["Social Institutions","Social Change","Indian Society","Social Research"],
+"BA Psychology":["Cognitive Psychology","Social Psychology","Developmental Psychology","Abnormal Psychology"],
+"BA Geography":["Physical Geography","Human Geography","Climatology","Cartography"],
+"BA Economics":["Microeconomics","Macroeconomics","Indian Economy","Development Economics"],
+"BA Journalism":["Reporting","Media Studies","Digital Journalism","Public Relations"]
+},
+"Science":{
+"BSc Mathematics":["Algebra","Calculus","Geometry","Statistics","Differential Equations","Number Theory"],
+"BSc Physics":["Mechanics","Thermodynamics","Optics","Electricity","Magnetism","Quantum Physics","Nuclear Physics"],
+"BSc Chemistry":["Organic Chemistry","Inorganic Chemistry","Physical Chemistry","Analytical Chemistry"],
+"BSc Biology":["Cell Biology","Genetics","Evolution","Ecology","Biotechnology"],
+"BSc Botany":["Plant Anatomy","Plant Physiology","Plant Taxonomy","Plant Ecology","Plant Genetics"],
+"BSc Zoology":["Animal Diversity","Animal Physiology","Animal Behaviour","Evolution","Genetics"],
+"BSc Computer Science":["Programming","Data Structures","Algorithms","Database","Computer Networks"],
+"BSc Statistics":["Probability","Statistical Methods","Regression","Data Analysis"],
+"BSc Microbiology":["Microbial Genetics","Immunology","Virology","Bacteriology"],
+"BSc Biochemistry":["Biomolecules","Enzymology","Metabolism","Molecular Biology"]
+},
+"Commerce and Management":{
+"BCom":["Financial Accounting","Cost Accounting","Business Law","Taxation","Auditing","Corporate Accounting"],
+"BBA":["Principles of Management","Marketing","Human Resources","Business Communication","Entrepreneurship"],
+"MBA":["Finance","Marketing","Human Resources","Operations","Business Analytics","Strategy"],
+"Banking and Finance":["Banking","Financial Markets","Investment","Risk Management","Insurance"],
+"Business Administration":["Business Studies","Organizational Behaviour","Business Ethics","Project Management"]
+},
+"Law":{
+"LLB":["Constitutional Law","Criminal Law","Civil Law","Contract Law","Family Law","Property Law","Labour Law"],
+"LLM":["International Law","Corporate Law","Human Rights Law","Environmental Law","Intellectual Property Law"],
+"BA LLB":["Political Science","Sociology","Constitutional Law","Legal Methods","Criminal Law"],
+"BBA LLB":["Business Management","Corporate Law","Contract Law","Company Law"]
+},
+"Agriculture and Veterinary":{
+"BSc Agriculture":["Agronomy","Soil Science","Horticulture","Plant Pathology","Agricultural Economics","Agricultural Engineering"],
+"Horticulture":["Fruit Science","Vegetable Science","Floriculture","Landscape Gardening"],
+"Forestry":["Forest Ecology","Forest Management","Wildlife Conservation","Silviculture"],
+"Veterinary Science":["Animal Anatomy","Animal Physiology","Animal Nutrition","Veterinary Surgery","Animal Diseases"],
+"Dairy Technology":["Milk Processing","Dairy Chemistry","Dairy Microbiology","Dairy Engineering"],
+"Fisheries":["Aquaculture","Fish Biology","Fish Nutrition","Fisheries Management"]
+},
+"Architecture and Design":{
+"BArch":["Architectural Design","Building Materials","History of Architecture","Urban Planning","Structural Design"],
+"Fashion Design":["Textile Design","Fashion Illustration","Garment Construction","Fashion Marketing"],
+"Graphic Design":["Typography","Illustration","Visual Communication","Digital Design"],
+"Interior Design":["Space Planning","Furniture Design","Lighting","Interior Materials"],
+"Product Design":["Design Thinking","Product Development","3D Modelling","Ergonomics"]
+},
+"Education":{
+"BEd":["Educational Psychology","Teaching Methods","Curriculum Studies","Assessment","Classroom Management"],
+"MEd":["Educational Research","Educational Technology","Educational Administration","Curriculum Development"],
+"Teacher Training":["Lesson Planning","Child Development","Teaching Practice","Inclusive Education"]
+},
+"Hospitality and Tourism":{
+"Hotel Management":["Food Production","Front Office","Housekeeping","Food and Beverage Service","Hospitality Management"],
+"Tourism Management":["Travel Management","Tourism Geography","Tourism Marketing","Destination Management"],
+"Culinary Arts":["Food Preparation","Baking","Nutrition","Kitchen Management"]
+},
+"Computer and Technology":{
+"Data Science":["Statistics","Python","Data Visualization","Machine Learning","Big Data"],
+"Cyber Security":["Network Security","Cryptography","Ethical Security Concepts","Digital Forensics"],
+"Cloud Computing":["Cloud Architecture","Virtualization","Cloud Storage","Distributed Systems"],
+"Software Development":["Programming","Web Development","App Development","Software Testing"]
+},
+"Entrance Examinations":{
+"JEE Main":["Physics","Chemistry","Mathematics"],
+"JEE Advanced":["Physics","Chemistry","Mathematics"],
+"NEET UG":["Physics","Chemistry","Biology","Botany","Zoology"]
+}
+};
 
-function showExam(exam) {
-  document.getElementById("popup").style.display = "block";
-  document.getElementById("examTitle").innerText = exam;
+const topicData = {
+"Physics":["Units and Measurements","Motion","Laws of Motion","Work Energy and Power","Gravitation","Thermodynamics","Waves","Optics","Electricity","Magnetism","Modern Physics"],
+"Chemistry":["Atomic Structure","Periodic Table","Chemical Bonding","Chemical Equilibrium","Organic Chemistry","Inorganic Chemistry","Electrochemistry"],
+"Mathematics":["Algebra","Trigonometry","Complex Numbers","Calculus","Differential Equations","Probability","Coordinate Geometry"],
+"Biology":["Living World","Cell Biology","Biomolecules","Genetics","Evolution","Human Physiology","Ecology"],
+"Botany":["Plant Kingdom","Plant Anatomy","Plant Physiology","Photosynthesis","Plant Reproduction","Plant Ecology"],
+"Zoology":["Animal Kingdom","Animal Tissues","Human Anatomy","Human Physiology","Human Reproduction","Evolution"],
+"Anatomy":["Cell","Tissues","Skeletal System","Muscular System","Nervous System","Cardiovascular System"],
+"Programming":["Variables","Data Types","Operators","Conditions","Loops","Functions","Arrays"],
+"Accounting":["Journal","Ledger","Trial Balance","Balance Sheet","Financial Statements"],
+"Constitutional Law":["Constitution","Fundamental Rights","Directive Principles","Government Structure"]
+};
 
-  if (exam === "JEE Main") {
-    document.getElementById("examInfo").innerText =
-    "JEE Main is an entrance examination for engineering courses. Subjects: Physics, Chemistry and Mathematics.";
-  }
+const dept=document.getElementById("department");
+const course=document.getElementById("course");
+const subject=document.getElementById("subject");
+const topics=document.getElementById("topics");
 
-  else if (exam === "JEE Advanced") {
-    document.getElementById("examInfo").innerText =
-    "JEE Advanced is an entrance examination for admission to IIT undergraduate engineering programmes. Subjects: Physics, Chemistry and Mathematics.";
-  }
+Object.keys(data).forEach(d=>{
+let o=document.createElement("option");
+o.value=d;o.textContent=d;dept.appendChild(o);
+});
 
-  else {
-    document.getElementById("examInfo").innerText =
-    "NEET UG is an entrance examination for undergraduate medical courses. Subjects: Physics, Chemistry and Biology.";
-  }
+function loadCourses(){
+course.innerHTML='<option value="">Select Course</option>';
+subject.innerHTML='<option value="">Select Subject</option>';
+topics.textContent="Select a course and subject.";
+Object.keys(data[dept.value]||{}).forEach(c=>{
+let o=document.createElement("option");
+o.value=c;o.textContent=c;course.appendChild(o);
+});
 }
 
-function closePopup() {
-  document.getElementById("popup").style.display = "none";
+function loadSubjects(){
+subject.innerHTML='<option value="">Select Subject</option>';
+topics.textContent="Select a subject.";
+(data[dept.value]?.[course.value]||[]).forEach(s=>{
+let o=document.createElement("option");
+o.value=s;o.textContent=s;subject.appendChild(o);
+});
 }
 
-function ask() {
-  let q = document.getElementById("question").value.toLowerCase();
-  let subject = document.getElementById("subject").value;
-  let answer = "Please ask a question about " + (subject || "your subject") + ".";
-
-  if (q.includes("jee")) {
-    answer = "JEE is an entrance examination for engineering courses.";
-  }
-  else if (q.includes("neet")) {
-    answer = "NEET UG is an entrance examination for undergraduate medical courses.";
-  }
-  else if (q.includes("physics")) {
-    answer = "Physics studies matter, energy, motion and forces.";
-  }
-  else if (q.includes("chemistry")) {
-    answer = "Chemistry studies matter, elements and chemical reactions.";
-  }
-  else if (q.includes("math")) {
-    answer = "Mathematics includes algebra, geometry, calculus and more.";
-  }
-  else if (q.includes("biology")) {
-    answer = "Biology is the study of living organisms.";
-  }
-
-  document.getElementById("answer").innerText = answer;
+function loadTopics(){
+topics.innerHTML="";
+let s=subject.value;
+if(!s){topics.textContent="Select a subject.";return;}
+let list=topicData[s]||[
+"Introduction","Basic Concepts","Principles","Applications","Advanced Topics","Practice and Revision"
+];
+let h=document.createElement("h3");
+h.textContent=s+" Topics";
+topics.appendChild(h);
+list.forEach(t=>{
+let b=document.createElement("button");
+b.className="topic";b.textContent=t;
+b.onclick=()=>{
+document.getElementById("question").value=t;
+showModal(t,"Selected subject: "+s+". This is a topic for learning and revision.");
+};
+topics.appendChild(b);
+});
 }
 
+function exam(name){
+let details={
+"JEE Main":"Engineering entrance examination. Subjects: Physics, Chemistry and Mathematics.",
+"JEE Advanced":"IIT undergraduate engineering entrance examination. Subjects: Physics, Chemistry and Mathematics.",
+"NEET UG":"Undergraduate medical entrance examination. Subjects: Physics, Chemistry and Biology."
+};
+showModal(name,details[name]);
+}
+
+function showModal(title,message){
+document.getElementById("modalTitle").textContent=title;
+document.getElementById("modalText").textContent=message;
+document.getElementById("modal").style.display="block";
+}
+function closeModal(){
+document.getElementById("modal").style.display="none";
+}
+function closeOutside(e){
+if(e.target.id==="modal")closeModal();
+}
+
+function ask(){
+let q=document.getElementById("question").value.trim();
+if(!q){document.getElementById("answer").textContent="Please enter a question.";return;}
+document.getElementById("answer").textContent=
+"This is a learning chatbot prototype. Your question is: "+q+
+". Detailed answers require a connected AI service or verified learning content.";
+}
 </script>
-
 </body>
 </html>

@@ -1,391 +1,430 @@
-HTML
 
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>IntelliMind AI</title>
 <style>
 *{box-sizing:border-box}
-body{font-family:Arial,sans-serif;background:#f4f6ff;margin:0;color:#222}
+body{margin:0;font-family:Arial;background:#f4f5ff;color:#222}
 header{background:#5145cd;color:white;text-align:center;padding:22px}
-header h1{margin:0}
-main{max-width:850px;margin:18px auto;padding:12px}
-section,.panel{background:white;padding:16px;margin:12px 0;border-radius:14px;box-shadow:0 2px 9px #ddd}
-h2{color:#5145cd;font-size:19px}
-button{background:#5145cd;color:white;border:0;border-radius:9px;padding:11px;margin:5px;cursor:pointer}
-button:hover{background:#382eaa}
-input,select{padding:12px;border:1px solid #bbb;border-radius:8px;width:100%;margin:6px 0}
-#items button{background:#eee;color:#222;border:1px solid #ddd}
-#items button:hover{background:#dedaff}
-#answer{white-space:pre-wrap;line-height:1.6}
-#modal{display:none;position:fixed;inset:0;background:#0009;z-index:5;padding:18px}
-#modalBox{background:white;max-width:500px;margin:12vh auto;padding:20px;border-radius:14px;max-height:75vh;overflow:auto}
-.small{font-size:13px;color:#666}
-footer{text-align:center;padding:20px;color:#666}
+main{max-width:850px;margin:auto;padding:12px}
+.card{background:white;padding:16px;margin:12px 0;border-radius:12px}
+h2{color:#5145cd;font-size:20px}
+button{background:#5145cd;color:white;border:0;border-radius:8px;padding:10px;margin:4px;cursor:pointer}
+button:hover{background:#30259c}
+input{width:100%;padding:12px;border:1px solid #ccc;border-radius:8px;margin:7px 0}
+#answer,#result{background:#f0efff;padding:12px;border-radius:8px;white-space:pre-wrap}
+.modal{display:none;position:fixed;inset:0;background:#0009;align-items:center;justify-content:center;padding:15px}
+.modalbox{background:white;padding:20px;border-radius:12px;width:100%;max-width:450px;max-height:80vh;overflow:auto}
 </style>
 </head>
 <body>
 
 <header>
-<h1>IntelliMind AI</h1>
+<h1>🧠 IntelliMind AI</h1>
 <p>Your Personal AI Tutor</p>
 <p>Learn Anything, Anytime!</p>
 </header>
 
 <main>
 
-<section>
-<h2>🔎 Search Learning Topics</h2>
-<input id="search" placeholder="Search course, subject or topic">
-<button onclick="searchTopics()">Search</button>
+<section class="card">
+<h2>🔎 Search</h2>
+<input id="search" placeholder="Search any subject or topic">
+<button onclick="searchItems()">Search</button>
+<div id="searchResult"></div>
 </section>
 
-<section>
-<h2>📚 All Departments</h2>
+<section class="card">
+<h2>🎓 Departments & Courses</h2>
 <div id="departments"></div>
+<div id="courses"></div>
+<div id="subjects"></div>
+<div id="topics"></div>
 </section>
 
-<section>
-<h2>🎓 Courses</h2>
-<div id="courses"><p class="small">Choose a department.</p></div>
+<section class="card">
+<h2>📝 Entrance Exams</h2>
+<div id="entrance"></div>
 </section>
 
-<section>
-<h2>📖 Subjects</h2>
-<div id="subjects"><p class="small">Choose a course.</p></div>
+<section class="card">
+<h2>🏛️ Government Exams</h2>
+<div id="government"></div>
 </section>
 
-<section>
-<h2>📝 Topics</h2>
-<div id="topics"><p class="small">Choose a subject.</p></div>
+<section class="card">
+<h2>💼 Private Jobs</h2>
+<div id="jobs"></div>
 </section>
 
-<section>
-<h2>🏆 Entrance Examinations</h2>
-<div id="exams"></div>
-</section>
-
-<section>
+<section class="card">
 <h2>🌍 World Knowledge</h2>
 <div id="world"></div>
+<div id="worldItems"></div>
+<div id="languageTopics"></div>
 </section>
 
-<section>
-<h2>💼 Government Exams & Private Jobs</h2>
-<div id="careers"></div>
+<section class="card">
+<h2>💬 Ask IntelliMind AI</h2>
+<input id="question" placeholder="Type your question">
+<button onclick="ask()">Ask</button>
+<div id="answer">Your answer appears here.</div>
 </section>
 
-<section>
-<h2>🤖 Ask IntelliMind AI</h2>
-<input id="question" placeholder="Type your question here">
-<button onclick="ask()">Ask Question</button>
-<button onclick="clearAnswer()">Clear</button>
-<p id="answer">Your answer will appear here.</p>
-</section>
-
-<section>
-<h2>🕘 Chat History</h2>
+<section class="card">
+<h2>📚 Chat History</h2>
 <button onclick="showHistory()">View History</button>
 <button onclick="clearHistory()">Clear History</button>
 <div id="history"></div>
 </section>
 
-<section>
+<section class="card">
 <h2>🧮 Calculator</h2>
-<input id="calc" placeholder="Example: 25+10*2">
+<input id="calc" placeholder="Example: (10+5)*2">
 <button onclick="calculate()">Calculate</button>
-<p id="calcResult"></p>
-</section>
-
-<section>
-<h2>ℹ️ About IntelliMind AI</h2>
-<p>IntelliMind AI is a learning chatbot prototype. It provides sample educational explanations and a growing catalogue of courses and topics.</p>
-<p class="small">Medical and legal topics are for education only. Verify important information with qualified professionals and official sources.</p>
+<div id="result">Result appears here.</div>
 </section>
 
 </main>
 
-<div id="modal">
-<div id="modalBox">
-<h2 id="modalTitle">Topic</h2>
+<div class="modal" id="modal">
+<div class="modalbox">
+<h2 id="modalTitle"></h2>
 <p id="modalText"></p>
 <button onclick="closeModal()">Close</button>
 </div>
 </div>
 
-<footer>© 2026 IntelliMind AI</footer>
-
 <script>
-const data = {
+
+// DEPARTMENTS AND COURSES
+
+const data={
 "Medical & Healthcare":{
-"MBBS":{
-"Basic Medical Sciences":["Anatomy","Physiology","Biochemistry"],
-"Clinical Subjects":["General Medicine","General Surgery","Pediatrics","Obstetrics and Gynecology"],
-"Other Subjects":["Pathology","Microbiology","Pharmacology","Forensic Medicine"]
-},
-"BDS":{
-"Dental Subjects":["Oral Anatomy","Dental Materials","Oral Pathology","Periodontics","Orthodontics"]
-},
-"Nursing":{
-"Nursing Subjects":["Fundamentals of Nursing","Community Health Nursing","Medical Surgical Nursing"]
-},
-"Pharmacy":{
-"Pharmacy Subjects":["Pharmaceutics","Pharmacology","Pharmaceutical Chemistry"]
-},
-"Physiotherapy":{
-"Physiotherapy Subjects":["Human Anatomy","Exercise Therapy","Electrotherapy"]
-},
-"Veterinary Science":{
-"Veterinary Subjects":["Animal Anatomy","Animal Physiology","Veterinary Medicine"]
-}
+"MBBS":["Anatomy","Physiology","Biochemistry","Pathology","Microbiology","Pharmacology","Medicine","Surgery","Pediatrics"],
+"BDS":["Oral Anatomy","Oral Pathology","Periodontics","Orthodontics","Prosthodontics"],
+"Nursing":["Anatomy","Patient Care","Nutrition","Community Health"],
+"Pharmacy":["Pharmaceutics","Pharmacology","Pharmaceutical Chemistry"],
+"Physiotherapy":["Anatomy","Exercise Therapy","Rehabilitation"],
+"Medical Lab Technology":["Haematology","Microbiology","Clinical Pathology"],
+"Optometry":["Eye Anatomy","Optics","Vision"],
+"Veterinary":["Animal Anatomy","Animal Health","Animal Nutrition"]
 },
 "Engineering":{
-"CSE":{"Core Subjects":["Programming","Data Structures","Algorithms","Database Management","Operating Systems","Computer Networks"]},
-"IT":{"IT Subjects":["Web Technology","Cloud Computing","Cyber Security","Software Engineering"]},
-"ECE":{"ECE Subjects":["Electronic Devices","Digital Electronics","Signals and Systems","Communication Systems","VLSI"]},
-"EEE":{"EEE Subjects":["Circuit Theory","Electrical Machines","Power Systems","Control Systems"]},
-"Mechanical":{"Mechanical Subjects":["Engineering Mechanics","Thermodynamics","Fluid Mechanics","Manufacturing"]},
-"Civil":{"Civil Subjects":["Structural Engineering","Surveying","Concrete Technology","Geotechnical Engineering"]},
-"AI & Data Science":{"AI Subjects":["Artificial Intelligence","Machine Learning","Data Analytics","Deep Learning"]},
-"Biomedical":{"Biomedical Subjects":["Medical Instrumentation","Biomaterials","Bioelectricity"]},
-"Chemical":{"Chemical Subjects":["Chemical Process","Heat Transfer","Mass Transfer"]},
-"Automobile":{"Automobile Subjects":["Vehicle Engineering","Automotive Engines","Vehicle Dynamics"]},
-"Aerospace":{"Aerospace Subjects":["Aerodynamics","Flight Mechanics","Aircraft Structures"]},
-"Mechatronics":{"Mechatronics Subjects":["Robotics","Sensors","Control Engineering"]}
+"CSE":["Programming","Python","Java","Data Structures","Database","AI"],
+"IT":["Networking","Cyber Security","Cloud Computing","Database"],
+"ECE":["Electronic Devices","Digital Electronics","Communication Systems","Microprocessors","VLSI","Embedded Systems"],
+"EEE":["Circuit Theory","Electrical Machines","Power Systems","Control Systems"],
+"Mechanical":["Thermodynamics","Fluid Mechanics","Manufacturing","Machine Design"],
+"Civil":["Surveying","Concrete","Structural Engineering","Transportation"],
+"AI & Data Science":["Python","Statistics","Machine Learning","Data Analytics"],
+"AI & ML":["AI Basics","Machine Learning","Deep Learning"],
+"Biomedical":["Human Biology","Medical Instruments","Medical Imaging"],
+"Chemical":["Chemical Processes","Heat Transfer","Mass Transfer"],
+"Automobile":["Engines","Vehicle Systems","Electric Vehicles"],
+"Aerospace":["Aerodynamics","Aircraft Structures","Propulsion"],
+"Mechatronics":["Robotics","Electronics","Control Systems"],
+"VLSI":["Digital Design","CMOS","Verilog","Semiconductor Devices"],
+"Biotechnology":["Genetics","Cell Biology","Microbiology"],
+"Robotics":["Robot Design","Sensors","Programming"]
 },
 "Arts & Humanities":{
-"BA":{"Arts Subjects":["History","Geography","Economics","Political Science","Sociology","Psychology","English Literature"]},
-"MA":{"Advanced Arts Subjects":["Public Administration","International Relations","Linguistics"]},
-"Journalism":{"Media Subjects":["News Writing","Mass Communication","Media Studies"]}
+"BA History":["Ancient History","Medieval History","Modern History","Indian History"],
+"BA English":["Grammar","Literature","Vocabulary","Communication"],
+"BA Tamil":["Tamil Grammar","Tamil Literature","Poetry"],
+"BA Economics":["Micro Economics","Macro Economics","Indian Economy"],
+"BA Geography":["Physical Geography","Human Geography","Climate"],
+"BA Sociology":["Society","Culture","Social Change"],
+"BA Psychology":["Mind","Memory","Learning","Behaviour"],
+"BA Political Science":["Political Theory","Constitution","International Relations"],
+"Journalism":["News Writing","Media Studies"],
+"Public Administration":["Governance","Public Policy"]
 },
 "Science":{
-"BSc":{"Science Subjects":["Mathematics","Physics","Chemistry","Botany","Zoology","Statistics","Biotechnology","Microbiology"]},
-"MSc":{"Advanced Science":["Applied Physics","Organic Chemistry","Biotechnology","Data Science"]}
+"BSc Mathematics":["Algebra","Calculus","Statistics","Geometry"],
+"BSc Physics":["Mechanics","Optics","Electricity","Modern Physics"],
+"BSc Chemistry":["Organic Chemistry","Inorganic Chemistry","Physical Chemistry"],
+"BSc Biology":["Cell Biology","Genetics","Ecology"],
+"BSc Botany":["Plant Anatomy","Plant Physiology"],
+"BSc Zoology":["Animal Diversity","Animal Physiology"],
+"BSc Computer Science":["Programming","Data Structures","Database"],
+"BSc Biotechnology":["Genetics","Microbiology","Biochemistry"]
 },
 "Commerce & Management":{
-"BCom":{"Commerce Subjects":["Accounting","Business Law","Taxation","Auditing","Economics"]},
-"BBA":{"Management Subjects":["Marketing","Human Resources","Business Management","Entrepreneurship"]},
-"MBA":{"MBA Subjects":["Finance","Operations","Business Analytics","Strategy"]}
+"BCom":["Accounting","Taxation","Finance","Business Law"],
+"BBA":["Management","Marketing","Human Resources"],
+"MBA":["Finance","Marketing","HR","Operations","Business Analytics"]
 },
 "Law":{
-"LLB":{"Law Subjects":["Constitutional Law","Criminal Law","Contract Law","Family Law","Environmental Law"]},
-"LLM":{"Advanced Law":["International Law","Human Rights Law","Corporate Law"]}
+"LLB":["Constitutional Law","Criminal Law","Contract Law","Family Law","Environmental Law","Human Rights"],
+"LLM":["Constitutional Law","Corporate Law","International Law"]
 },
-"Agriculture & Veterinary":{
-"BSc Agriculture":{"Agriculture Subjects":["Agronomy","Soil Science","Plant Pathology","Horticulture"]},
-"Veterinary":{"Animal Subjects":["Animal Nutrition","Animal Breeding","Veterinary Surgery"]}
+"Agriculture":{
+"BSc Agriculture":["Soil Science","Agronomy","Plant Pathology","Horticulture"],
+"Horticulture":["Fruit Science","Vegetable Science","Floriculture"]
 },
 "Architecture & Design":{
-"BArch":{"Architecture Subjects":["Architectural Design","Building Materials","Urban Planning"]},
-"Design":{"Design Subjects":["Graphic Design","Product Design","Fashion Design","UI UX Design"]}
+"BArch":["Architectural Design","Building Materials","Structures"],
+"BDes":["Visual Design","Graphic Design","Product Design","UI UX"]
 },
 "Education":{
-"BEd":{"Education Subjects":["Teaching Methods","Educational Psychology","Curriculum Studies"]},
-"MEd":{"Advanced Education":["Educational Research","Education Management"]}
+"BEd":["Child Development","Teaching Methods","Educational Psychology"],
+"MEd":["Education Research","Curriculum","Leadership"]
 },
 "Hospitality & Tourism":{
-"Hotel Management":{"Hotel Subjects":["Food Production","Front Office","Housekeeping","Hospitality Management"]},
-"Tourism":{"Tourism Subjects":["Travel Management","Tourism Geography","Tour Operations"]}
+"Hotel Management":["Food Production","Front Office","Housekeeping"],
+"Travel & Tourism":["Tour Planning","Travel Management"]
 },
 "Computer & Technology":{
-"BCA":{"Computer Subjects":["Computer Fundamentals","Programming","Web Development","Networking"]},
-"MCA":{"Advanced Computer Subjects":["Software Development","Database Systems","Mobile Applications"]}
+"Web Development":["HTML","CSS","JavaScript"],
+"Cyber Security":["Network Security","Information Security"],
+"Cloud Computing":["Cloud Basics","Cloud Services"]
 }
 };
 
-const examData = {
-"JEE Main":["Physics","Chemistry","Mathematics","Algebra","Calculus","Mechanics"],
-"JEE Advanced":["Physics","Chemistry","Mathematics","Organic Chemistry","Coordinate Geometry"],
-"NEET UG":["Physics","Chemistry","Biology","Botany","Zoology","Human Physiology"],
-"CUET":["English","General Test","Domain Subjects"],
-"CLAT":["English","Legal Reasoning","Logical Reasoning","Current Affairs"],
-"GATE":["Engineering Mathematics","Core Engineering Subjects"],
-"CAT":["Quantitative Aptitude","Verbal Ability","Logical Reasoning"]
-};
+// BUTTON CREATOR
 
-const worldData = {
-"World Countries":["India","United States","United Kingdom","Japan","China","France","Germany","Australia","Canada","Brazil","South Africa","Singapore","Italy","Nepal","Sri Lanka"],
-"World Languages":["Tamil","English","Hindi","French","Spanish","German","Japanese","Chinese","Arabic"],
-"Sports & Rules":["Cricket Rules","Football Rules","Kabaddi Rules","Hockey Rules","Basketball Rules","Volleyball Rules","Tennis Rules"],
-"Politics & Government":["Democracy","Constitution","Parliament","President","Prime Minister","Chief Minister","Elections","United Nations"],
-"Laws & Rights":["Fundamental Rights","Human Rights","Constitutional Law","International Law","Traffic Rules"],
-"Travel & Tourism":["Passport","Visa","Air Travel","Rail Travel","Tourist Destinations","Travel Safety"],
-"Vehicles & Transport":["Airplanes","Trains","Cars","Electric Vehicles","Buses","Ships","Motorcycles"],
-"World Geography":["Continents","Oceans","Mountains","Rivers","Climate","Capitals"],
-"World Economy":["Richest Countries","World Companies","Economic Systems","International Trade"],
-"People & Business":["Business Leaders","Entrepreneurs","World Leaders","Company Rankings"]
-};
-
-const careerData = {
-"Government Exams":["UPSC","TNPSC","SSC","Banking Exams","Railway Exams","Defence Exams","Teaching Exams","State Government Exams"],
-"Private Jobs":["Software Developer","Web Developer","Data Analyst","ECE Engineer","Mechanical Engineer","Civil Engineer","Nurse","Accountant","Teacher","Designer","Marketing Executive"]
-};
-
-let current = "";
-let selectedTopic = "";
-
-function makeButtons(container,items,callback){
- const el=document.getElementById(container);
- el.innerHTML="";
+function buttons(items,id,fn){
+ const area=document.getElementById(id);
+ area.innerHTML="";
  items.forEach(item=>{
   const b=document.createElement("button");
   b.textContent=item;
-  b.onclick=()=>callback(item);
-  el.appendChild(b);
+  b.onclick=()=>fn(item);
+  area.appendChild(b);
  });
 }
 
-makeButtons("departments",Object.keys(data),selectDepartment);
-makeButtons("exams",Object.keys(examData),selectExam);
-makeButtons("world",Object.keys(worldData),selectWorld);
-makeButtons("careers",Object.keys(careerData),selectCareer);
+// DEPARTMENT FLOW
 
-function selectDepartment(name){
- current=name;
+let selectedDepartment="",selectedCourse="";
+
+buttons(Object.keys(data),"departments",department);
+
+function department(name){
+ selectedDepartment=name;
+ selectedCourse="";
  document.getElementById("courses").innerHTML="";
  document.getElementById("subjects").innerHTML="";
  document.getElementById("topics").innerHTML="";
- makeButtons("courses",Object.keys(data[name]),selectCourse);
+ buttons(Object.keys(data[name]),"courses",course);
 }
 
-function selectCourse(name){
- current=name;
+function course(name){
+ selectedCourse=name;
  document.getElementById("subjects").innerHTML="";
  document.getElementById("topics").innerHTML="";
- makeButtons("subjects",Object.keys(data[findDepartment()][name]),selectSubject);
+ buttons(data[selectedDepartment][name],"subjects",subject);
 }
 
-function findDepartment(){
- return Object.keys(data).find(d=>data[d][current]) || document.getElementById("departments").textContent;
+function subject(name){
+ document.getElementById("topics").innerHTML="";
+ const topics={
+ "Python":["Variables","Data Types","Loops","Functions"],
+ "Grammar":["Nouns","Verbs","Tenses","Sentences"],
+ "Anatomy":["Bones","Muscles","Organs"],
+ "VLSI":["CMOS","Verilog","Digital Design"],
+ "Calculus":["Differentiation","Integration"],
+ "Digital Electronics":["Logic Gates","Boolean Algebra"]
+ };
+ const list=topics[name]||["Introduction","Basic Concepts","Examples","Applications"];
+ buttons(list,"topics",topic=>popup(topic,"Subject: "+name+"\nCourse: "+selectedCourse+"\nDepartment: "+selectedDepartment+"\n\nAsk IntelliMind AI for a basic explanation."));
 }
 
-let activeDepartment="";
-let activeCourse="";
+// EXAMS AND JOBS
 
-function selectSubject(name){
- const dept=findDepartment();
- activeDepartment=dept;
- activeCourse=current;
- makeButtons("topics",data[dept][current][name],selectTopic);
+const exams=["JEE Main","JEE Advanced","NEET UG","CUET","CLAT","GATE","CAT","NATA","BITSAT"];
+const govt=["UPSC","IAS","IPS","TNPSC Group 1","TNPSC Group 2","TNPSC Group 4","SSC","Banking","Railway","NDA","CTET","TET"];
+const jobs=["Software Developer","Web Developer","Data Analyst","AI Engineer","ECE Engineer","VLSI Engineer","Mechanical Engineer","Civil Engineer","Nurse","Accountant","Teacher","Designer","Marketing Executive"];
+
+buttons(exams,"entrance",exam=>popup(exam,"Preparation: syllabus, exam pattern, concepts, practice and revision. Check the official exam website for current information."));
+buttons(govt,"government",exam=>popup(exam,"Preparation: syllabus, general knowledge, aptitude, reasoning and practice. Check the official notification."));
+buttons(jobs,"jobs",job=>popup(job,"Learn the required skills, basic knowledge, communication and interview preparation for this career."));
+
+// WORLD KNOWLEDGE
+
+const world={
+"World Countries":["India","United States","United Kingdom","Canada","Australia","China","Japan","France","Germany","Russia","Brazil","South Africa","Nepal","Sri Lanka","Singapore","Malaysia","UAE","Saudi Arabia"],
+"Sports Rules":["Cricket","Football","Kabaddi","Hockey","Basketball","Volleyball","Tennis","Badminton","Chess","Athletics","Swimming"],
+"Politics & Government":["Democracy","Constitution","Parliament","President","Prime Minister","Chief Minister","Elections","United Nations"],
+"Laws & Rights":["Fundamental Rights","Human Rights","Traffic Rules","Consumer Rights","Environmental Law","Child Rights"],
+"Travel & Tourism":["Passport","Visa","Air Travel","Train Travel","Tourist Places","World Heritage Sites"],
+"Transport":["Airplanes","Trains","Cars","Electric Vehicles","Buses","Ships","Helicopters","Metro","Bullet Trains"],
+"World Geography":["Continents","Oceans","Mountains","Rivers","Deserts","Climate","Maps"],
+"World Economy":["Richest Countries","GDP","Currency","Developed Countries","International Trade"],
+"Business & Companies":["Top Companies","Technology Companies","Automobile Companies","Startups"],
+"Famous Entrepreneurs":["Entrepreneurs","Business Leaders","Innovation","Leadership"],
+"World History":["Ancient Civilizations","World Wars","Indian History","Modern History"]
+};
+
+const languages=["Tamil","English","Hindi","Telugu","Malayalam","Kannada","Urdu","Bengali","Marathi","Gujarati","Punjabi","Arabic","French","German","Spanish","Portuguese","Italian","Russian","Chinese","Japanese","Korean","Thai","Vietnamese","Indonesian","Turkish","Persian","Hebrew","Greek","Dutch","Swahili","Nepali","Sinhala"];
+
+const languageLessons=["Alphabet","Grammar","Vocabulary","Speaking","Reading","Writing","Pronunciation","Translation"];
+
+buttons(["World Countries","World Languages",...Object.keys(world).filter(x=>x!=="World Countries")],"world",showWorld);
+
+function showWorld(name){
+ document.getElementById("languageTopics").innerHTML="";
+ const items=name==="World Languages"?languages:world[name]||[];
+ buttons(items,"worldItems",item=>{
+  if(name==="World Languages"){
+   popup("Choose a learning topic","Select a topic below:");
+   buttons(languageLessons,"languageTopics",lesson=>
+    popup(item+" – "+lesson,"Language: "+item+"\nTopic: "+lesson+"\n\nThis is a learning section. Real translation and pronunciation services need suitable language tools."));
+  }else{
+   popup(item,"Learn basic information about "+item+". For current leaders, laws, rankings and travel rules, check reliable official sources.");
+  }
+ });
 }
 
-function selectTopic(name){
- selectedTopic=name;
- openModal(name,
- "You selected: "+name+
- "\n\nThis is a learning topic in IntelliMind AI. Ask a question below to see a sample explanation. Add verified lessons and references as the project grows.");
- document.getElementById("question").value=name;
+// CHATBOT
+
+const replies={
+"hello":"Hello! Welcome to IntelliMind AI.",
+"hi":"Hi! What would you like to learn?",
+"python":"Python is a programming language used in software, automation and data science.",
+"variable":"A variable stores data. Example: age = 20.",
+"grammar":"Grammar is the set of rules used to speak and write a language.",
+"mean":"Mean = Sum of values / Number of values.",
+"democracy":"Democracy is a system where people choose their representatives.",
+"ece":"ECE means Electronics and Communication Engineering.",
+"jee":"JEE Main and JEE Advanced are engineering entrance examinations.",
+"neet":"NEET UG is an entrance examination for undergraduate medical courses.",
+"mbbs":"MBBS is an undergraduate medical degree.",
+"bds":"BDS is an undergraduate dental degree.",
+"vlsi":"VLSI means Very Large Scale Integration. It is used in chip design.",
+"upsc":"UPSC conducts the Civil Services Examination for various services.",
+"ias":"IAS stands for Indian Administrative Service.",
+"ips":"IPS stands for Indian Police Service.",
+"kabaddi":"Kabaddi is a team sport involving raiding and defending.",
+"logic gate":"Logic gates are basic digital circuits such as AND, OR and NOT."
+};
+
+function ask(){
+ const q=document.getElementById("question").value.trim();
+ if(!q){document.getElementById("answer").textContent="Type a question.";return}
+ const text=q.toLowerCase();
+ let answer="I can help with basic topics. Try Python, Grammar, Maths, ECE, JEE, NEET, MBBS, VLSI or UPSC.";
+ for(const key in replies){
+  if(text.includes(key)){answer=replies[key];break}
+ }
+ document.getElementById("answer").textContent=answer;
+ let h=JSON.parse(localStorage.getItem("imHistory")||"[]");
+ h.unshift({q,a:answer});
+ localStorage.setItem("imHistory",JSON.stringify(h.slice(0,30)));
+ showHistory();
+ document.getElementById("question").value="";
 }
 
-function selectExam(name){
- openModal(name,"Exam topics:\n\n"+examData[name].join("\n")+
- "\n\nUse official exam websites for current syllabus, eligibility and dates.");
+// CHAT HISTORY
+
+function showHistory(){
+ const h=JSON.parse(localStorage.getItem("imHistory")||"[]");
+ const area=document.getElementById("history");
+ area.innerHTML="";
+ if(!h.length){area.textContent="No history yet.";return}
+ h.forEach(x=>{
+  const p=document.createElement("p");
+  p.textContent="Q: "+x.q+" | A: "+x.a;
+  area.appendChild(p);
+ });
 }
-function selectWorld(name){
- openModal(name,"Topics:\n\n"+worldData[name].join("\n")+
- "\n\nThis is a starter list. Check reliable and official sources for current information.");
-}
-function selectCareer(name){
- openModal(name,"Options:\n\n"+careerData[name].join("\n")+
- "\n\nLearn the required skills, qualifications and application process for each option.");
+function clearHistory(){
+ localStorage.removeItem("imHistory");
+ showHistory();
 }
 
-function openModal(title,content){
+// CALCULATOR WITHOUT EVAL
+
+function calculate(){
+ const s=document.getElementById("calc").value.replace(/\s/g,"");
+ const out=document.getElementById("result");
+ if(!s||!/^[0-9+\-*/().]+$/.test(s)){out.textContent="Enter a valid calculation.";return}
+ try{
+  let i=0;
+  function number(){
+   if(s[i]==="-"){i++;return -number()}
+   if(s[i]==="+"){i++;return number()}
+   if(s[i]==="("){
+    i++;let v=add();
+    if(s[i++]!==")")throw Error();
+    return v;
+   }
+   let start=i;
+   while(i<s.length&&/[0-9.]/.test(s[i]))i++;
+   if(start===i)throw Error();
+   return Number(s.slice(start,i));
+  }
+  function mul(){
+   let v=number();
+   while(s[i]==="*"||s[i]==="/"){
+    let op=s[i++],n=number();
+    if(op==="/"&&n===0)throw Error();
+    v=op==="*"?v*n:v/n;
+   }
+   return v;
+  }
+  function add(){
+   let v=mul();
+   while(s[i]==="+"||s[i]==="-"){
+    let op=s[i++],n=mul();
+    v=op==="+"?v+n:v-n;
+   }
+   return v;
+  }
+  let result=add();
+  if(i!==s.length||!Number.isFinite(result))throw Error();
+  out.textContent="Result: "+result;
+ }catch(e){out.textContent="Invalid calculation."}
+}
+
+// SEARCH
+
+function searchItems(){
+ const q=document.getElementById("search").value.toLowerCase().trim();
+ const area=document.getElementById("searchResult");
+ area.innerHTML="";
+ if(!q){area.textContent="Type a search word.";return}
+ let found=[];
+ Object.keys(data).forEach(d=>{
+  if(d.toLowerCase().includes(q))found.push(d);
+  Object.keys(data[d]).forEach(c=>{
+   if(c.toLowerCase().includes(q))found.push(c);
+   data[d][c].forEach(s=>{if(s.toLowerCase().includes(q))found.push(s)});
+  });
+ });
+ [...exams,...govt,...jobs,...languages,...Object.keys(world)].forEach(x=>{
+  if(x.toLowerCase().includes(q))found.push(x);
+ });
+ found=[...new Set(found)];
+ if(!found.length){area.textContent="No results found.";return}
+ found.slice(0,50).forEach(x=>{
+  const b=document.createElement("button");
+  b.textContent=x;
+  b.onclick=()=>popup(x,"Search result: "+x);
+  area.appendChild(b);
+ });
+}
+
+// MODAL
+
+function popup(title,text){
  document.getElementById("modalTitle").textContent=title;
- document.getElementById("modalText").textContent=content;
- document.getElementById("modal").style.display="block";
+ document.getElementById("modalText").textContent=text;
+ document.getElementById("modal").style.display="flex";
 }
 function closeModal(){
  document.getElementById("modal").style.display="none";
 }
+document.getElementById("modal").onclick=e=>{
+ if(e.target.id==="modal")closeModal();
+};
 
-function answerFor(q){
- const s=q.toLowerCase();
- if(s.includes("python")) return "Python is a popular programming language. It is used for software, automation and data science.";
- if(s.includes("variable")) return "A variable stores a value. Example: age = 20";
- if(s.includes("democracy")) return "Democracy is a system of government in which people choose their representatives.";
- if(s.includes("mean")) return "Mean = Sum of all values ÷ Number of values.";
- if(s.includes("grammar")) return "Grammar is the set of rules used to speak and write a language.";
- if(s.includes("jee")) return "JEE is an entrance examination for admission to engineering programmes. Check the official exam website for the current syllabus.";
- if(s.includes("neet")) return "NEET UG is an entrance examination for undergraduate medical courses in India. Check the official exam website for current details.";
- if(s.includes("anatomy")) return "Anatomy is the study of the structure of the human body.";
- if(s.includes("physics")) return "Physics is the study of matter, energy, motion and forces.";
- if(s.includes("chemistry")) return "Chemistry is the study of substances, their properties and reactions.";
- if(s.includes("math")) return "Mathematics studies numbers, patterns, shapes and relationships.";
- if(s.includes("law")) return "Law is a system of rules. Learn the laws of a country from official legal sources.";
- if(s.includes("history")) return "History is the study of past events and human societies.";
- return "This is a learning chatbot prototype. A detailed verified answer for this topic can be added to the lesson database. Try asking about Python, variables, mean, grammar, anatomy, physics or chemistry.";
-}
+showHistory();
 
-function ask(){
- const q=document.getElementById("question").value.trim();
- if(!q){alert("Please type a question.");return;}
- const a=answerFor(q);
- document.getElementById("answer").textContent="Question: "+q+"\n\nAnswer: "+a;
- saveHistory(q,a);
-}
-function clearAnswer(){
- document.getElementById("answer").textContent="Your answer will appear here.";
- document.getElementById("question").value="";
-}
-
-function saveHistory(q,a){
- let h=JSON.parse(localStorage.getItem("intelliHistory")||"[]");
- h.unshift({q,a});
- localStorage.setItem("intelliHistory",JSON.stringify(h.slice(0,30)));
-}
-function showHistory(){
- const h=JSON.parse(localStorage.getItem("intelliHistory")||"[]");
- const box=document.getElementById("history");
- box.innerHTML="";
- if(!h.length){box.textContent="No chat history yet.";return;}
- h.forEach(item=>{
-  const p=document.createElement("p");
-  p.textContent="Q: "+item.q+"\nA: "+item.a;
-  box.appendChild(p);
- });
-}
-function clearHistory(){
- localStorage.removeItem("intelliHistory");
- document.getElementById("history").textContent="History cleared.";
-}
-
-function searchTopics(){
- const q=document.getElementById("search").value.trim().toLowerCase();
- if(!q){alert("Type a search word.");return;}
- let found=[];
- function scan(obj,path){
-  Object.keys(obj).forEach(k=>{
-   const newPath=path?path+" > "+k:k;
-   if(k.toLowerCase().includes(q)) found.push(newPath);
-   if(Array.isArray(obj[k])){
-    obj[k].forEach(t=>{if(t.toLowerCase().includes(q))found.push(newPath+" > "+t);});
-   }else if(typeof obj[k]==="object") scan(obj[k],newPath);
-  });
- }
- scan(data,"");
- scan(examData,"Exams");
- scan(worldData,"World");
- scan(careerData,"Careers");
- openModal("Search Results",found.length?found.join("\n"):"No matching topic found in this starter catalogue.");
-}
-
-function calculate(){
- const expression=document.getElementById("calc").value.trim();
- if(!/^[0-9+\-*/(). %]+$/.test(expression)){
-  document.getElementById("calcResult").textContent="Enter a valid maths expression.";
-  return;
- }
- try{
-  const result=Function('"use strict";return ('+expression+')')();
-  document.getElementById("calcResult").textContent=
-   Number.isFinite(result)?"Answer: "+result:"Invalid calculation.";
- }catch(e){
-  document.getElementById("calcResult").textContent="Invalid calculation.";
- }
-}
 </script>
 </body>
 </html>
